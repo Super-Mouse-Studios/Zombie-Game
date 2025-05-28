@@ -396,7 +396,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 5.038168
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -424,7 +424,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1316527645}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &619394800
@@ -568,7 +569,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7345464648461225502, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
       propertyPath: m_Name
-      value: zoimbie1_hold
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 7459203318224845830, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -628,7 +629,7 @@ GameObject:
   - component: {fileID: 1316527646}
   - component: {fileID: 1316527647}
   m_Layer: 0
-  m_Name: hitman1_silencer
+  m_Name: 2D Character Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -646,7 +647,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad285a3a176cae9448c21bf992ac2c5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
+  speed: 1.35
   inputvector: {x: 0, y: 0, z: 0}
 --- !u!4 &1316527645
 Transform:
@@ -656,13 +657,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1316527642}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: -1}
-  m_LocalPosition: {x: -4.4429026, y: -2.0919662, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: -1}
+  m_LocalPosition: {x: -4.4429026, y: -2.0919662, z: 10}
   m_LocalScale: {x: 3.1749, y: 3.1749, z: 3.1749}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 268495571}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 519420032}
   m_LocalEulerAnglesHint: {x: 360, y: 0, z: 0}
 --- !u!114 &1316527646
 MonoBehaviour:
@@ -679,8 +680,9 @@ MonoBehaviour:
   projectilePrefab: {fileID: 4643306704371613622, guid: 2aea8631b7820bd4da554126bb2d3579, type: 3}
   isTriggerDown: 0
   timeUntilReloaded: 0
-  fireRate: 8
+  fireRate: 1
   shootMode: 1
+  detectionRange: 10
 --- !u!50 &1316527647
 Rigidbody2D:
   serializedVersion: 4
@@ -777,10 +779,9 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 277176139}
-  - {fileID: 1316527645}
+  - {fileID: 519420032}
   - {fileID: 6089062612367679605}
   - {fileID: 1225397006}
   - {fileID: 1213811434}

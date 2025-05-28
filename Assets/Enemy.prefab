@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4010752165544802381}
   - component: {fileID: 2758370020799723418}
   m_Layer: 0
-  m_Name: graphic
+  m_Name: EnemyGraphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97,8 +97,8 @@ GameObject:
   - component: {fileID: -7632404956568068831}
   - component: {fileID: 7627903405912360205}
   m_Layer: 0
-  m_Name: zoimbie1_hold
-  m_TagString: Untagged
+  m_Name: Enemy
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
