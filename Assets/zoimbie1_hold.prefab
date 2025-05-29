@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 1152637492272189938}
   - component: {fileID: -7632404956568068831}
   - component: {fileID: 7627903405912360205}
+  - component: {fileID: 6639275602397933761}
   m_Layer: 0
   m_Name: zoimbie1_hold
   m_TagString: Untagged
@@ -144,6 +145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bade918c8e4c574cbe8bb872a399d90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyHealth: 0
+  enemyMaxhealth: 10
   speed: 2
   roatationSpeed: 100
 --- !u!50 &7627903405912360205
@@ -159,7 +162,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 2
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -172,4 +175,39 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
+--- !u!58 &6639275602397933761
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7345464648461225502}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.3

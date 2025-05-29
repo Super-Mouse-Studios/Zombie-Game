@@ -1,9 +1,47 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Zombie_Following : MonoBehaviour
 {
+
+    //kill status
+    // public static event Action<Zombie_Following> onZombieKilled;
+    //health status
+    [SerializeField] private float enemyHealth, enemyMaxhealth = 5f;
+
+
+    private void Start()
+    {
+        //reset the enemy health to max everytime we play the game
+        enemyHealth = enemyMaxhealth;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent<Player_Movement>(out Player_Movement player))
+        {
+            //Player taking damage
+            player.PlayerTakeDamage(1);
+        }
+    }
+
+    
+    //enemy taking damage and dying
+    public void EnemyTakeDamage(float enemyDamageAmount)
+    {
+        enemyHealth -= enemyDamageAmount; //10 -> 9 -> 8 -> 7 -> 6 -> 5 -> 4 -> 3 -> 2 -> 1 -> 0
+        
+        if (enemyHealth <= 0)
+        {
+            GameManager.instance.ZombieDied();
+            // onZombieKilled?.Invoke(this); //adding the kill number
+            Destroy(gameObject);
+
+        }
+    }
+
 
     [SerializeField]
     private float speed;
