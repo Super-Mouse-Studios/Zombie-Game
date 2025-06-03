@@ -605,7 +605,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeUntilSpawn: 0
   enemyPrefab: {fileID: 7345464648461225502, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
-  timeBetweenRespawns: 3
+  timeBetweenRespawns: 1.2
   timeVariance: 2
   positionVariance: 3
 --- !u!1 &1226644301
@@ -1001,7 +1001,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 1
       value: 0
       inSlope: 0
       outSlope: 0
@@ -1011,7 +1011,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 99
-      value: 100000
+      value: 99999
       inSlope: 0
       outSlope: 0
       tangentMode: 0

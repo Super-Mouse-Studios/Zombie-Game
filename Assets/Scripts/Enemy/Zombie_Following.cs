@@ -36,6 +36,8 @@ public class Zombie_Following : MonoBehaviour
         if (enemyHealth <= 0)
         {
             GameManager.instance.ZombieDied();
+            ExperienceManager.Instance.AddExperience(UnityEngine.Random.Range(4, 9)); // Random EXP between 4 and 9
+            
             // onZombieKilled?.Invoke(this); //adding the kill number
             Destroy(gameObject);
 

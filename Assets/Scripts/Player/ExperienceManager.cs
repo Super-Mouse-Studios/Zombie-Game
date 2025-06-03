@@ -6,6 +6,8 @@ using TMPro;
 
 public class ExperienceManager : MonoBehaviour
 {
+    public static ExperienceManager Instance { get; private set; } // Makes this class a singleton
+
     [Header("Experience")]
     [SerializeField] AnimationCurve experienceCurve; // Curve for experience needed to level up; Change in inspector
 
@@ -16,6 +18,21 @@ public class ExperienceManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI levelText;
     [SerializeField] TextMeshProUGUI experienceText;
     // [SerializeField] Image experienceBar; // Bar to show the progress of experience
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy this object if an instance already exists.
+        } 
+
+        UpdateLevel(); 
+    }
 
     // Adds EXP gained 
     public void AddExperience(int experience)
@@ -28,7 +45,7 @@ public class ExperienceManager : MonoBehaviour
     }
 
     // Checks if the player has enough experience to level up
-    void CheckForLevelUp()
+    private void CheckForLevelUp()
     {
         // Updates level accordingly
         while (totalExperience >= nextLevelsExperience)
@@ -36,11 +53,13 @@ public class ExperienceManager : MonoBehaviour
             ++currentLevel; // Increase level
 
             UpdateLevel();
+
+            // Add level up SFX or VFX below 
         }
     }
 
     // Updates the level based on the total experience curve
-    void UpdateLevel()
+    private void UpdateLevel()
     {
         // Type casts and evaluates the curve to get EXP needed
         previousLevelExperience = (int)experienceCurve.Evaluate(currentLevel);
@@ -51,7 +70,7 @@ public class ExperienceManager : MonoBehaviour
     }
 
     // UI update method
-    void UpdateInterface()
+    private void UpdateInterface()
     {
         int start = totalExperience - previousLevelExperience; // Amount of EXP currently held
         int end = nextLevelsExperience - previousLevelExperience; // Amount of EXP needed for next level
@@ -62,14 +81,9 @@ public class ExperienceManager : MonoBehaviour
         // experienceBar.fillAmount = (float)start / end; // Update experience bar fill amount (if using a bar)
     }
 
-    void Start()
-    {
-        UpdateLevel(); // Initialize the level based on the experience curve
-    }
-
+    // For testing purposes; delete later
     void Update()
     {
-        // For testing purposes, you can call AddExperience with a random value
         if (Input.GetKeyDown(KeyCode.L))
         {
             AddExperience(10);
