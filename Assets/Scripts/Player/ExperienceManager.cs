@@ -17,6 +17,9 @@ public class ExperienceManager : MonoBehaviour
     [Header("UI")]
     [SerializeField] TextMeshProUGUI levelText;
     [SerializeField] TextMeshProUGUI experienceText;
+
+    // [Header("Scripts")]
+    private Player_Movement playerHP;
     // [SerializeField] Image experienceBar; // Bar to show the progress of experience
 
     private void Awake()
@@ -29,9 +32,9 @@ public class ExperienceManager : MonoBehaviour
         else
         {
             Destroy(gameObject); // Destroy this object if an instance already exists.
-        } 
+        }
 
-        UpdateLevel(); 
+        UpdateLevel();
     }
 
     // Adds EXP gained 
@@ -47,12 +50,23 @@ public class ExperienceManager : MonoBehaviour
     // Checks if the player has enough experience to level up
     private void CheckForLevelUp()
     {
+        // Finds script
+        if (playerHP == null)
+            playerHP = FindObjectOfType<Player_Movement>();
+
         // Updates level accordingly
         while (totalExperience >= nextLevelsExperience)
         {
             ++currentLevel; // Increase level
+            Debug.Log($"Current Level: {currentLevel}");
 
             UpdateLevel();
+
+            // Increases player health
+            if (playerHP != null)
+                playerHP.LevelUp();
+            else
+            {   Debug.Log("Script not found"); }
 
             // Add level up SFX or VFX below 
         }
@@ -93,4 +107,6 @@ public class ExperienceManager : MonoBehaviour
             AddExperience(500);
         }
     }
+    
+    public int GetCurrentLevel() { return currentLevel; }
 }
