@@ -13,13 +13,13 @@ public class Player_Movement : MonoBehaviour
     [SerializeField] private float maxHealth = 20f;
     [SerializeField] private float currentHealth;
     [SerializeField] private Healthbar healthbar;
-    
+
     public float speed = 5f; // Speed of the player
     public Vector3 inputvector = Vector3.zero;
-    private Rigidbody2D rb; 
+    private Rigidbody2D rb;
 
 
-    
+
     void Start()
     {
         //health status at the start of the game
@@ -27,7 +27,7 @@ public class Player_Movement : MonoBehaviour
 
         healthbar.updateHealthBar(maxHealth, currentHealth); //updating health bar
     }
-    
+
     //player taking damage and dying
     public void PlayerTakeDamage(float PlayerDamageAmount)
     {
@@ -58,6 +58,16 @@ public class Player_Movement : MonoBehaviour
             Vector3 rotatedDirection = new Vector3(-direction.x, direction.y, 0);
             transform.up = direction;
         }
-        
+
+    }
+
+    // Player Level Up Health increase
+    public void LevelUp()
+    {
+        ++maxHealth;
+        ++currentHealth;
+        Debug.Log($"MaxHP: {maxHealth}, Current HP: {currentHealth}");
+
+        healthbar.updateHealthBar(maxHealth, currentHealth);
     }
 }
