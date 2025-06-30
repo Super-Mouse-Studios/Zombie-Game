@@ -13,6 +13,7 @@ public class ExperienceManager : MonoBehaviour
 
     int currentLevel, totalExperience;
     int previousLevelExperience, nextLevelsExperience;
+    int maxLevel = 99; // Make sure this lines up with experience curve from inspector
 
     [Header("UI")]
     [SerializeField] TextMeshProUGUI levelText;
@@ -77,7 +78,16 @@ public class ExperienceManager : MonoBehaviour
     {
         // Type casts and evaluates the curve to get EXP needed
         previousLevelExperience = (int)experienceCurve.Evaluate(currentLevel);
-        nextLevelsExperience = (int)experienceCurve.Evaluate(currentLevel + 1);
+
+        // Prevents crashing when exceeding max level
+        if (currentLevel >= maxLevel)
+        {
+            nextLevelsExperience = int.MaxValue; // Disables further leveling
+        }
+        else
+        {
+            nextLevelsExperience = (int)experienceCurve.Evaluate(currentLevel + 1);
+        }
 
         // Update the level text in the UI
         UpdateInterface();
@@ -90,7 +100,11 @@ public class ExperienceManager : MonoBehaviour
         int end = nextLevelsExperience - previousLevelExperience; // Amount of EXP needed for next level
 
         levelText.text = $"Level: {currentLevel}"; // Update level text
-        experienceText.text = $"Experience: {start}/{end}"; // Update experience text
+
+        if (nextLevelsExperience != int.MaxValue)
+            experienceText.text = $"Experience: {start}/{end}"; // Update experience text
+        else
+        {   experienceText.text = "Max EXP Reached"; }
 
         // experienceBar.fillAmount = (float)start / end; // Update experience bar fill amount (if using a bar)
     }
@@ -104,7 +118,7 @@ public class ExperienceManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.K))
         {
-            AddExperience(500);
+            AddExperience(50000);
         }
     }
     
