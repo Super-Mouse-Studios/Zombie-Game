@@ -36,6 +36,7 @@ public class Player_Movement : MonoBehaviour
 
         if (currentHealth <= 0)
         {
+            SSmanager.LoadGameOverScene(); // Load Game Over scene
             Destroy(gameObject);
         }
     }
