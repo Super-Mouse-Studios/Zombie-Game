@@ -32,15 +32,16 @@ public class Zombie_Following : MonoBehaviour
     public void EnemyTakeDamage(float enemyDamageAmount)
     {
         enemyHealth -= enemyDamageAmount; //10 -> 9 -> 8 -> 7 -> 6 -> 5 -> 4 -> 3 -> 2 -> 1 -> 0
-        
+
         if (enemyHealth <= 0)
         {
             GameManager.instance.ZombieDied();
             ExperienceManager.Instance.AddExperience(UnityEngine.Random.Range(4, 9)); // Random EXP between 4 and 9
-            
+
             // onZombieKilled?.Invoke(this); //adding the kill number
             Destroy(gameObject);
 
+            SoundManager.Instance.PlaySound("ZombieDeath"); // Plays Knife SFX
         }
     }
 

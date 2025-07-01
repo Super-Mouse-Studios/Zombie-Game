@@ -125,6 +125,8 @@ public class Shooting : MonoBehaviour
     {
         if (timeUntilReloaded <= 0)
         {
+            SoundManager.Instance.PlaySound("Chaingun"); // Plays Chaingun SFX
+
             Instantiate(projectilePrefab, transform.position, transform.rotation);
 
             float secondsPerShot = 1 / fireRate;
@@ -137,6 +139,8 @@ public class Shooting : MonoBehaviour
     {
         if (timeUntilReloaded <= 0)
         {
+            SoundManager.Instance.PlaySound("Shotgun"); // Plays Shotgun SFX
+
             // Center bullet
             Instantiate(projectilePrefab, transform.position, transform.rotation);
 
@@ -158,9 +162,11 @@ public class Shooting : MonoBehaviour
     {
         if (meleeCooldown <= 0)
         {
+            SoundManager.Instance.PlaySound("Knife"); // Plays knife SFX
+
             timeUntilReloaded += 0.25f; // So you don't fire while doing a melee attack
 
-            float meleeOffset = 1.1f; // Melee Offset from player
+            float meleeOffset = .9f; // Melee Offset from player
             Vector3 spawnPosition = transform.position + transform.up * meleeOffset;
 
             float meleeAngle = -33f; // So animation is more horizontal to player
@@ -171,9 +177,9 @@ public class Shooting : MonoBehaviour
             // Compensate for parent's scale so meleeObj appears at (1,1,1) in world space
             Vector3 parentScale = transform.lossyScale;
             meleeObj.transform.localScale = new Vector3(
-                2.5f / parentScale.x,
-                2.5f / parentScale.y,
-                2.5f / parentScale.z
+                2.9f / parentScale.x,
+                2.9f / parentScale.y,
+                2.9f / parentScale.z
             );
 
             float secondsPerAttack = 1 / meleeRate;
