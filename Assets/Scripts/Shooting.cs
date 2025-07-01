@@ -5,13 +5,15 @@ using UnityEngine;
 public class Shooting : MonoBehaviour
 {
     public GameObject projectilePrefab;
+    [SerializeField] GameObject meleePrefab; 
     public bool isTriggerDown;
-    public float timeUntilReloaded = 0;
+    public float timeUntilReloaded, meleeCooldown = 0;
     public float fireRate = 1; // shots per secend 
+    public float meleeRate = 1; // Attacks per second
     public int shootMode = 1;
     public float detectionRange = 10f; // Range within which the player can shoot
     public ShootingBehavours shooting = ShootingBehavours.Basic;
-    
+
     // Enum for types of shoot modes
     public enum ShootingBehavours
     {
@@ -33,6 +35,10 @@ public class Shooting : MonoBehaviour
         {
             shootMode = 2;
         }
+
+        // Melee attack 
+        if (Input.GetKeyDown(KeyCode.F))
+            MeleeAttackBehaviour();
 
         // Changes current ShootMode for testing purposes; comment out later
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -66,6 +72,10 @@ public class Shooting : MonoBehaviour
         {
             timeUntilReloaded = 0;
         }
+
+        meleeCooldown -= Time.deltaTime;
+        if (meleeCooldown <= 0)
+            meleeCooldown = 0;
     }
 
     void AutoAimandShoot()
@@ -92,7 +102,7 @@ public class Shooting : MonoBehaviour
             }
         }
     }
-    
+
     void FindNearestEnemy()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
@@ -110,10 +120,9 @@ public class Shooting : MonoBehaviour
         }
     }
 
-
+    // Basic Shooting Behaviour
     void BasicShootingBehaviour()
     {
-
         if (timeUntilReloaded <= 0)
         {
             Instantiate(projectilePrefab, transform.position, transform.rotation);
@@ -123,6 +132,7 @@ public class Shooting : MonoBehaviour
         }
     }
 
+    // Spread Shooting Behaviour
     void SpreadShootingBehaviour()
     {
         if (timeUntilReloaded <= 0)
@@ -140,6 +150,34 @@ public class Shooting : MonoBehaviour
 
             float secondsPerShot = 1 / fireRate;
             timeUntilReloaded += secondsPerShot;
+        }
+    }
+
+    // Melee attack
+    void MeleeAttackBehaviour()
+    {
+        if (meleeCooldown <= 0)
+        {
+            timeUntilReloaded += 0.45f; // So you don't fire while doing a melee attack
+
+            float meleeOffset = 1.1f; // Melee Offset from player
+            Vector3 spawnPosition = transform.position + transform.up * meleeOffset;
+
+            float meleeAngle = -27f; // So animation is more horizontal to player
+            Quaternion meleeRotation = transform.rotation * Quaternion.Euler(0, 0, meleeAngle);
+
+            GameObject meleeObj = Instantiate(meleePrefab, spawnPosition, meleeRotation, this.transform);
+            
+            // Compensate for parent's scale so meleeObj appears at (1,1,1) in world space
+            Vector3 parentScale = transform.lossyScale;
+            meleeObj.transform.localScale = new Vector3(
+                2.5f / parentScale.x,
+                2.5f / parentScale.y,
+                2.5f / parentScale.z
+            );
+
+            float secondsPerAttack = 1 / meleeRate;
+            meleeCooldown = secondsPerAttack;
         }
     }
 }

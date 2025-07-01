@@ -48,6 +48,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad285a3a176cae9448c21bf992ac2c5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 20
+  currentHealth: 0
+  healthbar: {fileID: 0}
   speed: 6
   inputvector: {x: 0, y: 0, z: 0}
 --- !u!114 &5406169449696216626
@@ -63,10 +66,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 4643306704371613622, guid: 2aea8631b7820bd4da554126bb2d3579, type: 3}
+  meleePrefab: {fileID: 4639413750011941827, guid: 958eb365ff2054bcca26ba94875ff9b7, type: 3}
   isTriggerDown: 0
   timeUntilReloaded: 0
+  meleeCooldown: 0
   fireRate: 8
+  meleeRate: 1
   shootMode: 1
+  detectionRange: 10
+  shooting: 0
 --- !u!50 &2393320178046242251
 Rigidbody2D:
   serializedVersion: 4
