@@ -71,7 +71,7 @@ MonoBehaviour:
   timeUntilReloaded: 0
   meleeCooldown: 0
   fireRate: 8
-  meleeRate: 1
+  meleeRate: 1.7
   shootMode: 1
   detectionRange: 10
   shooting: 0

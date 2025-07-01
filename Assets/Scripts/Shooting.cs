@@ -158,12 +158,12 @@ public class Shooting : MonoBehaviour
     {
         if (meleeCooldown <= 0)
         {
-            timeUntilReloaded += 0.45f; // So you don't fire while doing a melee attack
+            timeUntilReloaded += 0.25f; // So you don't fire while doing a melee attack
 
             float meleeOffset = 1.1f; // Melee Offset from player
             Vector3 spawnPosition = transform.position + transform.up * meleeOffset;
 
-            float meleeAngle = -27f; // So animation is more horizontal to player
+            float meleeAngle = -33f; // So animation is more horizontal to player
             Quaternion meleeRotation = transform.rotation * Quaternion.Euler(0, 0, meleeAngle);
 
             GameObject meleeObj = Instantiate(meleePrefab, spawnPosition, meleeRotation, this.transform);
