@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -8,18 +9,22 @@ using UnityEngine;
 //**************************************
 public class Player_Movement : MonoBehaviour
 {
-
     //health status
+    [Header("Health")]
     [SerializeField] private float maxHealth = 20f;
     [SerializeField] private float currentHealth;
     [SerializeField] private Healthbar healthbar;
 
-    public float speed = 5f; // Speed of the player
+    // Dodge Stuff
+    [Header("Dodge")]
+    [SerializeField] GameObject dodgeEffect; // particle effect for dodges
     [SerializeField] float dodgeSpeed = 100f; // Dodge Speed of player; Affects length
-    [SerializeField] float dodgeCooldown = 1f; // Cooldown
+    [SerializeField] float dodgeCooldown = 1f; // Cooldown starts after entire dash is played, Adjust accordingly
     [SerializeField] float dodgeCooldownReload = 0;
     private float originalDodgeSpeed;
     private Vector3 dodgeDirection = new Vector3(-1111, -2222, -3333);
+
+    public float speed = 5f; // Speed of the player
     private CircleCollider2D hurtbox;
     public Vector3 inputvector = Vector3.zero;
     private Rigidbody2D rb;
@@ -79,7 +84,19 @@ public class Player_Movement : MonoBehaviour
                 }
 
                 if (Input.GetKeyDown(KeyCode.LeftShift) && dodgeCooldownReload <= 0) // Switches to dodge state
+                {
                     state = MovementState.Dodging;
+                    Quaternion prefabRotation = transform.rotation;
+
+                    if (inputvector == Vector3.zero && dodgeDirection == new Vector3(-1111, -2222, -3333)) // Fixes orientation if player is not moving
+                        prefabRotation = transform.rotation * Quaternion.AngleAxis(180, Vector3.forward);
+
+                    GameObject justSpawned = Instantiate(dodgeEffect, transform.position, prefabRotation); // Spawns in particle effect under player's original position
+
+                    Destroy(justSpawned, .5f);
+                    // Plays SFX
+                    SoundManager.Instance.PlaySound("Dash");
+                }
                 break;
 
             case MovementState.Dodging: // Dodge state
@@ -112,6 +129,7 @@ public class Player_Movement : MonoBehaviour
     private void DodgeRoll()
     {
         Debug.Log("Now Dodging");
+
         hurtbox.enabled = false; // Disables hurtbox
 
         if (inputvector != Vector3.zero && dodgeDirection == new Vector3(-1111, -2222, -3333)) // Dodge in the direction player is walking
