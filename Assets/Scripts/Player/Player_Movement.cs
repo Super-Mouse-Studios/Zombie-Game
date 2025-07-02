@@ -15,8 +15,12 @@ public class Player_Movement : MonoBehaviour
     [SerializeField] private Healthbar healthbar;
 
     public float speed = 5f; // Speed of the player
-    public float dodgeSpeed = 100f; // Dodge Speed of player
+    [SerializeField] float dodgeSpeed = 100f; // Dodge Speed of player; Affects length
+    [SerializeField] float dodgeCooldown = 1f; // Cooldown
+    [SerializeField] float dodgeCooldownReload = 0;
     private float originalDodgeSpeed;
+    private Vector3 dodgeDirection = new Vector3(-1111, -2222, -3333);
+    private CircleCollider2D hurtbox;
     public Vector3 inputvector = Vector3.zero;
     private Rigidbody2D rb;
     private MovementState state = MovementState.Normal;
@@ -33,8 +37,10 @@ public class Player_Movement : MonoBehaviour
         currentHealth = maxHealth;
         healthbar.updateHealthBar(maxHealth, currentHealth); //updating health bar
 
-        // Saves original dodge speed so it lines up if it's changed in inspector
+        // Saves original dodge speed/cooldown so it lines up if it's changed in inspector
         originalDodgeSpeed = dodgeSpeed;
+
+        hurtbox = GetComponent<CircleCollider2D>();
     }
 
     //player taking damage and dying
@@ -72,13 +78,22 @@ public class Player_Movement : MonoBehaviour
                     transform.up = direction;
                 }
 
-                if (Input.GetKeyDown(KeyCode.LeftShift)) // Switches to dodge state
+                if (Input.GetKeyDown(KeyCode.LeftShift) && dodgeCooldownReload <= 0) // Switches to dodge state
                     state = MovementState.Dodging;
                 break;
 
             case MovementState.Dodging: // Dodge state
                 DodgeRoll();
                 break;
+        }
+
+        // Reset dodge cooldown over time
+        if (dodgeCooldownReload >= 0)
+        {
+            dodgeCooldownReload -= Time.deltaTime;
+
+            if (dodgeCooldownReload <= 0)
+                dodgeCooldownReload = 0;
         }
     }
 
@@ -92,16 +107,20 @@ public class Player_Movement : MonoBehaviour
         healthbar.updateHealthBar(maxHealth, currentHealth);
     }
 
+        
     // Dodge roll method
     private void DodgeRoll()
     {
         Debug.Log("Now Dodging");
-        Vector3 dodgeDirection;
+        hurtbox.enabled = false; // Disables hurtbox
 
-        if (inputvector != Vector3.zero) // Dodge in the direction player is walking
+        if (inputvector != Vector3.zero && dodgeDirection == new Vector3(-1111, -2222, -3333)) // Dodge in the direction player is walking
             dodgeDirection = inputvector.normalized;
         else // Dodge away from player
-            dodgeDirection = -transform.up;
+        {
+            if (dodgeDirection == new Vector3(-1111, -2222, -3333)) // Prevents changing directions in the middle of a roll
+                dodgeDirection = -transform.up;
+        }
 
         transform.position += dodgeDirection * dodgeSpeed * Time.deltaTime;
 
@@ -112,6 +131,10 @@ public class Player_Movement : MonoBehaviour
         {
             state = MovementState.Normal;
             dodgeSpeed = originalDodgeSpeed;
+            dodgeDirection = new Vector3(-1111, -2222, -3333); // Sets dodge direction to an impossible vector
+            dodgeCooldownReload = dodgeCooldown;
+            
+            hurtbox.enabled = true; // Re-enables hurtbox at the end of dodges
         }
     }
 }

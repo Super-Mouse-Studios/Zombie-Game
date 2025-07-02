@@ -52,6 +52,9 @@ MonoBehaviour:
   currentHealth: 0
   healthbar: {fileID: 0}
   speed: 6
+  dodgeSpeed: 100
+  dodgeCooldown: 1
+  dodgeCooldownReload: 0
   inputvector: {x: 0, y: 0, z: 0}
 --- !u!114 &5406169449696216626
 MonoBehaviour:
