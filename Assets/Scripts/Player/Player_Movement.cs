@@ -15,17 +15,26 @@ public class Player_Movement : MonoBehaviour
     [SerializeField] private Healthbar healthbar;
 
     public float speed = 5f; // Speed of the player
+    public float dodgeSpeed = 100f; // Dodge Speed of player
+    private float originalDodgeSpeed;
     public Vector3 inputvector = Vector3.zero;
     private Rigidbody2D rb;
+    private MovementState state = MovementState.Normal;
 
-
+    public enum MovementState // Defines movements player can take
+    {
+        Normal,
+        Dodging
+    }
 
     void Start()
     {
         //health status at the start of the game
         currentHealth = maxHealth;
-
         healthbar.updateHealthBar(maxHealth, currentHealth); //updating health bar
+
+        // Saves original dodge speed so it lines up if it's changed in inspector
+        originalDodgeSpeed = dodgeSpeed;
     }
 
     //player taking damage and dying
@@ -49,17 +58,28 @@ public class Player_Movement : MonoBehaviour
         float inputY = Input.GetAxisRaw("Vertical");
         inputvector = new Vector3(inputX, inputY, 0);
 
-
-        if (!(inputvector.x == 0 && inputvector.y == 0))
+        // Handles movement based on which state player is in
+        switch (state)
         {
-            float dt = Time.deltaTime;
-            Vector3 direction = inputvector.normalized;
-            transform.position += inputvector / inputvector.magnitude * speed * dt;
-            transform.position += direction * speed * dt;
-            Vector3 rotatedDirection = new Vector3(-direction.x, direction.y, 0);
-            transform.up = direction;
-        }
+            case MovementState.Normal: // Normal walking state
+                if (!(inputvector.x == 0 && inputvector.y == 0))
+                {
+                    float dt = Time.deltaTime;
+                    Vector3 direction = inputvector.normalized;
+                    transform.position += inputvector / inputvector.magnitude * speed * dt;
+                    transform.position += direction * speed * dt;
+                    Vector3 rotatedDirection = new Vector3(-direction.x, direction.y, 0);
+                    transform.up = direction;
+                }
 
+                if (Input.GetKeyDown(KeyCode.LeftShift)) // Switches to dodge state
+                    state = MovementState.Dodging;
+                break;
+
+            case MovementState.Dodging: // Dodge state
+                DodgeRoll();
+                break;
+        }
     }
 
     // Player Level Up Health increase
@@ -70,5 +90,28 @@ public class Player_Movement : MonoBehaviour
         Debug.Log($"MaxHP: {maxHealth}, Current HP: {currentHealth}");
 
         healthbar.updateHealthBar(maxHealth, currentHealth);
+    }
+
+    // Dodge roll method
+    private void DodgeRoll()
+    {
+        Debug.Log("Now Dodging");
+        Vector3 dodgeDirection;
+
+        if (inputvector != Vector3.zero) // Dodge in the direction player is walking
+            dodgeDirection = inputvector.normalized;
+        else // Dodge away from player
+            dodgeDirection = -transform.up;
+
+        transform.position += dodgeDirection * dodgeSpeed * Time.deltaTime;
+
+        dodgeSpeed -= dodgeSpeed * 10f * Time.deltaTime; // Decelerates speed
+
+        // Switches back to normal state after speed decelerates enough and resets dodge speed to original
+        if (dodgeSpeed <= 5f)
+        {
+            state = MovementState.Normal;
+            dodgeSpeed = originalDodgeSpeed;
+        }
     }
 }
