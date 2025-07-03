@@ -5,16 +5,41 @@ using UnityEngine;
 
 public class Zombie_Following : MonoBehaviour
 {
+    // Add this event for death notification
+    public event Action OnDeath;
 
-    //kill status
-    // public static event Action<Zombie_Following> onZombieKilled;
-    //health status
-    [SerializeField] private float enemyHealth, enemyMaxhealth = 5f;
+    [SerializeField] 
+    private float enemyHealth, enemyMaxhealth = 5f;
+    [SerializeField]
+    private float speed;
+    [SerializeField]
+    private float roatationSpeed;
+    [SerializeField]
+    private float _screenBorder;
+    [SerializeField]
+    private float _obstacleCheckCircleRadius;
+    [SerializeField]
+    private float _obstacleCheckDistance;
+    [SerializeField]
+    private LayerMask _obstacleLayerMask;
 
+
+    private Rigidbody2D rigidbody2d;
+    private PlayerAwareness playerAwareness;
+    private Vector2 targetDirection;
+    private float changeDirectionCooldown;
+    private UnityEngine.Camera unityMainCamera;
+    private RaycastHit2D[] obstacleCollisions;
+    private float obstacleAvoidanceCooldown;
+    private Vector2 obstacleAvoidanceTargetDirection;
+
+    // Power-up related variables
+    [SerializeField]
+    public GameObject fireRatePowerUpPrefab;
+    public float fireRatePowerUpChance = 0.15f; // 10% chance to drop a fire rate power-up on death
 
     private void Start()
     {
-        //reset the enemy health to max everytime we play the game
         enemyHealth = enemyMaxhealth;
     }
 
@@ -22,46 +47,18 @@ public class Zombie_Following : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent<Player_Movement>(out Player_Movement player))
         {
-            //Player taking damage
             player.PlayerTakeDamage(1);
         }
     }
-
-    
-    //enemy taking damage and dying
-    public void EnemyTakeDamage(float enemyDamageAmount)
-    {
-        enemyHealth -= enemyDamageAmount; //10 -> 9 -> 8 -> 7 -> 6 -> 5 -> 4 -> 3 -> 2 -> 1 -> 0
-
-        if (enemyHealth <= 0)
-        {
-            GameManager.instance.ZombieDied();
-            ExperienceManager.Instance.AddExperience(UnityEngine.Random.Range(4, 9)); // Random EXP between 4 and 9
-
-            // onZombieKilled?.Invoke(this); //adding the kill number
-            Destroy(gameObject);
-
-            SoundManager.Instance.PlaySound("ZombieDeath"); // Plays Knife SFX
-        }
-    }
-
-
-    [SerializeField]
-    private float speed;
-    [SerializeField]
-    private float roatationSpeed;
-
-    private Rigidbody2D rigidbody;
-    private PlayerAwareness playerAwareness;
-    private Vector2 targetDirection;
-
-    // Start is called before the first frame update
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
+        rigidbody2d = GetComponent<Rigidbody2D>();
         playerAwareness = GetComponent<PlayerAwareness>();
+        targetDirection = transform.up;
+        unityMainCamera = UnityEngine.Camera.main;
+        obstacleCollisions = new RaycastHit2D[10];
     }
-    // Update is called once per frame
+
     private void FixedUpdate()
     {
         UpdateTargetDirection();
@@ -71,13 +68,82 @@ public class Zombie_Following : MonoBehaviour
 
     private void UpdateTargetDirection()
     {
+        HandleRandomDirectionChange();
+        HandlePlayerTargeting();
+        HandleObstacles();
+        HandleEnemyOffScreen();
+    }
+    private void HandleRandomDirectionChange()
+    {
+        changeDirectionCooldown -= Time.deltaTime;
+
+        if (changeDirectionCooldown <= 0)
+        {
+            float angleChange = UnityEngine.Random.Range(-90f, 90f);
+            Quaternion rotation = Quaternion.AngleAxis(angleChange, transform.forward);
+            targetDirection = rotation * targetDirection;
+
+            changeDirectionCooldown = UnityEngine.Random.Range(1f, 5f);
+        }
+    }
+    private void HandlePlayerTargeting()
+    {
         if (playerAwareness.AwareOfPlayer)
         {
             targetDirection = playerAwareness.DirectionToPlayer;
         }
-        else
+    }
+    private void HandleEnemyOffScreen()
+    {
+        Vector2 screenPosition = unityMainCamera.WorldToScreenPoint(transform.position);
+
+        if ((screenPosition.x < _screenBorder && targetDirection.x < 0) ||
+            (screenPosition.x > unityMainCamera.pixelWidth - _screenBorder && targetDirection.x > 0))
         {
-            targetDirection = Vector2.zero;
+            targetDirection = new Vector2(-targetDirection.x, targetDirection.y);
+        }
+
+        if ((screenPosition.y < _screenBorder && targetDirection.y < 0) ||
+            (screenPosition.y > unityMainCamera.pixelHeight - _screenBorder && targetDirection.y > 0))
+        {
+            targetDirection = new Vector2(targetDirection.x, -targetDirection.y);
+        }
+    }
+    private void HandleObstacles()
+    {
+        obstacleAvoidanceCooldown -= Time.deltaTime;
+
+        var contactFilter = new ContactFilter2D();
+        contactFilter.SetLayerMask(_obstacleLayerMask);
+
+        int numberOfCollisions = Physics2D.CircleCast(
+            transform.position,
+            _obstacleCheckCircleRadius,
+            transform.up,
+            contactFilter,
+            obstacleCollisions,
+            _obstacleCheckDistance);
+
+        for (int index = 0; index < numberOfCollisions; index++)
+        {
+            var obstacleCollision = obstacleCollisions[index];
+
+            if (obstacleCollision.collider.gameObject == gameObject)
+            {
+                continue;
+            }
+
+            if (obstacleAvoidanceCooldown <= 0)
+            {
+                obstacleAvoidanceTargetDirection = obstacleCollision.normal;
+                obstacleAvoidanceCooldown = 0.5f;
+            }
+
+            var targetRotation = Quaternion.LookRotation(transform.forward, obstacleAvoidanceTargetDirection);
+            var rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, roatationSpeed * Time.deltaTime);
+
+            targetDirection = rotation * Vector2.up;
+            break;
         }
     }
 
@@ -91,18 +157,51 @@ public class Zombie_Following : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(transform.forward, targetDirection);
         Quaternion rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, roatationSpeed * Time.deltaTime);
 
-        rigidbody.SetRotation(rotation);
+        rigidbody2d.SetRotation(rotation);
     }
     private void SetVelocity()
     {
         if (targetDirection == Vector2.zero)
         {
-            rigidbody.velocity = Vector2.zero;
+            rigidbody2d.velocity = Vector2.zero;
         }
         else
         {
-            rigidbody.velocity = transform.up * speed;
+            rigidbody2d.velocity = transform.up * speed;
         }
+    }
+
+    //enemy taking damage and dying
+    public void EnemyTakeDamage(float damageAmount)
+    {
+        enemyHealth -= damageAmount;
+        Debug.Log($"{name} took {damageAmount} damage. Current health: {enemyHealth}");
+
+        if (enemyHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+
+    public void Die()
+    {
+        Debug.Log($"{name} has died.");
+
+        Rounds rounds = FindObjectOfType<Rounds>();
+        if (rounds != null)
+            rounds.EnemyDied();
+
+        GameManager.instance.ZombieDied();
+        ExperienceManager.Instance.AddExperience(UnityEngine.Random.Range(4, 9));
+        SoundManager.Instance.PlaySound("ZombieDeath");
+
+        if (fireRatePowerUpPrefab != null && UnityEngine.Random.value < fireRatePowerUpChance)
+        {
+            Instantiate(fireRatePowerUpPrefab, transform.position, Quaternion.identity);
+            Debug.Log("Fire Rate Power-Up dropped!");
+        }
+        Destroy(gameObject);
     }
 }
 

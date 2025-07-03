@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2357498775505608454}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51,7 +51,7 @@ MonoBehaviour:
   maxHealth: 20
   currentHealth: 0
   healthbar: {fileID: 0}
-  dodgeEffect: {fileID: 7382301925436344656, guid: 1c892e83609e542a083cfc674a2c0319, type: 3}
+  dodgeEffect: {fileID: 0}
   dodgeSpeed: 100
   dodgeCooldown: 1
   dodgeCooldownReload: 0

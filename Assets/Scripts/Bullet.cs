@@ -9,21 +9,18 @@ public class Bullet : MonoBehaviour
     public float speed = 8f;
     public float range = 25;
     public float distanceTravelled = 0;
-    
+    public float damage = 5f;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //checking if collision have enemy component on it
-        if (collision.gameObject.TryGetComponent<Zombie_Following>(out Zombie_Following zombieComponent))
+        EnemyHealth enemyHealth = collision.GetComponent<EnemyHealth>();
+        if (enemyHealth != null)
         {
-            //zombie taking damage
-            zombieComponent.EnemyTakeDamage(CalculateDamage());
-            Debug.Log($"{collision.name} took { CalculateDamage() } damage ({ExperienceManager.Instance.GetCurrentLevel()} from levels)");
-            
-            //destroying bullet after hitting
-            Destroy(gameObject);
+            // Calculate damage based on level
+            damage = CalculateDamage();
+            enemyHealth.TakeDamage(damage);
+            Destroy(gameObject); // Destroy bullet after hitting an enemy
         }
-        
-
     }
 
     // Calculates damage based on level
