@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -6138891160490507058}
   m_Layer: 0
   m_Name: hitman1_silencer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,6 +99,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad285a3a176cae9448c21bf992ac2c5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 20
+  currentHealth: 0
+  healthbar: {fileID: 0}
+  dodgeEffect: {fileID: 0}
+  dodgeSpeed: 100
+  dodgeCooldown: 1
+  dodgeCooldownReload: 0
   speed: 6
   inputvector: {x: 0, y: 0, z: 0}
 --- !u!114 &-792070179927846944
@@ -114,10 +121,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 0}
+  meleePrefab: {fileID: 0}
   isTriggerDown: 0
   timeUntilReloaded: 0
+  meleeCooldown: 0
   fireRate: 1
+  meleeRate: 1
   shootMode: 1
+  detectionRange: 10
+  shooting: 0
 --- !u!50 &-6138891160490507058
 Rigidbody2D:
   serializedVersion: 4

@@ -124,7 +124,7 @@ public class Player_Movement : MonoBehaviour
         healthbar.updateHealthBar(maxHealth, currentHealth);
     }
 
-        
+
     // Dodge roll method
     private void DodgeRoll()
     {
@@ -151,7 +151,7 @@ public class Player_Movement : MonoBehaviour
             dodgeSpeed = originalDodgeSpeed;
             dodgeDirection = new Vector3(-1111, -2222, -3333); // Sets dodge direction to an impossible vector
             dodgeCooldownReload = dodgeCooldown;
-            
+
             hurtbox.enabled = true; // Re-enables hurtbox at the end of dodges
         }
     }

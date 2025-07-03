@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 7459203318224845830}
   - component: {fileID: 1152637492272189938}
   - component: {fileID: -7632404956568068831}
+  - component: {fileID: 4687193763361967004}
   - component: {fileID: 7627903405912360205}
   - component: {fileID: 6639275602397933761}
   m_Layer: 0
@@ -149,6 +150,27 @@ MonoBehaviour:
   enemyMaxhealth: 10
   speed: 2
   roatationSpeed: 100
+  _screenBorder: 0
+  _obstacleCheckCircleRadius: 0
+  _obstacleCheckDistance: 0
+  _obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  fireRatePowerUpPrefab: {fileID: 427570331140637953, guid: 71f92dba0584555458ddf8a23001d650, type: 3}
+  fireRatePowerUpChance: 1
+--- !u!114 &4687193763361967004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7345464648461225502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2f1e1bf73ebcbb42bdaa5f6d1af1c38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseMaxHealth: 10
 --- !u!50 &7627903405912360205
 Rigidbody2D:
   serializedVersion: 4
