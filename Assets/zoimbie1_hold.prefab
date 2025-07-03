@@ -151,11 +151,11 @@ MonoBehaviour:
   speed: 2
   roatationSpeed: 100
   _screenBorder: 0
-  _obstacleCheckCircleRadius: 0
-  _obstacleCheckDistance: 0
+  _obstacleCheckCircleRadius: 0.45
+  _obstacleCheckDistance: 1
   _obstacleLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   fireRatePowerUpPrefab: {fileID: 427570331140637953, guid: 71f92dba0584555458ddf8a23001d650, type: 3}
   fireRatePowerUpChance: 1
 --- !u!114 &4687193763361967004
