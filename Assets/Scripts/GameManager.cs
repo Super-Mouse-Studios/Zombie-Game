@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     
     void UpdateEnemyKilledText()
     {
-        EnemyKilledText.text = $"Zombies left: {zombiesDead}";
+        EnemyKilledText.text = $"Zombies killed: {zombiesDead}";
     }
 
     

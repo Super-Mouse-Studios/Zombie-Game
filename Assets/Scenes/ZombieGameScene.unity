@@ -380,7 +380,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &415620665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1255,8 +1255,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Startbutton: {fileID: 0}
   Restartbutton: {fileID: 0}
-  pauseMenuPanel: {fileID: 415620663}
-  EndButton: {fileID: 1836663234}
+  pauseMenuPanel: {fileID: 0}
+  EndButton: {fileID: 0}
 --- !u!4 &1777183030
 Transform:
   m_ObjectHideFlags: 0
