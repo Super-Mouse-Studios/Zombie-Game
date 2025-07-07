@@ -1162,7 +1162,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyTypes:
   - prefab: {fileID: 7345464648461225502, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+    weight: 3
+  - prefab: {fileID: 5267454677000238293, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
     weight: 1
+  - prefab: {fileID: 4870283645184672493, guid: 18a91a03433fd0d4881d893e721a11c3, type: 3}
+    weight: 2
   spawnPoints:
   - {fileID: 1213811434}
   - {fileID: 2018515545}

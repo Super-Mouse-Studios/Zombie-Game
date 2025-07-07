@@ -157,7 +157,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   fireRatePowerUpPrefab: {fileID: 427570331140637953, guid: 71f92dba0584555458ddf8a23001d650, type: 3}
-  fireRatePowerUpChance: 1
+  fireRatePowerUpChance: 0.5
 --- !u!114 &4687193763361967004
 MonoBehaviour:
   m_ObjectHideFlags: 0
