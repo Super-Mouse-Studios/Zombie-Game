@@ -20,6 +20,22 @@ PrefabInstance:
       propertyPath: enemyMaxhealth
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 2758370020799723418, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 9205155618971712290, guid: 51ed8a75b4cde4a43b59622834f67b78, type: 3}
+    - target: {fileID: 4010752165544802381, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4010752165544802381, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4010752165544802381, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4687193763361967004, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
       propertyPath: baseMaxHealth
       value: 20
