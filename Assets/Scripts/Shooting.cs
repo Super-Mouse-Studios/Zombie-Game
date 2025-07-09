@@ -7,6 +7,7 @@ public class Shooting : MonoBehaviour
     public GameObject projectilePrefab;
     [SerializeField] GameObject rocketPrefab;
     [SerializeField] GameObject meleePrefab;
+    [SerializeField] GameObject sniperShotPrefab;
     public bool isTriggerDown;
     public float timeUntilReloaded, meleeCooldown = 0;
     public float fireRate = 1; // shots per secend 
@@ -124,6 +125,9 @@ public class Shooting : MonoBehaviour
                 case ShootingBehavours.AR:
                     ARShootingBehaviour();
                     break;
+                case ShootingBehavours.Sniper:
+                    SniperShootingBehaviour();
+                    break;
             }
         }
     }
@@ -236,14 +240,14 @@ public class Shooting : MonoBehaviour
         }
     }
 
-    // Sniper shot
+    // Sniper shot; has 2x cooldown
     void SniperShootingBehaviour()
     {
-       if (timeUntilReloaded <= 0)
+        if (timeUntilReloaded <= 0)
         {
-            Instantiate(projectilePrefab, transform.position, transform.rotation);
+            Instantiate(sniperShotPrefab, transform.position, transform.rotation);
 
-            float secondsPerShot = 1 / (fireRate * 4);
+            float secondsPerShot = 1 / (fireRate / 2);
             timeUntilReloaded += secondsPerShot;
         } 
     }
