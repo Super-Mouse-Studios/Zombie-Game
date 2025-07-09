@@ -5,7 +5,8 @@ using UnityEngine;
 public class Shooting : MonoBehaviour
 {
     public GameObject projectilePrefab;
-    [SerializeField] GameObject meleePrefab; 
+    [SerializeField] GameObject rocketPrefab;
+    [SerializeField] GameObject meleePrefab;
     public bool isTriggerDown;
     public float timeUntilReloaded, meleeCooldown = 0;
     public float fireRate = 1; // shots per secend 
@@ -18,7 +19,10 @@ public class Shooting : MonoBehaviour
     public enum ShootingBehavours
     {
         Basic,
-        Spread
+        Spread,
+        Rocket,
+        AR,
+        Sniper
     }
 
     private Transform targetEnemy;
@@ -45,7 +49,12 @@ public class Shooting : MonoBehaviour
             shooting = ShootingBehavours.Basic;
         else if (Input.GetKeyDown(KeyCode.Alpha2))
             shooting = ShootingBehavours.Spread;
-
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+            shooting = ShootingBehavours.Rocket;
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+            shooting = ShootingBehavours.AR;
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+            shooting = ShootingBehavours.Sniper;
 
         if (shootMode == 1)
         {
@@ -60,6 +69,18 @@ public class Shooting : MonoBehaviour
                     if (isTriggerDown)
                         SpreadShootingBehaviour();
                     break;
+                case ShootingBehavours.Rocket:
+                    if (isTriggerDown)
+                        RocketShootingBehaviour();
+                    break;
+                case ShootingBehavours.AR:
+                    if (isTriggerDown)
+                        ARShootingBehaviour();
+                    break;
+                case ShootingBehavours.Sniper:
+                    if (isTriggerDown)
+                        SniperShootingBehaviour();
+                    break;
             }
         }
         else if (shootMode == 2)
@@ -69,9 +90,7 @@ public class Shooting : MonoBehaviour
 
         timeUntilReloaded -= Time.deltaTime;
         if (timeUntilReloaded <= 0)
-        {
             timeUntilReloaded = 0;
-        }
 
         meleeCooldown -= Time.deltaTime;
         if (meleeCooldown <= 0)
@@ -98,6 +117,12 @@ public class Shooting : MonoBehaviour
                     break;
                 case ShootingBehavours.Spread:
                     SpreadShootingBehaviour();
+                    break;
+                case ShootingBehavours.Rocket:
+                    RocketShootingBehaviour();
+                    break;
+                case ShootingBehavours.AR:
+                    ARShootingBehaviour();
                     break;
             }
         }
@@ -173,10 +198,10 @@ public class Shooting : MonoBehaviour
             Quaternion meleeRotation = transform.rotation * Quaternion.Euler(0, 0, meleeAngle);
 
             GameObject meleeObj = Instantiate(meleePrefab, spawnPosition, meleeRotation, this.transform);
-            
+
             // Compensate for parent's scale so meleeObj appears at (1,1,1) in world space
             Vector3 parentScale = transform.lossyScale;
-            meleeObj.transform.localScale = new Vector3(
+            meleeObj.transform.localScale = new Vector3( // Scales Melee attack to be 2.9x sized
                 2.9f / parentScale.x,
                 2.9f / parentScale.y,
                 2.9f / parentScale.z
@@ -185,5 +210,41 @@ public class Shooting : MonoBehaviour
             float secondsPerAttack = 1 / meleeRate;
             meleeCooldown = secondsPerAttack;
         }
+    }
+
+    // Shoots a rocket where projectile will deal damage on impact and cause an explosion which will deal addtional damage to player and zombie, has 1.2x cooldown
+    void RocketShootingBehaviour()
+    {
+        if (timeUntilReloaded <= 0)
+        {
+            Instantiate(rocketPrefab, transform.position, transform.rotation);
+
+            float secondsPerShot = 1 / (fireRate / 1.2f);
+            timeUntilReloaded += secondsPerShot;
+        }
+    }
+
+    // Shoots 4x as fast as basic gun
+    void ARShootingBehaviour()
+    {
+        if (timeUntilReloaded <= 0)
+        {
+            Instantiate(projectilePrefab, transform.position, transform.rotation);
+
+            float secondsPerShot = 1 / (fireRate * 4);
+            timeUntilReloaded += secondsPerShot;
+        }
+    }
+
+    // Sniper shot
+    void SniperShootingBehaviour()
+    {
+       if (timeUntilReloaded <= 0)
+        {
+            Instantiate(projectilePrefab, transform.position, transform.rotation);
+
+            float secondsPerShot = 1 / (fireRate * 4);
+            timeUntilReloaded += secondsPerShot;
+        } 
     }
 }

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-
     public float speed = 8f;
     public float range = 25;
     public float distanceTravelled = 0;
@@ -24,10 +23,9 @@ public class Bullet : MonoBehaviour
     }
 
     // Calculates damage based on level
-    private int CalculateDamage()
+    private float CalculateDamage()
     {
-        int damage = 5; // Base damage
-        int level = ExperienceManager.Instance.GetCurrentLevel();
+        float level = ExperienceManager.Instance.GetCurrentLevel();
 
         // Damage increased by each level
         damage += level;
