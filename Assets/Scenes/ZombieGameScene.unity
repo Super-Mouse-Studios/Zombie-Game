@@ -849,7 +849,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FollowSpeed: 2
   yOffset: 1
-  target: {fileID: 0}
+  target: {fileID: 699030744}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -932,6 +932,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &699030744 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 468575333571094681, guid: e2f5599895a8252429c40accc93eb12a, type: 3}
+  m_PrefabInstance: {fileID: 6274358578402709454}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &991189850
 GameObject:
   m_ObjectHideFlags: 0

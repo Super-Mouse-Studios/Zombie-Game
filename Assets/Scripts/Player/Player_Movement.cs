@@ -25,7 +25,7 @@ public class Player_Movement : MonoBehaviour
     private Vector3 dodgeDirection = new Vector3(-1111, -2222, -3333);
 
     public float speed = 5f; // Speed of the player
-    private CircleCollider2D hurtbox;
+    private CapsuleCollider2D hurtbox;
     public Vector3 inputvector = Vector3.zero;
     private Rigidbody2D rb;
     private MovementState state = MovementState.Normal;
@@ -45,7 +45,7 @@ public class Player_Movement : MonoBehaviour
         // Saves original dodge speed/cooldown so it lines up if it's changed in inspector
         originalDodgeSpeed = dodgeSpeed;
 
-        hurtbox = GetComponent<CircleCollider2D>();
+        hurtbox = GetComponent<CapsuleCollider2D>();
     }
 
     //player taking damage and dying
