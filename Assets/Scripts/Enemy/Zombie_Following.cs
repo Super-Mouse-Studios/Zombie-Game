@@ -62,7 +62,7 @@ public class Zombie_Following : MonoBehaviour
     private void FixedUpdate()
     {
         UpdateTargetDirection();
-        RotateTowardsTarget();
+        //RotateTowardsTarget();
         SetVelocity();
     }
 
@@ -167,7 +167,7 @@ public class Zombie_Following : MonoBehaviour
         }
         else
         {
-            rigidbody2d.velocity = transform.up * speed;
+            rigidbody2d.velocity = targetDirection.normalized * speed;
         }
     }
 

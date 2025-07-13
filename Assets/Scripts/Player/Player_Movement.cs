@@ -79,8 +79,8 @@ public class Player_Movement : MonoBehaviour
                     Vector3 direction = inputvector.normalized;
                     transform.position += inputvector / inputvector.magnitude * speed * dt;
                     transform.position += direction * speed * dt;
-                    Vector3 rotatedDirection = new Vector3(-direction.x, direction.y, 0);
-                    transform.up = direction;
+                    //Vector3 rotatedDirection = new Vector3(-direction.x, direction.y, 0);
+                    //transform.up = direction;
                 }
 
                 if (Input.GetKeyDown(KeyCode.LeftShift) && dodgeCooldownReload <= 0) // Switches to dodge state
