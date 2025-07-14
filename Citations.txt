@@ -1,3 +1,5 @@
+Sprite & Audio Sources:
+
 Name: Pixel Art VFX - Warrior - FREE Version | Website: https://frostwindz.itch.io/pixel-art-skill-animations-warrior | Author: Frostwindz | Date Accessed:  Jul 1st, 2025
 
 ------------------------------------------------------------------------------------------------
@@ -15,3 +17,28 @@ Name: Impact | Website: https://opengameart.org/content/impact | Author: qubodup
 ------------------------------------------------------------------------------------------------
 
 Name: Chaingun, pistol, rifle, shotgun shots | Website: https://opengameart.org/content/chaingun-pistol-rifle-shotgun-shots | Author: Michel Baradari | Date Accessed:  Jul 1st, 2025
+
+------------------------------------------------------------------------------------------------
+
+Name: Bowling Ball Rolling | Website: https://opengameart.org/content/bowling-ball-rolling | Author: qubodup | Date Accessed: July 13th, 2025
+
+------------------------------------------------------------------------------------------------
+
+Name: 4 projectile launches | Website: https://opengameart.org/content/4-projectile-launches | Author: Michel Baradari | Date Accessed: July 13th, 2025
+
+------------------------------------------------------------------------------------------------
+
+Name: E-Litre Full Charge | Website: https://www.sounds-resource.com/nintendo_switch/splatoon2/sound/44480/ | Author: Nintendo | Date Accessed: July 13th, 2025
+
+------------------------------------------------------------------------------------------------
+
+Name: Tenta Missiles Burst | Website: https://www.sounds-resource.com/nintendo_switch/splatoon2/sound/44480/ | Author: Nintendo | Date Accessed: July 13th, 2025
+
+================================================================================================
+Code Sources:
+
+Name: How to Make Simple Character Dodge Roll (Unity Tutorial for Beginners) | Website: https://www.youtube.com/watch?v=ptPAg83fQ4M | Author: Code Monkey | Date Accessed: July 2nd, 2025
+
+------------------------------------------------------------------------------------------------
+
+Name: EXPERIENCE and LEVELING System | Unity Tutorial | Website: https://www.youtube.com/watch?v=GDcgsJKl7WY | Author: Pogle | Date Accessed: June 3rd, 2025

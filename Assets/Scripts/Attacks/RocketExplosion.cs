@@ -7,6 +7,7 @@ public class RocketExplosion : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SoundManager.Instance.PlaySound("Explosion");
         Destroy(gameObject, 1f); // Destroys game object after explosion is played
     }
 

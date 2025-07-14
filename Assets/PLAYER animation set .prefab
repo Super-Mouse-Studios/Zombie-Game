@@ -1,5 +1,61 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4369464435825640226
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5893106301324053107}
+  - component: {fileID: 7289985910846335515}
+  m_Layer: 0
+  m_Name: ShootingPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5893106301324053107
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4369464435825640226}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -0.41, y: 0.417, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 468575333571094681}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!114 &7289985910846335515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4369464435825640226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42dcfeef711aa7446aeaa094fa91f3b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 4643306704371613622, guid: 2aea8631b7820bd4da554126bb2d3579, type: 3}
+  rocketPrefab: {fileID: 2852131524976926935, guid: a29820df596154dbb9135970afcec3b8, type: 3}
+  meleePrefab: {fileID: 4639413750011941827, guid: 958eb365ff2054bcca26ba94875ff9b7, type: 3}
+  sniperShotPrefab: {fileID: 4397972827316861712, guid: d98c3605cc09d444bb1a3c769f638d3d, type: 3}
+  isTriggerDown: 0
+  timeUntilReloaded: 0
+  meleeCooldown: 0
+  fireRate: 8
+  meleeRate: 1.7
+  shootMode: 1
+  detectionRange: 10
+  shooting: 0
 --- !u!1001 &7770172907773990804
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58,7 +114,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7878350319992209165, guid: 4c21f9d9628ca78418fc2174feb9bd35, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5893106301324053107}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 4c21f9d9628ca78418fc2174feb9bd35, type: 3}
       insertIndex: -1
@@ -68,11 +127,13 @@ PrefabInstance:
       addedObject: {fileID: 5461792797794482110}
     - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 4c21f9d9628ca78418fc2174feb9bd35, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5835299453867611261}
-    - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 4c21f9d9628ca78418fc2174feb9bd35, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 2338313249221145918}
   m_SourcePrefab: {fileID: -8435245712485981826, guid: 4c21f9d9628ca78418fc2174feb9bd35, type: 3}
+--- !u!4 &468575333571094681 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7878350319992209165, guid: 4c21f9d9628ca78418fc2174feb9bd35, type: 3}
+  m_PrefabInstance: {fileID: 7770172907773990804}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &823398175011520764 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2253911629886400664, guid: 4c21f9d9628ca78418fc2174feb9bd35, type: 3}
@@ -126,30 +187,6 @@ MonoBehaviour:
   dodgeCooldownReload: 0
   speed: 6
   inputvector: {x: 0, y: 0, z: 0}
---- !u!114 &5835299453867611261
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 823398175011520764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42dcfeef711aa7446aeaa094fa91f3b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 4643306704371613622, guid: 2aea8631b7820bd4da554126bb2d3579, type: 3}
-  rocketPrefab: {fileID: 2852131524976926935, guid: a29820df596154dbb9135970afcec3b8, type: 3}
-  meleePrefab: {fileID: 4639413750011941827, guid: 958eb365ff2054bcca26ba94875ff9b7, type: 3}
-  sniperShotPrefab: {fileID: 4397972827316861712, guid: d98c3605cc09d444bb1a3c769f638d3d, type: 3}
-  isTriggerDown: 0
-  timeUntilReloaded: 0
-  meleeCooldown: 0
-  fireRate: 8
-  meleeRate: 1.7
-  shootMode: 1
-  detectionRange: 10
-  shooting: 0
 --- !u!70 &2338313249221145918
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

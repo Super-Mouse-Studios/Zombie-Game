@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Shooting : MonoBehaviour
@@ -15,6 +16,8 @@ public class Shooting : MonoBehaviour
     public int shootMode = 1;
     public float detectionRange = 10f; // Range within which the player can shoot
     public ShootingBehavours shooting = ShootingBehavours.Basic;
+    private UnityEngine.Camera mainCam;
+    private Vector3 mousePos;
 
     // Enum for types of shoot modes
     public enum ShootingBehavours
@@ -28,18 +31,14 @@ public class Shooting : MonoBehaviour
 
     private Transform targetEnemy;
 
+    void Start()
+    {
+        mainCam = UnityEngine.Camera.main;
+    }
+
     void Update()
     {
-        isTriggerDown = Input.GetButtonDown("Jump");
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            shootMode = 1;
-
-        }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            shootMode = 2;
-        }
+        isTriggerDown = Input.GetMouseButton(0) || Input.GetButton("Jump");
 
         // Melee attack 
         if (Input.GetKeyDown(KeyCode.F))
@@ -57,36 +56,31 @@ public class Shooting : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Alpha5))
             shooting = ShootingBehavours.Sniper;
 
-        if (shootMode == 1)
+        AimTowardsMouse();
+        
+        // Determines what mode to shoot
+        switch (shooting)
         {
-            // Determines what mode to shoot
-            switch (shooting)
-            {
-                case ShootingBehavours.Basic:
-                    if (isTriggerDown)
-                        BasicShootingBehaviour();
-                    break;
-                case ShootingBehavours.Spread:
-                    if (isTriggerDown)
-                        SpreadShootingBehaviour();
-                    break;
-                case ShootingBehavours.Rocket:
-                    if (isTriggerDown)
-                        RocketShootingBehaviour();
-                    break;
-                case ShootingBehavours.AR:
-                    if (isTriggerDown)
-                        ARShootingBehaviour();
-                    break;
-                case ShootingBehavours.Sniper:
-                    if (isTriggerDown)
-                        SniperShootingBehaviour();
-                    break;
-            }
-        }
-        else if (shootMode == 2)
-        {
-            AutoAimandShoot();
+            case ShootingBehavours.Basic:
+                if (isTriggerDown)
+                    BasicShootingBehaviour();
+                break;
+            case ShootingBehavours.Spread:
+                if (isTriggerDown)
+                    SpreadShootingBehaviour();
+                break;
+            case ShootingBehavours.Rocket:
+                if (isTriggerDown)
+                    RocketShootingBehaviour();
+                break;
+            case ShootingBehavours.AR:
+                if (isTriggerDown)
+                    ARShootingBehaviour();
+                break;
+            case ShootingBehavours.Sniper:
+                if (isTriggerDown)
+                    SniperShootingBehaviour();
+                break;
         }
 
         timeUntilReloaded -= Time.deltaTime;
@@ -98,56 +92,67 @@ public class Shooting : MonoBehaviour
             meleeCooldown = 0;
     }
 
-    void AutoAimandShoot()
+    void AimTowardsMouse()
     {
-        FindNearestEnemy();
+        mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
 
-        if (targetEnemy != null)
-        {
-            // Calculate direction in 2D
-            Vector2 direction = (targetEnemy.position - transform.position).normalized;
-            // Calulate angle and rotate only around Z axis
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
+        Vector3 rotation = mousePos - transform.position;
 
-            //Shoot if reloaded
-            switch (shooting)
-            {
-                case ShootingBehavours.Basic:
-                    BasicShootingBehaviour();
-                    break;
-                case ShootingBehavours.Spread:
-                    SpreadShootingBehaviour();
-                    break;
-                case ShootingBehavours.Rocket:
-                    RocketShootingBehaviour();
-                    break;
-                case ShootingBehavours.AR:
-                    ARShootingBehaviour();
-                    break;
-                case ShootingBehavours.Sniper:
-                    SniperShootingBehaviour();
-                    break;
-            }
-        }
+        float rotZ = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
+
+        transform.rotation = Quaternion.Euler(0, 0, rotZ - 91f);
     }
 
-    void FindNearestEnemy()
-    {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        float closestDistance = detectionRange;
-        targetEnemy = null;
+    // void AutoAimandShoot()
+    // {
+    //     FindNearestEnemy();
 
-        foreach (GameObject enemy in enemies)
-        {
-            float distance = Vector3.Distance(transform.position, enemy.transform.position);
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                targetEnemy = enemy.transform;
-            }
-        }
-    }
+    //     if (targetEnemy != null)
+    //     {
+    //         // Calculate direction in 2D
+    //         Vector2 direction = (targetEnemy.position - transform.position).normalized;
+    //         // Calulate angle and rotate only around Z axis
+    //         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+    //         transform.rotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
+
+    //         //Shoot if reloaded
+    //         switch (shooting)
+    //         {
+    //             case ShootingBehavours.Basic:
+    //                 BasicShootingBehaviour();
+    //                 break;
+    //             case ShootingBehavours.Spread:
+    //                 SpreadShootingBehaviour();
+    //                 break;
+    //             case ShootingBehavours.Rocket:
+    //                 RocketShootingBehaviour();
+    //                 break;
+    //             case ShootingBehavours.AR:
+    //                 ARShootingBehaviour();
+    //                 break;
+    //             case ShootingBehavours.Sniper:
+    //                 SniperShootingBehaviour();
+    //                 break;
+    //         }
+    //     }
+    // }
+
+    // void FindNearestEnemy()
+    // {
+    //     GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+    //     float closestDistance = detectionRange;
+    //     targetEnemy = null;
+
+    //     foreach (GameObject enemy in enemies)
+    //     {
+    //         float distance = Vector3.Distance(transform.position, enemy.transform.position);
+    //         if (distance < closestDistance)
+    //         {
+    //             closestDistance = distance;
+    //             targetEnemy = enemy.transform;
+    //         }
+    //     }
+    // }
 
     // Basic Shooting Behaviour
     void BasicShootingBehaviour()
@@ -221,6 +226,8 @@ public class Shooting : MonoBehaviour
     {
         if (timeUntilReloaded <= 0)
         {
+            SoundManager.Instance.PlaySound("Rocket");
+
             Instantiate(rocketPrefab, transform.position, transform.rotation);
 
             float secondsPerShot = 1 / (fireRate / 1.2f);
@@ -233,6 +240,8 @@ public class Shooting : MonoBehaviour
     {
         if (timeUntilReloaded <= 0)
         {
+            SoundManager.Instance.PlaySound("AR");
+
             Instantiate(projectilePrefab, transform.position, transform.rotation);
 
             float secondsPerShot = 1 / (fireRate * 4);
@@ -245,6 +254,8 @@ public class Shooting : MonoBehaviour
     {
         if (timeUntilReloaded <= 0)
         {
+            SoundManager.Instance.PlaySound("Charger");
+            
             Instantiate(sniperShotPrefab, transform.position, transform.rotation);
 
             float secondsPerShot = 1 / (fireRate / 2);
