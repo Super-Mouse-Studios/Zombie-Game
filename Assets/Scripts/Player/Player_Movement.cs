@@ -29,7 +29,7 @@ public class Player_Movement : MonoBehaviour
     public Vector3 inputvector = Vector3.zero;
     private Rigidbody2D rb;
     private MovementState state = MovementState.Normal;
-
+   
     public enum MovementState // Defines movements player can take
     {
         Normal,
@@ -60,6 +60,7 @@ public class Player_Movement : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
 
 
     void Update()
