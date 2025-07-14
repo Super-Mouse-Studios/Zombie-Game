@@ -15,7 +15,8 @@ public class Shooting : MonoBehaviour
     public float meleeRate = 1; // Attacks per second
     public int shootMode = 1;
     public float detectionRange = 10f; // Range within which the player can shoot
-    public ShootingBehavours shooting = ShootingBehavours.Basic;
+    [SerializeField] ShootingBehavours shooting = ShootingBehavours.Basic;
+    public ShootingBehavours currentlyHeld = ShootingBehavours.Basic; // Secondary Weapon; If this is swapped, ensure shooting is set back to Basic
     private UnityEngine.Camera mainCam;
     private Vector3 mousePos;
 
@@ -44,20 +45,14 @@ public class Shooting : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
             MeleeAttackBehaviour();
 
-        // Changes current ShootMode for testing purposes; comment out later
+        // Changes current ShootMode 
         if (Input.GetKeyDown(KeyCode.Alpha1))
             shooting = ShootingBehavours.Basic;
         else if (Input.GetKeyDown(KeyCode.Alpha2))
-            shooting = ShootingBehavours.Spread;
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-            shooting = ShootingBehavours.Rocket;
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
-            shooting = ShootingBehavours.AR;
-        else if (Input.GetKeyDown(KeyCode.Alpha5))
-            shooting = ShootingBehavours.Sniper;
+            SwapToSecondary();
 
         AimTowardsMouse();
-        
+
         // Determines what mode to shoot
         switch (shooting)
         {
@@ -100,7 +95,26 @@ public class Shooting : MonoBehaviour
 
         float rotZ = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
 
-        transform.rotation = Quaternion.Euler(0, 0, rotZ - 91f);
+        transform.rotation = Quaternion.Euler(0, 0, rotZ - 91f); // Undos the aiming Offset
+    }
+
+    void SwapToSecondary()
+    {
+        switch (currentlyHeld)
+        {
+            case ShootingBehavours.Spread:
+                shooting = ShootingBehavours.Spread;
+                break;
+            case ShootingBehavours.Rocket:
+                shooting = ShootingBehavours.Rocket;
+                break;
+            case ShootingBehavours.AR:
+                shooting = ShootingBehavours.AR;
+                break;
+            case ShootingBehavours.Sniper:
+                shooting = ShootingBehavours.Sniper;
+                break;
+        }
     }
 
     // void AutoAimandShoot()
