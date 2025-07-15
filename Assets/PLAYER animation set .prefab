@@ -48,14 +48,14 @@ MonoBehaviour:
   rocketPrefab: {fileID: 2852131524976926935, guid: a29820df596154dbb9135970afcec3b8, type: 3}
   meleePrefab: {fileID: 4639413750011941827, guid: 958eb365ff2054bcca26ba94875ff9b7, type: 3}
   sniperShotPrefab: {fileID: 4397972827316861712, guid: d98c3605cc09d444bb1a3c769f638d3d, type: 3}
+  shotgunShotPrefab: {fileID: 8191733091109131612, guid: a45d242ae48ea498faa6f6b597a70334, type: 3}
   isTriggerDown: 0
   timeUntilReloaded: 0
   meleeCooldown: 0
   fireRate: 8
   meleeRate: 1.7
-  shootMode: 1
   detectionRange: 10
-  shooting: 0
+  shootMode: 1
   currentlyHeld: 0
 --- !u!1001 &7770172907773990804
 PrefabInstance:

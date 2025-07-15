@@ -9,13 +9,14 @@ public class Shooting : MonoBehaviour
     [SerializeField] GameObject rocketPrefab;
     [SerializeField] GameObject meleePrefab;
     [SerializeField] GameObject sniperShotPrefab;
+    [SerializeField] GameObject shotgunShotPrefab;
     public bool isTriggerDown;
     public float timeUntilReloaded, meleeCooldown = 0;
     public float fireRate = 1; // shots per secend 
     public float meleeRate = 1; // Attacks per second
-    public int shootMode = 1;
+    // public int shootMode = 1;
     public float detectionRange = 10f; // Range within which the player can shoot
-    [SerializeField] ShootingBehavours shooting = ShootingBehavours.Basic;
+    public ShootingBehavours shootMode = ShootingBehavours.Basic;
     public ShootingBehavours currentlyHeld = ShootingBehavours.Basic; // Secondary Weapon; If this is swapped, ensure shooting is set back to Basic
     private UnityEngine.Camera mainCam;
     private Vector3 mousePos;
@@ -47,14 +48,14 @@ public class Shooting : MonoBehaviour
 
         // Changes current ShootMode 
         if (Input.GetKeyDown(KeyCode.Alpha1))
-            shooting = ShootingBehavours.Basic;
+            shootMode = ShootingBehavours.Basic;
         else if (Input.GetKeyDown(KeyCode.Alpha2))
             SwapToSecondary();
 
         AimTowardsMouse();
 
         // Determines what mode to shoot
-        switch (shooting)
+        switch (shootMode)
         {
             case ShootingBehavours.Basic:
                 if (isTriggerDown)
@@ -85,6 +86,28 @@ public class Shooting : MonoBehaviour
         meleeCooldown -= Time.deltaTime;
         if (meleeCooldown <= 0)
             meleeCooldown = 0;
+
+        // Delete later, just for shoot testing
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            shootMode = ShootingBehavours.Spread;
+            currentlyHeld = ShootingBehavours.Spread;
+        }
+        else if (Input.GetKeyDown(KeyCode.O))
+        {
+            shootMode = ShootingBehavours.Rocket;
+            currentlyHeld = ShootingBehavours.Rocket;
+        }
+        else if (Input.GetKeyDown(KeyCode.I))
+        {
+            shootMode = ShootingBehavours.AR;
+            currentlyHeld = ShootingBehavours.AR;
+        }
+        else if (Input.GetKeyDown(KeyCode.U))
+        {
+            shootMode = ShootingBehavours.Sniper;
+            currentlyHeld = ShootingBehavours.Sniper;
+        }
     }
 
     void AimTowardsMouse()
@@ -103,16 +126,19 @@ public class Shooting : MonoBehaviour
         switch (currentlyHeld)
         {
             case ShootingBehavours.Spread:
-                shooting = ShootingBehavours.Spread;
+                shootMode = ShootingBehavours.Spread;
                 break;
             case ShootingBehavours.Rocket:
-                shooting = ShootingBehavours.Rocket;
+                shootMode = ShootingBehavours.Rocket;
                 break;
             case ShootingBehavours.AR:
-                shooting = ShootingBehavours.AR;
+                shootMode = ShootingBehavours.AR;
                 break;
             case ShootingBehavours.Sniper:
-                shooting = ShootingBehavours.Sniper;
+                shootMode = ShootingBehavours.Sniper;
+                break;
+            default:
+                shootMode = ShootingBehavours.Basic;
                 break;
         }
     }
@@ -190,15 +216,15 @@ public class Shooting : MonoBehaviour
             SoundManager.Instance.PlaySound("Shotgun"); // Plays Shotgun SFX
 
             // Center bullet
-            Instantiate(projectilePrefab, transform.position, transform.rotation);
+            Instantiate(shotgunShotPrefab, transform.position, transform.rotation);
 
             // Left bullet (-12 degrees)
             Quaternion leftRotation = transform.rotation * Quaternion.Euler(0, 0, -12f);
-            Instantiate(projectilePrefab, transform.position, leftRotation);
+            Instantiate(shotgunShotPrefab, transform.position, leftRotation);
 
             // Right bullet (+12 degrees)
             Quaternion rightRotation = transform.rotation * Quaternion.Euler(0, 0, 12f);
-            Instantiate(projectilePrefab, transform.position, rightRotation);
+            Instantiate(shotgunShotPrefab, transform.position, rightRotation);
 
             float secondsPerShot = 1 / fireRate;
             timeUntilReloaded += secondsPerShot;
