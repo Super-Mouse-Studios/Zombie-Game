@@ -48,7 +48,7 @@ MonoBehaviour:
   rocketPrefab: {fileID: 2852131524976926935, guid: a29820df596154dbb9135970afcec3b8, type: 3}
   meleePrefab: {fileID: 4639413750011941827, guid: 958eb365ff2054bcca26ba94875ff9b7, type: 3}
   sniperShotPrefab: {fileID: 4397972827316861712, guid: d98c3605cc09d444bb1a3c769f638d3d, type: 3}
-  shotgunShotPrefab: {fileID: 2852131524976926935, guid: a29820df596154dbb9135970afcec3b8, type: 3}
+  shotgunShotPrefab: {fileID: 8191733091109131612, guid: a45d242ae48ea498faa6f6b597a70334, type: 3}
   isTriggerDown: 0
   timeUntilReloaded: 0
   meleeCooldown: 0
@@ -200,6 +200,7 @@ MonoBehaviour:
   maxY: 25
   speed: 3.5
   inputvector: {x: 0, y: 0, z: 0}
+  animator: {fileID: 8921449203198515804}
 --- !u!70 &2338313249221145918
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -235,3 +236,8 @@ CapsuleCollider2D:
   m_Offset: {x: -0.39, y: 0.56}
   m_Size: {x: 0.59, y: 0.86}
   m_Direction: 0
+--- !u!95 &8921449203198515804 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1160356261127867848, guid: 4c21f9d9628ca78418fc2174feb9bd35, type: 3}
+  m_PrefabInstance: {fileID: 7770172907773990804}
+  m_PrefabAsset: {fileID: 0}
