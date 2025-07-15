@@ -54,6 +54,7 @@ public class Player_Movement : MonoBehaviour
         originalDodgeSpeed = dodgeSpeed;
 
         hurtbox = GetComponent<CapsuleCollider2D>();
+
     }
 
     //player taking damage and dying
@@ -84,18 +85,20 @@ public class Player_Movement : MonoBehaviour
             case MovementState.Normal: // Normal walking state
                 if (!(inputvector.x == 0 && inputvector.y == 0))
                 {
-                    
+
                     float dt = Time.deltaTime;
                     Vector3 direction = inputvector.normalized;
                     transform.position += inputvector / inputvector.magnitude * speed * dt;
                     transform.position += direction * speed * dt;
                     //Vector3 rotatedDirection = new Vector3(-direction.x, direction.y, 0);
                     //transform.up = direction;
-                    animator.SetBool("Move", true); // Sets walking animation
+                    // animator.SetBool("Move", true); // Sets walking animation
+                    animator.Play("run cycle ");
                 }
                 else
                 {
-                    animator.SetBool("Move", false); // Stops walking animation
+                    // animator.SetBool("Move", false); // Stops walking animation
+                    animator.Play("idle");
                 }
                 if (Input.GetKeyDown(KeyCode.LeftShift) && dodgeCooldownReload <= 0) // Switches to dodge state
                 {

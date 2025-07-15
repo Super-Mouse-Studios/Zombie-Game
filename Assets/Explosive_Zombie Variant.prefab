@@ -28,6 +28,10 @@ PrefabInstance:
       propertyPath: explosionRadius
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 4250790093494511594, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
+      propertyPath: explosionEffectPrefab
+      value: 
+      objectReference: {fileID: 1167000342610235540, guid: 194aad5691fbf40e3b3a1c7a3e59e488, type: 3}
     - target: {fileID: 5267454677000238293, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
       propertyPath: m_Name
       value: Explosive_Zombie Variant
