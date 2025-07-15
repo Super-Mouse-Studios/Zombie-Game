@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5893106301324053107}
   - component: {fileID: 7289985910846335515}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ShootingPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,6 +56,7 @@ MonoBehaviour:
   shootMode: 1
   detectionRange: 10
   shooting: 0
+  currentlyHeld: 0
 --- !u!1001 &7770172907773990804
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -69,20 +70,28 @@ PrefabInstance:
       value: 'PLAYER animation set '
       objectReference: {fileID: 0}
     - target: {fileID: -2253911629886400664, guid: 4c21f9d9628ca78418fc2174feb9bd35, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -2253911629886400664, guid: 4c21f9d9628ca78418fc2174feb9bd35, type: 3}
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3626916397498700004, guid: 4c21f9d9628ca78418fc2174feb9bd35, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 4c21f9d9628ca78418fc2174feb9bd35, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.0307016
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 4c21f9d9628ca78418fc2174feb9bd35, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.0701754
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 4c21f9d9628ca78418fc2174feb9bd35, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.08
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 4c21f9d9628ca78418fc2174feb9bd35, type: 3}
       propertyPath: m_LocalRotation.w
@@ -185,8 +194,13 @@ MonoBehaviour:
   dodgeSpeed: 100
   dodgeCooldown: 1
   dodgeCooldownReload: 0
-  speed: 6
+  minX: -26
+  maxX: 21
+  minY: -21.8
+  maxY: 25
+  speed: 3.5
   inputvector: {x: 0, y: 0, z: 0}
+  animator: {fileID: 8921449203198515804}
 --- !u!70 &2338313249221145918
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -222,3 +236,8 @@ CapsuleCollider2D:
   m_Offset: {x: -0.39, y: 0.56}
   m_Size: {x: 0.59, y: 0.86}
   m_Direction: 0
+--- !u!95 &8921449203198515804 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1160356261127867848, guid: 4c21f9d9628ca78418fc2174feb9bd35, type: 3}
+  m_PrefabInstance: {fileID: 7770172907773990804}
+  m_PrefabAsset: {fileID: 0}
