@@ -35,7 +35,9 @@ public class Player_Movement : MonoBehaviour
     public Vector3 inputvector = Vector3.zero;
     private Rigidbody2D rb;
     private MovementState state = MovementState.Normal;
-   
+
+    public Animator animator;
+
     public enum MovementState // Defines movements player can take
     {
         Normal,
@@ -59,7 +61,7 @@ public class Player_Movement : MonoBehaviour
     {
         currentHealth -= PlayerDamageAmount; //10 -> 9 -> 8 -> 7 -> 6 -> 5 -> 4 -> 3 -> 2 -> 1 -> 0
         healthbar.updateHealthBar(maxHealth, currentHealth); //updating health bar
-
+        animator.Play("Player_Hurt"); // Plays hurt animation
         if (currentHealth <= 0)
         {
             SSmanager.LoadGameOverScene(); // Load Game Over scene
@@ -82,14 +84,19 @@ public class Player_Movement : MonoBehaviour
             case MovementState.Normal: // Normal walking state
                 if (!(inputvector.x == 0 && inputvector.y == 0))
                 {
+                    
                     float dt = Time.deltaTime;
                     Vector3 direction = inputvector.normalized;
                     transform.position += inputvector / inputvector.magnitude * speed * dt;
                     transform.position += direction * speed * dt;
                     //Vector3 rotatedDirection = new Vector3(-direction.x, direction.y, 0);
                     //transform.up = direction;
+                    animator.SetBool("Move", true); // Sets walking animation
                 }
-
+                else
+                {
+                    animator.SetBool("Move", false); // Stops walking animation
+                }
                 if (Input.GetKeyDown(KeyCode.LeftShift) && dodgeCooldownReload <= 0) // Switches to dodge state
                 {
                     state = MovementState.Dodging;
