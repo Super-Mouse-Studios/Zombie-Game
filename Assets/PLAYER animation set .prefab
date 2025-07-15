@@ -56,6 +56,7 @@ MonoBehaviour:
   shootMode: 1
   detectionRange: 10
   shooting: 0
+  currentlyHeld: 0
 --- !u!1001 &7770172907773990804
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -185,7 +186,11 @@ MonoBehaviour:
   dodgeSpeed: 100
   dodgeCooldown: 1
   dodgeCooldownReload: 0
-  speed: 6
+  minX: -10
+  maxX: 10
+  minY: -5
+  maxY: 5
+  speed: 3
   inputvector: {x: 0, y: 0, z: 0}
 --- !u!70 &2338313249221145918
 CapsuleCollider2D:
