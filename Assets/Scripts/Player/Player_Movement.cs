@@ -24,6 +24,12 @@ public class Player_Movement : MonoBehaviour
     private float originalDodgeSpeed;
     private Vector3 dodgeDirection = new Vector3(-1111, -2222, -3333);
 
+    [Header("Map Boundaries")]
+    public float minX = -10f;
+    public float maxX = 10f;
+    public float minY = -5f;
+    public float maxY = 5f;
+
     public float speed = 5f; // Speed of the player
     private CapsuleCollider2D hurtbox;
     public Vector3 inputvector = Vector3.zero;
@@ -113,6 +119,10 @@ public class Player_Movement : MonoBehaviour
             if (dodgeCooldownReload <= 0)
                 dodgeCooldownReload = 0;
         }
+        Vector3 clampedPosition = transform.position;
+        clampedPosition.x = Mathf.Clamp(clampedPosition.x, minX, maxX);
+        clampedPosition.y = Mathf.Clamp(clampedPosition.y, minY, maxY);
+        transform.position = clampedPosition;
     }
 
     // Player Level Up Health increase

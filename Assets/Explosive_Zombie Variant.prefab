@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &760962330680964664
+--- !u!1001 &3061020436663783898
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -11,42 +11,38 @@ PrefabInstance:
     - target: {fileID: 769594211882470737, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 7729799104422124426, guid: 0f08c7f65b05ea84cb6f6ccd689afd84, type: 3}
+      objectReference: {fileID: -758427945029391129, guid: c6359ec2ce157a744a4013a83217d459, type: 3}
     - target: {fileID: 4250790093494511594, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
-      propertyPath: speed
-      value: 4
+      propertyPath: isExploder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4250790093494511594, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
       propertyPath: enemyHealth
-      value: 4
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4250790093494511594, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
       propertyPath: enemyMaxhealth
-      value: 8
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4250790093494511594, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
-      propertyPath: _obstacleCheckDistance
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4250790093494511594, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
-      propertyPath: _obstacleLayerMask.m_Bits
-      value: 8
+      propertyPath: explosionRadius
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5267454677000238293, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
       propertyPath: m_Name
-      value: Fast_Zombie
+      value: Explosive_Zombie Variant
       objectReference: {fileID: 0}
     - target: {fileID: 5435280517943379661, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
       propertyPath: m_LocalScale.x
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5435280517943379661, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5435280517943379661, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
       propertyPath: m_LocalScale.z
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5435280517943379661, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
       propertyPath: m_LocalPosition.x

@@ -24,6 +24,17 @@ public class Zombie_Following : MonoBehaviour
     private LayerMask _obstacleLayerMask;
 
 
+    [SerializeField]
+    private bool isExploder = false; // Set in Inspector per prefab
+    [SerializeField]
+    private float explosionRadius = 5f;
+    [SerializeField]
+    private float explosionDamage = 15f;
+    [SerializeField]
+    private GameObject explosionEffectPrefab;
+
+
+
     private Rigidbody2D rigidbody2d;
     private PlayerAwareness playerAwareness;
     private Vector2 targetDirection;
@@ -171,6 +182,25 @@ public class Zombie_Following : MonoBehaviour
         }
     }
 
+    private void Explode()
+    {
+        // Optional: spawn explosion effect
+        if (explosionEffectPrefab != null)
+            Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
+
+        // Damage all Player_Movement objects in radius
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
+        foreach (var hit in hits)
+        {
+            Player_Movement player = hit.GetComponent<Player_Movement>();
+            if (player != null)
+            {
+                player.PlayerTakeDamage(explosionDamage);
+            }
+        }
+        // You can also damage other enemies or objects if needed
+    }
+
     //enemy taking damage and dying
     public void EnemyTakeDamage(float damageAmount)
     {
@@ -187,6 +217,10 @@ public class Zombie_Following : MonoBehaviour
     public void Die()
     {
         Debug.Log($"{name} has died.");
+        if (isExploder)
+        {
+            Explode();
+        }
 
         Rounds rounds = FindObjectOfType<Rounds>();
         if (rounds != null)

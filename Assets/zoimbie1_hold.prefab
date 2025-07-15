@@ -115,7 +115,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.065726, y: -0.2167759, z: 0}
-  m_LocalScale: {x: 3.1749, y: 3.1749, z: 3.1749}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4010752165544802381}
@@ -156,6 +156,10 @@ MonoBehaviour:
   _obstacleLayerMask:
     serializedVersion: 2
     m_Bits: 1
+  isExploder: 0
+  explosionRadius: 5
+  explosionDamage: 15
+  explosionEffectPrefab: {fileID: 0}
   fireRatePowerUpPrefab: {fileID: 427570331140637953, guid: 71f92dba0584555458ddf8a23001d650, type: 3}
   fireRatePowerUpChance: 0.5
 --- !u!114 &4687193763361967004
