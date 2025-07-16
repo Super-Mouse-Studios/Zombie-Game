@@ -33,6 +33,28 @@ public class Zombie_Following : MonoBehaviour
     [SerializeField]
     private GameObject explosionEffectPrefab;
 
+    [SerializeField]
+    private bool isToxic = false; // Set in Inspector per prefab
+
+    [SerializeField]
+    private float toxicRadius = 3f;
+    [SerializeField]
+    private float poisonTickDamage = 2f;
+    [SerializeField]
+    private float poisonTickInterval = 1f;
+    [SerializeField]
+    private float poisonDuration = 3f;
+
+    [SerializeField]
+    private GameObject toxicProjectilePrefab;
+    [SerializeField]
+    private float shootInterval = 2f;
+    [SerializeField]
+    private float projectileSpeed = 8f;
+
+    private float poisonTickTimer = 0f;
+    private float shootTimer = 0f;
+
 
 
     private Rigidbody2D rigidbody2d;
@@ -75,6 +97,12 @@ public class Zombie_Following : MonoBehaviour
         UpdateTargetDirection();
         //RotateTowardsTarget();
         SetVelocity();
+
+        if (isToxic)
+        {
+            ApplyPoisonAura();
+            ToxicShoot();
+        }
     }
 
     private void UpdateTargetDirection()
@@ -199,6 +227,55 @@ public class Zombie_Following : MonoBehaviour
             }
         }
         // You can also damage other enemies or objects if needed
+    }
+    private void ApplyPoisonAura()
+    {
+        poisonTickTimer -= Time.fixedDeltaTime;
+        if (poisonTickTimer <= 0f)
+        {
+            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, toxicRadius);
+            foreach (var hit in hits)
+            {
+                Player_Movement player = hit.GetComponent<Player_Movement>();
+                if (player != null)
+                {
+                    // Apply poison effect (damage over time)
+                    PoisonEffect existing = player.GetComponent<PoisonEffect>();
+                    if (existing == null)
+                    {
+                        PoisonEffect effect = player.gameObject.AddComponent<PoisonEffect>();
+                        effect.Initialize(poisonTickDamage, poisonTickInterval, poisonDuration);
+                    }
+                    else
+                    {
+                        // Refresh poison duration if already poisoned
+                        existing.Initialize(poisonTickDamage, poisonTickInterval, poisonDuration);
+                    }
+                }
+            }
+            poisonTickTimer = poisonTickInterval;
+        }
+    }
+    private void ToxicShoot()
+    {
+        shootTimer -= Time.fixedDeltaTime;
+        if (shootTimer <= 0f && playerAwareness != null && playerAwareness.AwareOfPlayer)
+        {
+            if (toxicProjectilePrefab != null)
+            {
+                Vector2 direction = playerAwareness.DirectionToPlayer.normalized;
+                GameObject proj = Instantiate(toxicProjectilePrefab, transform.position, Quaternion.identity);
+                Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
+                if (rb != null)
+                    rb.velocity = direction * projectileSpeed;
+
+                // Optionally, set poison values on the projectile if needed
+                ToxicProjectile toxic = proj.GetComponent<ToxicProjectile>();
+                if (toxic != null)
+                    toxic.SetPoison(poisonTickDamage, poisonTickInterval, poisonDuration);
+            }
+            shootTimer = shootInterval;
+        }
     }
 
     //enemy taking damage and dying
