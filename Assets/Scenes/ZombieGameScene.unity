@@ -13694,7 +13694,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1880171319}
   - component: {fileID: 1880171318}
-  - component: {fileID: 1880171320}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -13730,33 +13729,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1880171320
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1880171317}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42dcfeef711aa7446aeaa094fa91f3b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 0}
-  rocketPrefab: {fileID: 2852131524976926935, guid: a29820df596154dbb9135970afcec3b8, type: 3}
-  meleePrefab: {fileID: 4639413750011941827, guid: 958eb365ff2054bcca26ba94875ff9b7, type: 3}
-  sniperShotPrefab: {fileID: 4397972827316861712, guid: d98c3605cc09d444bb1a3c769f638d3d, type: 3}
-  shotgunShotPrefab: {fileID: 8191733091109131612, guid: a45d242ae48ea498faa6f6b597a70334, type: 3}
-  isTriggerDown: 0
-  timeUntilReloaded: 0
-  meleeCooldown: 0
-  fireRate: 1
-  meleeRate: 1
-  detectionRange: 10
-  shootMode: 0
-  currentlyHeld: 0
-  Max_ammo: 30
-  Ammo_Display: {fileID: 513461108}
 --- !u!1 &1887415421
 GameObject:
   m_ObjectHideFlags: 0
@@ -15165,6 +15137,14 @@ PrefabInstance:
       propertyPath: healthbar
       value: 
       objectReference: {fileID: 1502310063}
+    - target: {fileID: 7289985910846335515, guid: e2f5599895a8252429c40accc93eb12a, type: 3}
+      propertyPath: Ammo_Display
+      value: 
+      objectReference: {fileID: 513461108}
+    - target: {fileID: 7289985910846335515, guid: e2f5599895a8252429c40accc93eb12a, type: 3}
+      propertyPath: isTriggerDown
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
