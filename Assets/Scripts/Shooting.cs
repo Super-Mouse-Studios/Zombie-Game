@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class Shooting : MonoBehaviour
 {
     public GameObject projectilePrefab;
+    
     [SerializeField] GameObject rocketPrefab;
     [SerializeField] GameObject meleePrefab;
     [SerializeField] GameObject sniperShotPrefab;
     [SerializeField] GameObject shotgunShotPrefab;
+    
     public bool isTriggerDown;
     public float timeUntilReloaded, meleeCooldown = 0;
     public float fireRate = 1; // shots per secend 
@@ -18,6 +22,11 @@ public class Shooting : MonoBehaviour
     public float detectionRange = 10f; // Range within which the player can shoot
     public ShootingBehavours shootMode = ShootingBehavours.Basic;
     public ShootingBehavours currentlyHeld = ShootingBehavours.Basic; // Secondary Weapon; If this is swapped, ensure shooting is set back to Basic
+    
+    public int Max_ammo = 30; //max amount of ammos
+    private int Current_ammo; //current amount of ammos
+    public TMP_Text Ammo_Display; //ammo ui display
+    
     private UnityEngine.Camera mainCam;
     private Vector3 mousePos;
 
@@ -36,10 +45,14 @@ public class Shooting : MonoBehaviour
     void Start()
     {
         mainCam = UnityEngine.Camera.main;
+        Current_ammo = 20;
     }
 
     void Update()
     {
+        //amo display
+        Ammo_Display.text = "Ammo left: " + Current_ammo.ToString();
+        
         isTriggerDown = Input.GetMouseButton(0) || Input.GetButton("Jump");
 
         // Melee attack 
@@ -197,7 +210,7 @@ public class Shooting : MonoBehaviour
     // Basic Shooting Behaviour
     void BasicShootingBehaviour()
     {
-        if (timeUntilReloaded <= 0)
+        if (timeUntilReloaded <= 0 && Current_ammo > 0)
         {
             SoundManager.Instance.PlaySound("Chaingun"); // Plays Chaingun SFX
 
@@ -205,13 +218,14 @@ public class Shooting : MonoBehaviour
 
             float secondsPerShot = 1 / fireRate;
             timeUntilReloaded += secondsPerShot;
+            Current_ammo--;
         }
     }
 
     // Spread Shooting Behaviour
     void SpreadShootingBehaviour()
     {
-        if (timeUntilReloaded <= 0)
+        if (timeUntilReloaded <= 0 && Current_ammo > 3)
         {
             SoundManager.Instance.PlaySound("Shotgun"); // Plays Shotgun SFX
 
@@ -228,9 +242,56 @@ public class Shooting : MonoBehaviour
 
             float secondsPerShot = 1 / fireRate;
             timeUntilReloaded += secondsPerShot;
+            Current_ammo = Current_ammo - 3;
         }
     }
 
+    // Shoots a rocket where projectile will deal damage on impact and cause an explosion which will deal addtional damage to player and zombie, has 1.2x cooldown
+    void RocketShootingBehaviour()
+    {
+        if (timeUntilReloaded <= 0 && Current_ammo > 0)
+        {
+            SoundManager.Instance.PlaySound("Rocket");
+
+            Instantiate(rocketPrefab, transform.position, transform.rotation);
+
+            float secondsPerShot = 1 / (fireRate / 1.2f);
+            timeUntilReloaded += secondsPerShot;
+            Current_ammo--;
+        }
+    }
+
+    // Shoots 4x as fast as basic gun
+    void ARShootingBehaviour()
+    {
+        if (timeUntilReloaded <= 0 && Current_ammo > 0)
+        {
+            SoundManager.Instance.PlaySound("AR");
+
+            Instantiate(projectilePrefab, transform.position, transform.rotation);
+
+            float secondsPerShot = 1 / (fireRate * 4);
+            timeUntilReloaded += secondsPerShot;
+            Current_ammo--;
+        }
+    }
+
+    // Sniper shot; has 2x cooldown
+    void SniperShootingBehaviour()
+    {
+        if (timeUntilReloaded <= 0 && Current_ammo > 0)
+        {
+            SoundManager.Instance.PlaySound("Charger");
+            
+            Instantiate(sniperShotPrefab, transform.position, transform.rotation);
+
+            float secondsPerShot = 1 / (fireRate / 2);
+            timeUntilReloaded += secondsPerShot;
+            Current_ammo--;
+        } 
+    }
+    
+    
     // Melee attack
     void MeleeAttackBehaviour()
     {
@@ -259,47 +320,5 @@ public class Shooting : MonoBehaviour
             float secondsPerAttack = 1 / meleeRate;
             meleeCooldown = secondsPerAttack;
         }
-    }
-
-    // Shoots a rocket where projectile will deal damage on impact and cause an explosion which will deal addtional damage to player and zombie, has 1.2x cooldown
-    void RocketShootingBehaviour()
-    {
-        if (timeUntilReloaded <= 0)
-        {
-            SoundManager.Instance.PlaySound("Rocket");
-
-            Instantiate(rocketPrefab, transform.position, transform.rotation);
-
-            float secondsPerShot = 1 / (fireRate / 1.2f);
-            timeUntilReloaded += secondsPerShot;
-        }
-    }
-
-    // Shoots 4x as fast as basic gun
-    void ARShootingBehaviour()
-    {
-        if (timeUntilReloaded <= 0)
-        {
-            SoundManager.Instance.PlaySound("AR");
-
-            Instantiate(projectilePrefab, transform.position, transform.rotation);
-
-            float secondsPerShot = 1 / (fireRate * 4);
-            timeUntilReloaded += secondsPerShot;
-        }
-    }
-
-    // Sniper shot; has 2x cooldown
-    void SniperShootingBehaviour()
-    {
-        if (timeUntilReloaded <= 0)
-        {
-            SoundManager.Instance.PlaySound("Charger");
-            
-            Instantiate(sniperShotPrefab, transform.position, transform.rotation);
-
-            float secondsPerShot = 1 / (fireRate / 2);
-            timeUntilReloaded += secondsPerShot;
-        } 
     }
 }
