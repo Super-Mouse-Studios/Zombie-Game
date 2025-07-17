@@ -23,6 +23,9 @@ public class ExperienceManager : MonoBehaviour
     private Player_Movement playerHP;
     // [SerializeField] Image experienceBar; // Bar to show the progress of experience
 
+    // Flag to check if the player leveled up this round
+    private bool leveledUpThisRound = false;
+
     private void Awake()
     {
         if (Instance == null)
@@ -59,6 +62,7 @@ public class ExperienceManager : MonoBehaviour
         while (totalExperience >= nextLevelsExperience)
         {
             ++currentLevel; // Increase level
+            leveledUpThisRound = true; // Mark that a level up happened this round
             Debug.Log($"Current Level: {currentLevel}");
 
             UpdateLevel();
@@ -67,10 +71,24 @@ public class ExperienceManager : MonoBehaviour
             if (playerHP != null)
                 playerHP.LevelUp();
             else
-            {   Debug.Log("Script not found"); }
+            {
+                Debug.Log("Script not found");
+            }
 
             // Add level up SFX or VFX below 
         }
+    }
+
+    // Returns if a level up occurred this round
+    public bool DidLevelOccurThisRound()
+    {
+        return leveledUpThisRound;
+    }
+
+    // Resets the flag for the next round
+    public void ResetLevelUpFlag()
+    {
+        leveledUpThisRound = false;
     }
 
     // Updates the level based on the total experience curve
@@ -104,7 +122,9 @@ public class ExperienceManager : MonoBehaviour
         if (nextLevelsExperience != int.MaxValue)
             experienceText.text = $"Experience: {start}/{end}"; // Update experience text
         else
-        {   experienceText.text = "Max EXP Reached"; }
+        {
+            experienceText.text = "Max EXP Reached";
+        }
 
         // experienceBar.fillAmount = (float)start / end; // Update experience bar fill amount (if using a bar)
     }
@@ -121,6 +141,6 @@ public class ExperienceManager : MonoBehaviour
             AddExperience(50000);
         }
     }
-    
+
     public int GetCurrentLevel() { return currentLevel; }
 }
