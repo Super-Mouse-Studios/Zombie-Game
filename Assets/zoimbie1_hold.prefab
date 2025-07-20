@@ -160,8 +160,18 @@ MonoBehaviour:
   explosionRadius: 5
   explosionDamage: 15
   explosionEffectPrefab: {fileID: 0}
+  isToxic: 0
+  toxicRadius: 3
+  poisonTickDamage: 2
+  poisonTickInterval: 1
+  poisonDuration: 3
+  toxicProjectilePrefab: {fileID: 0}
+  shootInterval: 2
+  projectileSpeed: 8
   fireRatePowerUpPrefab: {fileID: 427570331140637953, guid: 71f92dba0584555458ddf8a23001d650, type: 3}
+  ammoPickupPrefab: {fileID: 5655277485466248113, guid: 3dd84256578ea4f3aaea35fe63898c78, type: 3}
   fireRatePowerUpChance: 0.5
+  ammoPickupChance: 0.25
 --- !u!114 &4687193763361967004
 MonoBehaviour:
   m_ObjectHideFlags: 0

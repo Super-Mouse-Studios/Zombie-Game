@@ -69,7 +69,11 @@ public class Zombie_Following : MonoBehaviour
     // Power-up related variables
     [SerializeField]
     public GameObject fireRatePowerUpPrefab;
+    [SerializeField] GameObject ammoPickupPrefab;
+    [SerializeField] GameObject gasolinePrefab;
     public float fireRatePowerUpChance = 0.15f; // 10% chance to drop a fire rate power-up on death
+    [SerializeField] float ammoPickupChance = .25f;
+    [SerializeField] float gasolineChance = .075f;
 
     private void Start()
     {
@@ -311,6 +315,16 @@ public class Zombie_Following : MonoBehaviour
         {
             Instantiate(fireRatePowerUpPrefab, transform.position, Quaternion.identity);
             Debug.Log("Fire Rate Power-Up dropped!");
+        }
+        if (ammoPickupPrefab != null && UnityEngine.Random.value < ammoPickupChance)
+        {
+            Instantiate(ammoPickupPrefab, transform.position, Quaternion.identity);
+            Debug.Log("Ammo dropped!");
+        }
+        if (gasolinePrefab != null && UnityEngine.Random.value < gasolineChance)
+        {
+            Instantiate(gasolinePrefab, transform.position, Quaternion.identity);
+            Debug.Log("Gasoline dropped");
         }
         Destroy(gameObject);
     }

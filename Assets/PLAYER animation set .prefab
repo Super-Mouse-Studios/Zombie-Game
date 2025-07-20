@@ -56,8 +56,10 @@ MonoBehaviour:
   fireRate: 8
   meleeRate: 1.7
   detectionRange: 10
-  shootMode: 1
+  shootMode: 0
   currentlyHeld: 0
+  Max_ammo: 500
+  Ammo_Display: {fileID: 0}
 --- !u!58 &7726315152152795582
 CircleCollider2D:
   m_ObjectHideFlags: 0

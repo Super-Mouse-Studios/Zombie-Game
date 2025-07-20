@@ -521,6 +521,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: gasolinePrefab
+      value: 
+      objectReference: {fileID: 6622427149209093952, guid: 01ebd8890e89d4bffa6c6c44262bbaf5, type: 3}
+    - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
       propertyPath: poisonDuration
       value: 4
       objectReference: {fileID: 0}
@@ -546,11 +550,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7459203318224845830, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -11.492123
       objectReference: {fileID: 0}
     - target: {fileID: 7459203318224845830, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.50353146
       objectReference: {fileID: 0}
     - target: {fileID: 7459203318224845830, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
       propertyPath: m_LocalPosition.z

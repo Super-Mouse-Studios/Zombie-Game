@@ -35,6 +35,7 @@ public class Player_Movement : MonoBehaviour
     public Vector3 inputvector = Vector3.zero;
     private Rigidbody2D rb;
     private MovementState state = MovementState.Normal;
+    private float gasedUp = 0f;
 
     public Animator animator;
 
@@ -61,7 +62,7 @@ public class Player_Movement : MonoBehaviour
     {
         currentHealth -= PlayerDamageAmount; //10 -> 9 -> 8 -> 7 -> 6 -> 5 -> 4 -> 3 -> 2 -> 1 -> 0
         healthbar.updateHealthBar(maxHealth, currentHealth); //updating health bar
-       // animator.Play("Hit"); // Plays hurt animation
+                                                             // animator.Play("Hit"); // Plays hurt animation
         if (currentHealth <= 0)
         {
             SSmanager.LoadGameOverScene(); // Load Game Over scene
@@ -123,13 +124,20 @@ public class Player_Movement : MonoBehaviour
         }
 
         // Reset dodge cooldown over time
-        if (dodgeCooldownReload >= 0)
+        if (gasedUp > 0)
+        {
+            gasedUp -= Time.deltaTime;
+            if (dodgeCooldown > 0)
+                dodgeCooldownReload = 0;
+        }
+        else if (dodgeCooldownReload > 0)
         {
             dodgeCooldownReload -= Time.deltaTime;
 
             if (dodgeCooldownReload <= 0)
                 dodgeCooldownReload = 0;
         }
+
         Vector3 clampedPosition = transform.position;
         clampedPosition.x = Mathf.Clamp(clampedPosition.x, minX, maxX);
         clampedPosition.y = Mathf.Clamp(clampedPosition.y, minY, maxY);
@@ -177,4 +185,6 @@ public class Player_Movement : MonoBehaviour
             hurtbox.enabled = true; // Re-enables hurtbox at the end of dodges
         }
     }
+
+    public void Gasoline() { gasedUp = 7f; } // How long you're gased up for
 }

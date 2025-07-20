@@ -321,4 +321,6 @@ public class Shooting : MonoBehaviour
             meleeCooldown = secondsPerAttack;
         }
     }
+
+    public void IncreaseAmmo(int ammo) { Current_ammo += ammo; }
 }

@@ -25,6 +25,10 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4250790093494511594, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
+      propertyPath: gasolinePrefab
+      value: 
+      objectReference: {fileID: 6622427149209093952, guid: 01ebd8890e89d4bffa6c6c44262bbaf5, type: 3}
+    - target: {fileID: 4250790093494511594, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
       propertyPath: _obstacleCheckDistance
       value: 3
       objectReference: {fileID: 0}

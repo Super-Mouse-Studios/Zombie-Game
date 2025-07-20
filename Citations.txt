@@ -34,6 +34,14 @@ Name: E-Litre Full Charge | Website: https://www.sounds-resource.com/nintendo_sw
 
 Name: Tenta Missiles Burst | Website: https://www.sounds-resource.com/nintendo_switch/splatoon2/sound/44480/ | Author: Nintendo | Date Accessed: July 13th, 2025
 
+------------------------------------------------------------------------------------------------
+
+Name: Gun Reload Sound Effects | Website: https://opengameart.org/content/gun-reload-sound-effects | Author: BMacZero | Date Accessed: July 20th, 2025
+
+------------------------------------------------------------------------------------------------
+
+Name: Minecraft Potion Drinking - Sound Effect (HD) | Website: https://www.youtube.com/watch?v=XxoOkmvMjmo | Author: Microsoft | Date Accessed: July 20th, 2025
+
 ================================================================================================
 Code Sources:
 

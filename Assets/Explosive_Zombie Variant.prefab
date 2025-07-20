@@ -193,8 +193,12 @@ PrefabInstance:
       value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4250790093494511594, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
+      propertyPath: gasolinePrefab
+      value: 
+      objectReference: {fileID: 6622427149209093952, guid: 01ebd8890e89d4bffa6c6c44262bbaf5, type: 3}
+    - target: {fileID: 4250790093494511594, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
       propertyPath: roatationSpeed
-      value: 13.4
+      value: 13.3
       objectReference: {fileID: 0}
     - target: {fileID: 4250790093494511594, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
       propertyPath: explosionRadius
@@ -226,11 +230,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5435280517943379661, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -22.824018
       objectReference: {fileID: 0}
     - target: {fileID: 5435280517943379661, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.05
+      value: 4.2385454
       objectReference: {fileID: 0}
     - target: {fileID: 5435280517943379661, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
       propertyPath: m_LocalPosition.z

@@ -3,7 +3,11 @@ guid: 9bade918c8e4c574cbe8bb872a399d90
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - explosionEffectPrefab: {instanceID: 0}
+  - toxicProjectilePrefab: {instanceID: 0}
+  - fireRatePowerUpPrefab: {instanceID: 0}
+  - ammoPickupPrefab: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
