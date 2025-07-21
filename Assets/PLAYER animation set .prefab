@@ -55,9 +55,11 @@ MonoBehaviour:
   meleeCooldown: 0
   fireRate: 8
   meleeRate: 1.7
-  detectionRange: 10
   shootMode: 0
   currentlyHeld: 0
+  attackSizeMultiplier: 1.5
+  damagePowerUp: 0
+  damageMuliplier: 1.5
   Max_ammo: 500
   Ammo_Display: {fileID: 0}
 --- !u!58 &7726315152152795582

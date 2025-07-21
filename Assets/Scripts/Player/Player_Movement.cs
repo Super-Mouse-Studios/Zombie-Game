@@ -186,5 +186,5 @@ public class Player_Movement : MonoBehaviour
         }
     }
 
-    public void Gasoline() { gasedUp = 7f; } // How long you're gased up for
+    public void Gasoline(float time = 7f) { gasedUp = time; } // How long you're gased up for
 }

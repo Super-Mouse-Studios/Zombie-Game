@@ -5,10 +5,18 @@ using UnityEngine;
 
 public class Zombie_Following : MonoBehaviour
 {
+    [System.Serializable]
+    public struct PickupDrop
+    {
+        public string name;
+        public GameObject prefab;
+        [Range(0f, 1f)] public float chance;
+    }
+
     // Add this event for death notification
     public event Action OnDeath;
 
-    [SerializeField] 
+    [SerializeField]
     private float enemyHealth, enemyMaxhealth = 5f;
     [SerializeField]
     private float speed;
@@ -66,14 +74,18 @@ public class Zombie_Following : MonoBehaviour
     private float obstacleAvoidanceCooldown;
     private Vector2 obstacleAvoidanceTargetDirection;
 
-    // Power-up related variables
-    [SerializeField]
-    public GameObject fireRatePowerUpPrefab;
-    [SerializeField] GameObject ammoPickupPrefab;
-    [SerializeField] GameObject gasolinePrefab;
-    public float fireRatePowerUpChance = 0.15f; // 10% chance to drop a fire rate power-up on death
-    [SerializeField] float ammoPickupChance = .25f;
-    [SerializeField] float gasolineChance = .075f;
+    // // Power-up related variables
+    // [SerializeField]
+    // public GameObject fireRatePowerUpPrefab;
+    // [SerializeField] GameObject ammoPickupPrefab;
+    // [SerializeField] GameObject gasolinePrefab;
+
+    // [Range(0f, 1f)] public float fireRatePowerUpChance = 0.10f; // 10% chance to drop a fire rate power-up on death
+    // [SerializeField][Range(0f,1f)] float ammoPickupChance = .25f;
+    // [SerializeField][Range(0f,1f)] float gasolineChance = .075f;
+
+
+    [SerializeField] PickupDrop[] pickupDrops;
 
     private void Start()
     {
@@ -311,22 +323,20 @@ public class Zombie_Following : MonoBehaviour
         ExperienceManager.Instance.AddExperience(UnityEngine.Random.Range(4, 9));
         SoundManager.Instance.PlaySound("ZombieDeath");
 
-        if (fireRatePowerUpPrefab != null && UnityEngine.Random.value < fireRatePowerUpChance)
-        {
-            Instantiate(fireRatePowerUpPrefab, transform.position, Quaternion.identity);
-            Debug.Log("Fire Rate Power-Up dropped!");
-        }
-        if (ammoPickupPrefab != null && UnityEngine.Random.value < ammoPickupChance)
-        {
-            Instantiate(ammoPickupPrefab, transform.position, Quaternion.identity);
-            Debug.Log("Ammo dropped!");
-        }
-        if (gasolinePrefab != null && UnityEngine.Random.value < gasolineChance)
-        {
-            Instantiate(gasolinePrefab, transform.position, Quaternion.identity);
-            Debug.Log("Gasoline dropped");
-        }
+        SpawnPickup();
         Destroy(gameObject);
+    }
+
+    void SpawnPickup()
+    {
+        foreach (PickupDrop drop in pickupDrops)
+        {
+            if (drop.prefab != null && UnityEngine.Random.value < drop.chance)
+            {
+                Instantiate(drop.prefab, transform.position, Quaternion.identity);
+                Debug.Log($"{drop.name} dropped");
+            }
+        }
     }
 }
 

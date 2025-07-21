@@ -7,12 +7,12 @@ public class SniperAttack : MonoBehaviour
     public float speed = 26f;
     public float range = 32;
     [SerializeField] float distanceTravelled = 0;
-    public float damage = 5f;
+    public float baseDamage = 5f;
+    Shooting shooting;
 
-    // Start is called before the first frame update
     void Start()
     {
-
+        shooting = GameObject.FindGameObjectWithTag("Player").GetComponent<Shooting>();
     }
 
     // Update is called once per frame
@@ -41,20 +41,8 @@ public class SniperAttack : MonoBehaviour
         if (enemyHealth != null)
         {
             // Calculate damage based on level
-            damage = CalculateDamage();
+            float damage = shooting.CalculateDamage(baseDamage);
             enemyHealth.TakeDamage(damage);
         }
-    }
-    
-    // Calculates damage based on level
-    private int CalculateDamage()
-    {
-        int damage = 12; // Base damage
-        int level = ExperienceManager.Instance.GetCurrentLevel();
-
-        // Damage increased by each level
-        damage += level;
-
-        return damage;
     }
 }

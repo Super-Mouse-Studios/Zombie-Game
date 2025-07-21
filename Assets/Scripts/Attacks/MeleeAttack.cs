@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class MeleeAttack : MonoBehaviour
 {
+    float baseDamage = 10; // Base damage
+    [SerializeField] Shooting shooting;
+
+
     // Start is called before the first frame update
     void Start()
     {
+        shooting = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Shooting>();
         Destroy(gameObject, .370556f); // Destroyes GameObject after animation plays
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -21,21 +20,10 @@ public class MeleeAttack : MonoBehaviour
         //checking if collision have enemy component on it
         if (collision.gameObject.TryGetComponent<Zombie_Following>(out Zombie_Following zombieComponent))
         {
+            float damage = shooting.CalculateDamage(baseDamage);
             //zombie taking damage
-            zombieComponent.EnemyTakeDamage(CalculateDamage());
-            Debug.Log($"{collision.name} took {CalculateDamage()} damage ({ExperienceManager.Instance.GetCurrentLevel()} from levels)");
+            zombieComponent.EnemyTakeDamage(damage);
+            Debug.Log($"{collision.name} took {damage} damage ({ExperienceManager.Instance.GetCurrentLevel()} from levels)");
         }
-    }
-    
-    // Calculates damage based on level
-    private int CalculateDamage()
-    {
-        int damage = 10; // Base damage
-        int level = ExperienceManager.Instance.GetCurrentLevel();
-
-        // Damage increased by each level
-        damage += level;
-
-        return damage;
     }
 }

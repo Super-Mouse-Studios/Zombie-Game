@@ -6,6 +6,11 @@ public class FireRatePowerUp : MonoBehaviour
 {
     public float fireRateMult = 2f; // Amount to increase fire rate by
     public float duration = 5f; // Duration of the power-up effect in seconds
+    
+    void Start()
+    {
+        Destroy(gameObject, 10f);  
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

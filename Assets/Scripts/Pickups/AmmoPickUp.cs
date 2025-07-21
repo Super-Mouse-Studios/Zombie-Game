@@ -11,6 +11,7 @@ public class AmmoPickUp : MonoBehaviour
     {
         an = GetComponent<Animator>();
         an.Play("ammo");
+        Destroy(gameObject, 10f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -32,11 +33,5 @@ public class AmmoPickUp : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

@@ -4,9 +4,12 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.UIElements;
+using UnityEngine.SocialPlatforms.GameCenter;
 
 public class Shooting : MonoBehaviour
 {
+    [Header("Projectile Prefabs")]
     public GameObject projectilePrefab;
 
     [SerializeField] GameObject rocketPrefab;
@@ -14,15 +17,22 @@ public class Shooting : MonoBehaviour
     [SerializeField] GameObject sniperShotPrefab;
     [SerializeField] GameObject shotgunShotPrefab;
 
+    [Header("Shooting")]
     public bool isTriggerDown;
     public float timeUntilReloaded, meleeCooldown = 0;
     public float fireRate = 1; // shots per secend 
     public float meleeRate = 1; // Attacks per second
     // public int shootMode = 1;
-    public float detectionRange = 10f; // Range within which the player can shoot
+    // public float detectionRange = 10f; // Range within which the player can shoot
     public ShootingBehavours shootMode = ShootingBehavours.Basic;
     public ShootingBehavours currentlyHeld = ShootingBehavours.Basic; // Secondary Weapon; If this is swapped, ensure shooting is set back to Basic
+    [Header("Pickups")]
+    private float attackSizeLength = 0; // Timer for attack size pickup
+    [SerializeField][Range(1.5f, 3f)] float attackSizeMultiplier = 1.5f;
+    public float damagePowerUp = 0f;
+    [SerializeField][Range(1f, 2f)] float damageMuliplier = 1.5f;
 
+    [Header("Ammo")]
     public int Max_ammo = 500; //max amount of ammos
     private int Current_ammo; //current amount of ammos
     public TMP_Text Ammo_Display; //ammo ui display
@@ -121,6 +131,11 @@ public class Shooting : MonoBehaviour
             shootMode = ShootingBehavours.Sniper;
             currentlyHeld = ShootingBehavours.Sniper;
         }
+
+        if (attackSizeLength > 0)
+            attackSizeLength -= Time.deltaTime;
+        if (damagePowerUp > 0)
+            damagePowerUp -= Time.deltaTime;
     }
 
     void AimTowardsMouse()
@@ -214,7 +229,9 @@ public class Shooting : MonoBehaviour
         {
             SoundManager.Instance.PlaySound("Chaingun"); // Plays Chaingun SFX
 
-            Instantiate(projectilePrefab, transform.position, transform.rotation);
+            GameObject projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
+            if (attackSizeLength > 0)
+                projectile.transform.localScale *= attackSizeMultiplier;
 
             float secondsPerShot = 1 / fireRate;
             timeUntilReloaded += secondsPerShot;
@@ -230,15 +247,22 @@ public class Shooting : MonoBehaviour
             SoundManager.Instance.PlaySound("Shotgun"); // Plays Shotgun SFX
 
             // Center bullet
-            Instantiate(shotgunShotPrefab, transform.position, transform.rotation);
+            GameObject center = Instantiate(shotgunShotPrefab, transform.position, transform.rotation);
 
             // Left bullet (-12 degrees)
             Quaternion leftRotation = transform.rotation * Quaternion.Euler(0, 0, -12f);
-            Instantiate(shotgunShotPrefab, transform.position, leftRotation);
+            GameObject left = Instantiate(shotgunShotPrefab, transform.position, leftRotation);
 
             // Right bullet (+12 degrees)
             Quaternion rightRotation = transform.rotation * Quaternion.Euler(0, 0, 12f);
-            Instantiate(shotgunShotPrefab, transform.position, rightRotation);
+            GameObject right = Instantiate(shotgunShotPrefab, transform.position, rightRotation);
+
+            if (attackSizeLength > 0)
+            {
+                center.transform.localScale *= attackSizeMultiplier;
+                left.transform.localScale *= attackSizeMultiplier;
+                right.transform.localScale *= attackSizeMultiplier;
+            }
 
             float secondsPerShot = 1 / fireRate;
             timeUntilReloaded += secondsPerShot;
@@ -253,7 +277,10 @@ public class Shooting : MonoBehaviour
         {
             SoundManager.Instance.PlaySound("Rocket");
 
-            Instantiate(rocketPrefab, transform.position, transform.rotation);
+            GameObject rocket = Instantiate(rocketPrefab, transform.position, transform.rotation);
+
+            if (attackSizeLength > 0)
+                rocket.transform.localScale *= attackSizeMultiplier;
 
             float secondsPerShot = 1 / (fireRate / 1.2f);
             timeUntilReloaded += secondsPerShot;
@@ -283,7 +310,10 @@ public class Shooting : MonoBehaviour
         {
             SoundManager.Instance.PlaySound("Charger");
 
-            Instantiate(sniperShotPrefab, transform.position, transform.rotation);
+            GameObject projectile = Instantiate(sniperShotPrefab, transform.position, transform.rotation);
+
+            if (attackSizeLength > 0)
+                projectile.transform.localScale *= attackSizeMultiplier;
 
             float secondsPerShot = 1 / (fireRate / 2);
             timeUntilReloaded += secondsPerShot;
@@ -317,10 +347,32 @@ public class Shooting : MonoBehaviour
                 2.9f / parentScale.z
             );
 
+            if (attackSizeLength > 0)
+                meleeObj.transform.localScale *= attackSizeMultiplier;
+
             float secondsPerAttack = 1 / meleeRate;
             meleeCooldown = secondsPerAttack;
         }
     }
 
+    public float CalculateDamage(float baseDamage)
+    {
+        float level = ExperienceManager.Instance.GetCurrentLevel();
+        float damage = baseDamage;
+
+        // Damage increased by each level
+        damage += level;
+
+        if (damagePowerUp > 0)
+            damage *= damageMuliplier;
+
+        Debug.Log($"{damage} damage done: {baseDamage} from base, {level} from levels" + (damagePowerUp > 0 ? $", boosted by x{damageMuliplier}" : ""));
+        return damage;
+    }
+
     public void IncreaseAmmo(int ammo) { Current_ammo += ammo; }
+
+    public void AttackSizeTimer(float time = 7) { attackSizeLength = time; } 
+    
+    public void DamageUp(float time = 7f) { damagePowerUp = time; }
 }

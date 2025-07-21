@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DrinkableGasoline : MonoBehaviour
+public class ProjectileSizePickUp : MonoBehaviour
 {
     Animator an;
 
@@ -10,7 +10,7 @@ public class DrinkableGasoline : MonoBehaviour
     void Start()
     {
         an = GetComponent<Animator>();
-        an.Play("gas");
+        an.Play("bluePrint");
         Destroy(gameObject, 10f);
     }
 
@@ -18,21 +18,15 @@ public class DrinkableGasoline : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Player_Movement move = collision.GetComponent<Player_Movement>(); 
-            if (move != null)
+            Shooting shooting = collision.GetComponent<Shooting>(); // Get the Shooting component from the Player
+            if (shooting != null)
             {
-                SoundManager.Instance.PlaySound("Drink");
+                SoundManager.Instance.PlaySound("Reload");
 
-                move.Gasoline();
-                Debug.Log("Drinkable Gasoline");
+                shooting.AttackSizeTimer();
+                Debug.Log("Attack Size Increased");
                 Destroy(gameObject);
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

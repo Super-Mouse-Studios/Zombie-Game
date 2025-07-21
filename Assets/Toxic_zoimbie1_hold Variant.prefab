@@ -532,6 +532,62 @@ PrefabInstance:
       propertyPath: toxicProjectilePrefab
       value: 
       objectReference: {fileID: 7891708311578469093, guid: f63b140b2d3bc874580ff42dfeb043e7, type: 3}
+    - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: pickupDrops.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: pickupDrops.Array.data[0].name
+      value: Ammo
+      objectReference: {fileID: 0}
+    - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: pickupDrops.Array.data[1].name
+      value: Attack Size
+      objectReference: {fileID: 0}
+    - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: pickupDrops.Array.data[2].name
+      value: Fire Rate
+      objectReference: {fileID: 0}
+    - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: pickupDrops.Array.data[3].name
+      value: Drinkable Gasoline
+      objectReference: {fileID: 0}
+    - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: pickupDrops.Array.data[0].chance
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: pickupDrops.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 5655277485466248113, guid: 3dd84256578ea4f3aaea35fe63898c78, type: 3}
+    - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: pickupDrops.Array.data[1].chance
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: pickupDrops.Array.data[1].prefab
+      value: 
+      objectReference: {fileID: 8462060019218726055, guid: 7402eb3e1159947c29824372df0c5b3e, type: 3}
+    - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: pickupDrops.Array.data[2].chance
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: pickupDrops.Array.data[2].prefab
+      value: 
+      objectReference: {fileID: 427570331140637953, guid: 71f92dba0584555458ddf8a23001d650, type: 3}
+    - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: pickupDrops.Array.data[3].chance
+      value: 0.075
+      objectReference: {fileID: 0}
+    - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: pickupDrops.Array.data[3].prefab
+      value: 
+      objectReference: {fileID: 6622427149209093952, guid: 01ebd8890e89d4bffa6c6c44262bbaf5, type: 3}
+    - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: pickupDrops.Array.data[4].prefab
+      value: 
+      objectReference: {fileID: 7260497833594850284, guid: 6dca4c4a3129547e6b5201c5a70f5d26, type: 3}
     - target: {fileID: 2758370020799723418, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
       propertyPath: m_Color.b
       value: 0.3719427

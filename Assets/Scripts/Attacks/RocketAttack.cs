@@ -8,15 +8,14 @@ public class RocketAttack : MonoBehaviour
     [SerializeField] float speed = 6;
     [SerializeField] float range = 20;
     [SerializeField] float distanceTravelled = 0;
-    public float damage = 10f;
+    public float baseDamage = 10f;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         EnemyHealth enemyHealth = collision.GetComponent<EnemyHealth>();
         if (enemyHealth != null)
         {
-            // Calculate damage based on level
-            damage = CalculateDamage();
+            float damage = GameObject.FindGameObjectWithTag("Player").GetComponent<Shooting>().CalculateDamage(baseDamage);
             enemyHealth.TakeDamage(damage);
 
             // Spawns in Explosion
@@ -25,16 +24,6 @@ public class RocketAttack : MonoBehaviour
         }
     }
 
-    // Calculates damage based on level
-    private float CalculateDamage()
-    {
-        float level = ExperienceManager.Instance.GetCurrentLevel();
-
-        // Damage increased by each level
-        damage += level;
-
-        return damage;
-    } 
 
     // Update is called once per frame
     void Update()
