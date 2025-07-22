@@ -187,4 +187,9 @@ public class Player_Movement : MonoBehaviour
     }
 
     public void Gasoline(float time = 7f) { gasedUp = time; } // How long you're gased up for
+    public void Healing(int heal = 1)
+    {
+        currentHealth += heal;
+        healthbar.updateHealthBar(maxHealth, currentHealth);
+    }
 }
