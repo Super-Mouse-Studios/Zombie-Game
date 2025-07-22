@@ -6,7 +6,14 @@ using UnityEngine.UI;
 
 public class Rounds : MonoBehaviour
 {
+
+    [SerializeField] private GameObject doctorPrefab;
+    [SerializeField] private Transform doctorSpawnPoint; // Assign in Inspector
+    private int nextDoctorRound = 3;
+    private bool doctorKilled = false;
+    private DoctorNpc currentDoctor;
     [System.Serializable]
+
     public class EnemyType
     {
         public GameObject prefab;
@@ -89,6 +96,13 @@ public class Rounds : MonoBehaviour
         spawnTimer = 0f;
         spawnRateDelay = Mathf.Max(0.5f, spawnRateDelay - 0.1f);
 
+        if (!doctorKilled && currentRound >= nextDoctorRound)
+        {
+            SpawnDoctor();
+            nextDoctorRound += 3; // Next spawn in 3 rounds
+        }
+
+
         Debug.Log($"Starting Round {currentRound} - Max Concurrent Enemies: {maxConcurrentEnemies}, Spawn Rate: {spawnRateDelay}s");
 
         maxConcurrentEnemies = Mathf.Min(20, 5 + currentRound * 2);
@@ -99,6 +113,18 @@ public class Rounds : MonoBehaviour
             shopUIPanel.SetActive(false);
 
         Time.timeScale = 1f;
+    }
+    private void SpawnDoctor()
+    {
+        if (doctorPrefab == null || doctorSpawnPoint == null || doctorKilled) return;
+        if (currentDoctor != null) return; // Only one doctor at a time
+
+        GameObject doctorObj = Instantiate(doctorPrefab, doctorSpawnPoint.position, Quaternion.identity);
+        currentDoctor = doctorObj.GetComponent<DoctorNpc>();
+        if (currentDoctor != null)
+        {
+            currentDoctor.OnDoctorKilled = () => { doctorKilled = true; };
+        }
     }
 
     void EndRound()
@@ -153,6 +179,7 @@ public class Rounds : MonoBehaviour
 
         enemiesAlive++;
     }
+    
 
     GameObject GetRandomEnemy()
     {
