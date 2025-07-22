@@ -63,6 +63,13 @@ public class Zombie_Following : MonoBehaviour
     private float poisonTickTimer = 0f;
     private float shootTimer = 0f;
 
+    [SerializeField]
+    private bool GiveBirthOnDeath = false; // Set in Inspector per prefab
+    [SerializeField]
+    private GameObject zombieSpawnerPrefab; // Prefab to spawn on death
+    [SerializeField]
+    private int numberOfZombiesToSpawn = 4; // Number of zombies to spawn on death
+
 
 
     private Rigidbody2D rigidbody2d;
@@ -313,6 +320,26 @@ public class Zombie_Following : MonoBehaviour
         if (isExploder)
         {
             Explode();
+        }
+
+        if (GiveBirthOnDeath && zombieSpawnerPrefab != null)
+        {
+            Vector2[] offsets = new Vector2[]
+            {
+               Vector2.up,
+               Vector2.down,
+               Vector2.left,
+               Vector2.right
+            };
+
+            for (int i = 0; i < numberOfZombiesToSpawn; i++)
+            {
+                Vector3 spawnPos = transform.position;
+                if (i < offsets.Length)
+                    spawnPos += (Vector3)offsets[i];
+                Instantiate(zombieSpawnerPrefab, spawnPos, Quaternion.identity);
+            }
+            Debug.Log($"{name} spawned {numberOfZombiesToSpawn} new zombies.");
         }
 
         Rounds rounds = FindObjectOfType<Rounds>();

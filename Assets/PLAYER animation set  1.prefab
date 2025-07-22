@@ -353,7 +353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad285a3a176cae9448c21bf992ac2c5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
+  maxHealth: 30
   currentHealth: 0
   healthbar: {fileID: 0}
   dodgeEffect: {fileID: 4378585168276610880, guid: 574a29a2b70014f0ea563fc816bd47aa, type: 3}

@@ -10,20 +10,12 @@ public class ToxicProjectile : MonoBehaviour
     public float distanceTravelled = 0;
     public float speed = 8f;
     public float range = 25;
-    private Vector2 moveDirection = Vector2.up;
 
     public void SetPoison(float damage, float interval, float duration)
     {
         poisonDamage = damage;
         poisonInterval = interval;
         poisonDuration = duration;
-    }
-
-    public void SetDirection(Vector2 direction)
-    {
-        moveDirection = direction.normalized;
-        float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg - 90f;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -39,14 +31,18 @@ public class ToxicProjectile : MonoBehaviour
             effect.Initialize(poisonDamage, poisonInterval, poisonDuration);
             Destroy(gameObject);
         }
+        // Optionally, destroy on hitting anything else
     }
-
     void Update()
     {
+        //bullet moving forward
         float dt = Time.deltaTime;
-        transform.position += (Vector3)moveDirection * speed * dt;
+        Vector3 forwardVector = transform.up;
+        transform.position = transform.position + forwardVector * speed * dt;
+
         distanceTravelled += speed * dt;
 
+        //destroying bullet after a range
         if (distanceTravelled > range)
         {
             Destroy(gameObject);
