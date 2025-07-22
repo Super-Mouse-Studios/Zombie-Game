@@ -58,6 +58,10 @@ public class SoundManager : MonoBehaviour
         AddSound("AR", Resources.Load<AudioClip>("AR"), SoundType.SOUND_SFX);
         AddSound("Reload", Resources.Load<AudioClip>("Reload"), SoundType.SOUND_SFX);
         AddSound("Drink", Resources.Load<AudioClip>("Drink"), SoundType.SOUND_SFX);
+        AddSound("FireRate", Resources.Load<AudioClip>("FireRate"), SoundType.SOUND_SFX);
+        AddSound("ItemDrop", Resources.Load<AudioClip>("ItemDrop"), SoundType.SOUND_SFX);
+        AddSound("DamageUp", Resources.Load<AudioClip>("DamageUp"), SoundType.SOUND_SFX);
+        AddSound("AttackSize", Resources.Load<AudioClip>("AttackSize"), SoundType.SOUND_SFX);
     }
 
     // Initialize the SoundManager. I just put this functionality here instead of in the static constructor.

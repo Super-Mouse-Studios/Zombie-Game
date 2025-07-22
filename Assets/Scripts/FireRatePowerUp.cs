@@ -6,7 +6,7 @@ public class FireRatePowerUp : MonoBehaviour
 {
     public float fireRateMult = 2f; // Amount to increase fire rate by
     public float duration = 5f; // Duration of the power-up effect in seconds
-    
+
     void Start()
     {
         Destroy(gameObject, 10f);  
@@ -19,6 +19,7 @@ public class FireRatePowerUp : MonoBehaviour
             Shooting shooting = collision.GetComponent<Shooting>(); // Get the Shooting component from the Player
             if (shooting != null)
             {
+                SoundManager.Instance.PlaySound("FireRate"); 
                 StartCoroutine(ApplyFireRatePowerUp(shooting)); // Pass the Shooting component to the coroutine
                 GetComponent<SpriteRenderer>().enabled = false; // Disable the sprite renderer to hide the power-up
                 GetComponent<Collider2D>().enabled = false; // Disable the collider to prevent multiple triggers

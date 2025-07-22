@@ -66,7 +66,7 @@ public class Shooting : MonoBehaviour
         isTriggerDown = Input.GetMouseButton(0) || Input.GetButton("Jump");
 
         // Melee attack 
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) || Input.GetMouseButton(1))
             MeleeAttackBehaviour();
 
         // Changes current ShootMode 

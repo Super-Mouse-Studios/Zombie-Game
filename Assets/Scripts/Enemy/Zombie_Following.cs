@@ -335,6 +335,7 @@ public class Zombie_Following : MonoBehaviour
             {
                 Instantiate(drop.prefab, transform.position, Quaternion.identity);
                 Debug.Log($"{drop.name} dropped");
+                SoundManager.Instance.PlaySound("ItemDrop");
             }
         }
     }

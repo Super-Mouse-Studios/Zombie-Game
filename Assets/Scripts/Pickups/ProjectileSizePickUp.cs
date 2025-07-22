@@ -21,7 +21,7 @@ public class ProjectileSizePickUp : MonoBehaviour
             Shooting shooting = collision.GetComponent<Shooting>(); // Get the Shooting component from the Player
             if (shooting != null)
             {
-                SoundManager.Instance.PlaySound("Reload");
+                SoundManager.Instance.PlaySound("AttackSize");
 
                 shooting.AttackSizeTimer();
                 Debug.Log("Attack Size Increased");

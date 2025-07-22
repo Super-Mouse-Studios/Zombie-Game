@@ -21,7 +21,7 @@ public class DamageUpPickUp : MonoBehaviour
             Shooting shooting = collision.GetComponent<Shooting>(); // Get the Shooting component from the Player
             if (shooting != null)
             {
-                SoundManager.Instance.PlaySound("Reload");
+                SoundManager.Instance.PlaySound("DamageUp");
 
                 shooting.DamageUp();
                 Debug.Log("Damage Up");
