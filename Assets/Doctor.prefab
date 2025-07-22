@@ -101,7 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 4
   healthPickUpPrefab: {fileID: 4713437667317332956, guid: 5ca668299cb9e4f0aabbd4d9d1c48b74, type: 3}
-  moveDirection: {x: 1, y: 0}
+  moveDirection: {x: -1, y: 0}
   despawnDelay: 0.5
   numberOfHealthPickups: 1
   minX: -10
@@ -158,7 +158,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
