@@ -1523,13 +1523,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -332108277842255805, guid: ee47cf45fbb4929499cfc93cb0cb769b, type: 3}
+      propertyPath: m_LinearDrag
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -332108277842255805, guid: ee47cf45fbb4929499cfc93cb0cb769b, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -332108277842255805, guid: ee47cf45fbb4929499cfc93cb0cb769b, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 218250825906413596, guid: ee47cf45fbb4929499cfc93cb0cb769b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.7906537
+      value: -3.67
       objectReference: {fileID: 0}
     - target: {fileID: 218250825906413596, guid: ee47cf45fbb4929499cfc93cb0cb769b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.5868745
+      value: -1.25
       objectReference: {fileID: 0}
     - target: {fileID: 218250825906413596, guid: ee47cf45fbb4929499cfc93cb0cb769b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1567,6 +1579,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Doctor
       objectReference: {fileID: 0}
+    - target: {fileID: 2073954675078789871, guid: ee47cf45fbb4929499cfc93cb0cb769b, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 8471551753597152216, guid: ee47cf45fbb4929499cfc93cb0cb769b, type: 3}
       propertyPath: m_Size.y
       value: 0.28545582
@@ -1578,6 +1594,10 @@ PrefabInstance:
     - target: {fileID: 8471551753597152216, guid: ee47cf45fbb4929499cfc93cb0cb769b, type: 3}
       propertyPath: m_Offset.y
       value: 0.14272791
+      objectReference: {fileID: 0}
+    - target: {fileID: 8471551753597152216, guid: ee47cf45fbb4929499cfc93cb0cb769b, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8786693530321765278, guid: ee47cf45fbb4929499cfc93cb0cb769b, type: 3}
       propertyPath: moveSpeed
@@ -15546,11 +15566,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2467176810197049715, guid: 9d989654335d14741966bac3f105b56b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.492123
+      value: -8.05
       objectReference: {fileID: 0}
     - target: {fileID: 2467176810197049715, guid: 9d989654335d14741966bac3f105b56b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.50353146
+      value: 4.33
       objectReference: {fileID: 0}
     - target: {fileID: 2467176810197049715, guid: 9d989654335d14741966bac3f105b56b, type: 3}
       propertyPath: m_LocalPosition.z

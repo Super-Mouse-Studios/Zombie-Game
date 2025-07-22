@@ -105,6 +105,10 @@ public class Zombie_Following : MonoBehaviour
         {
             player.PlayerTakeDamage(1);
         }
+        if (collision.gameObject.TryGetComponent<DoctorNpc>(out DoctorNpc doctor))
+        {
+            doctor.KillDoctor();
+        }
     }
     private void Awake()
     {
