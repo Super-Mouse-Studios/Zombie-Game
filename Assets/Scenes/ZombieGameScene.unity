@@ -957,6 +957,50 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &65857851
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 65857852}
+  - component: {fileID: 65857853}
+  m_Layer: 0
+  m_Name: HordeSpawner (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &65857852
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 65857851}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -15.1, y: -12.7, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1580739333}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &65857853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 65857851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7735e2fe979a246f9a42587ee36eda30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &107632924
 GameObject:
   m_ObjectHideFlags: 0
@@ -2292,8 +2336,8 @@ SpriteRenderer:
 --- !u!1 &318218584
 GameObject:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 3354046825445838564, guid: fac321154d468294d92cf94682a60a73, type: 3}
+  m_PrefabInstance: {fileID: 7829848491974901425}
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
@@ -2311,8 +2355,8 @@ GameObject:
 ParticleSystemRenderer:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 331250357842037513, guid: fac321154d468294d92cf94682a60a73, type: 3}
+  m_PrefabInstance: {fileID: 7829848491974901425}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 318218584}
   m_Enabled: 1
@@ -2384,8 +2428,8 @@ ParticleSystemRenderer:
 --- !u!198 &318218586
 ParticleSystem:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 3328146697856079366, guid: fac321154d468294d92cf94682a60a73, type: 3}
+  m_PrefabInstance: {fileID: 7829848491974901425}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 318218584}
   serializedVersion: 8
@@ -2398,7 +2442,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 1
   prewarm: 1
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -7107,8 +7151,8 @@ ParticleSystem:
 --- !u!4 &318218587
 Transform:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 1375912903247110810, guid: fac321154d468294d92cf94682a60a73, type: 3}
+  m_PrefabInstance: {fileID: 7829848491974901425}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 318218584}
   serializedVersion: 2
@@ -9736,6 +9780,50 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &553600839
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 553600840}
+  - component: {fileID: 553600841}
+  m_Layer: 0
+  m_Name: HordeSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &553600840
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553600839}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.6, y: 7.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1580739333}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &553600841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553600839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7735e2fe979a246f9a42587ee36eda30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &561688125
 GameObject:
   m_ObjectHideFlags: 0
@@ -14607,15 +14695,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doctorPrefab: {fileID: 2073954675078789871, guid: ee47cf45fbb4929499cfc93cb0cb769b, type: 3}
   doctorSpawnPoint: {fileID: 1009890623}
+  rainParticleSystem: {fileID: 318218586}
+  hordeSpawnPoints:
+  - {fileID: 553600840}
+  - {fileID: 65857852}
   enemyTypes:
   - prefab: {fileID: 7345464648461225502, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
-    weight: 4
+    weight: 5
+    hordeAmount: 65
   - prefab: {fileID: 5267454677000238293, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
-    weight: 2
-  - prefab: {fileID: 4870283645184672493, guid: 18a91a03433fd0d4881d893e721a11c3, type: 3}
     weight: 3
+    hordeAmount: 40
+  - prefab: {fileID: 4870283645184672493, guid: 18a91a03433fd0d4881d893e721a11c3, type: 3}
+    weight: 4
+    hordeAmount: 45
   - prefab: {fileID: 7161620335683429647, guid: e5219a9b5cab5dc46b8faef802bf5f1d, type: 3}
+    weight: 3
+    hordeAmount: 35
+  - prefab: {fileID: 176577068805025873, guid: fc7453e2c6a7480459bc39c68914fabf, type: 3}
+    weight: 2
+    hordeAmount: 35
+  - prefab: {fileID: 2326409335731393387, guid: 9d989654335d14741966bac3f105b56b, type: 3}
     weight: 1
+    hordeAmount: 25
   spawnPoints:
   - {fileID: 1213811434}
   - {fileID: 2018515545}
@@ -14624,7 +14726,7 @@ MonoBehaviour:
   - {fileID: 1679932956}
   - {fileID: 1518818714}
   roundText: {fileID: 1510436469}
-  roundDuration: 15
+  roundDuration: 1
   spawnRateDelay: 2
   baseSpawnCountPerRound: 5
   maxEnemiesPerRound: 50
@@ -17090,6 +17192,8 @@ Transform:
   - {fileID: 991189851}
   - {fileID: 2018515545}
   - {fileID: 1213811434}
+  - {fileID: 553600840}
+  - {fileID: 65857852}
   - {fileID: 1009890623}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -21075,6 +21179,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 460205017907110694, guid: c6dbb4de36c4646e6b9f6d137e121e86, type: 3}
+      propertyPath: fireRate
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 460205017907110694, guid: c6dbb4de36c4646e6b9f6d137e121e86, type: 3}
       propertyPath: Ammo_Display
       value: 
       objectReference: {fileID: 513461108}
@@ -21318,6 +21426,71 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7402eb3e1159947c29824372df0c5b3e, type: 3}
+--- !u!1001 &7829848491974901425
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1375912903247110810, guid: fac321154d468294d92cf94682a60a73, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1375912903247110810, guid: fac321154d468294d92cf94682a60a73, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 1375912903247110810, guid: fac321154d468294d92cf94682a60a73, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1375912903247110810, guid: fac321154d468294d92cf94682a60a73, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1375912903247110810, guid: fac321154d468294d92cf94682a60a73, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1375912903247110810, guid: fac321154d468294d92cf94682a60a73, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1375912903247110810, guid: fac321154d468294d92cf94682a60a73, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1375912903247110810, guid: fac321154d468294d92cf94682a60a73, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1375912903247110810, guid: fac321154d468294d92cf94682a60a73, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1375912903247110810, guid: fac321154d468294d92cf94682a60a73, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328146697856079366, guid: fac321154d468294d92cf94682a60a73, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3354046825445838564, guid: fac321154d468294d92cf94682a60a73, type: 3}
+      propertyPath: m_Name
+      value: rain
+      objectReference: {fileID: 0}
+    - target: {fileID: 3354046825445838564, guid: fac321154d468294d92cf94682a60a73, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fac321154d468294d92cf94682a60a73, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -21348,6 +21521,6 @@ SceneRoots:
   - {fileID: 179698941}
   - {fileID: 1346229863}
   - {fileID: 243188633}
-  - {fileID: 318218587}
+  - {fileID: 7829848491974901425}
   - {fileID: 1432539396}
   - {fileID: 1056401698}

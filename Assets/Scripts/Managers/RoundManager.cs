@@ -12,12 +12,18 @@ public class Rounds : MonoBehaviour
     private int nextDoctorRound = 3;
     private bool doctorKilled = false;
     private DoctorNpc currentDoctor;
+    [SerializeField] private ParticleSystem rainParticleSystem;
+    [SerializeField] private Transform[] hordeSpawnPoints;
+
+
+
     [System.Serializable]
 
     public class EnemyType
     {
         public GameObject prefab;
         public int weight;
+        public int hordeAmount;
     }
 
     public List<EnemyType> enemyTypes; // Assign in Inspector  
@@ -41,6 +47,9 @@ public class Rounds : MonoBehaviour
     private float spawnTimer;
     private int currentRound = 0;
     private int enemiesAlive = 0;
+    private bool isHordeRound = false;
+    private EnemyType hordeEnemyType;
+    
 
     public enum RoundState { Combat, Shop }
     private RoundState currentState = RoundState.Combat;
@@ -60,6 +69,9 @@ public class Rounds : MonoBehaviour
 
     private void Start()
     {
+        if (rainParticleSystem != null)
+            rainParticleSystem.Stop(); // Ensure rain is off at game start
+
         if (shopUIPanel != null)
             shopUIPanel.SetActive(false);
 
@@ -71,16 +83,21 @@ public class Rounds : MonoBehaviour
         if (currentState != RoundState.Combat)
             return;
 
-        roundTimer -= Time.deltaTime;
+        // Only decrement timer if NOT a horde round
+        if (!isHordeRound)
+            roundTimer -= Time.deltaTime;
+
         spawnTimer += Time.deltaTime;
 
-        if (roundTimer <= 0f)
+        // End round if timer runs out (normal rounds only)
+        if (!isHordeRound && roundTimer <= 0f)
         {
             EndRound();
             return;
         }
 
-        if (spawnTimer >= spawnRateDelay && enemiesAlive < maxConcurrentEnemies)
+        // Only spawn normal enemies if NOT a horde round
+        if (!isHordeRound && spawnTimer >= spawnRateDelay && enemiesAlive < maxConcurrentEnemies)
         {
             SpawnEnemy();
             spawnTimer = 0f;
@@ -96,11 +113,34 @@ public class Rounds : MonoBehaviour
         spawnTimer = 0f;
         spawnRateDelay = Mathf.Max(0.5f, spawnRateDelay - 0.1f);
 
+        // Rain effect logic
+        if (rainParticleSystem != null)
+        {
+            if (currentRound % 5 == 0)
+                rainParticleSystem.Play();
+            else
+                rainParticleSystem.Stop();
+        }
+
         if (!doctorKilled && currentRound >= nextDoctorRound)
         {
             SpawnDoctor();
             nextDoctorRound += 3; // Next spawn in 3 rounds
         }
+
+        // Horde round logic
+        if (currentRound % 5 == 0)
+        {
+            isHordeRound = true;
+            hordeEnemyType = enemyTypes[Random.Range(0, enemyTypes.Count)];
+            Debug.Log($"HORDE ROUND! Spawning {hordeEnemyType.hordeAmount} of {hordeEnemyType.prefab.name}");
+            SpawnHorde();
+        }
+        else
+        {
+            isHordeRound = false;
+        }
+
 
 
         Debug.Log($"Starting Round {currentRound} - Max Concurrent Enemies: {maxConcurrentEnemies}, Spawn Rate: {spawnRateDelay}s");
@@ -124,6 +164,16 @@ public class Rounds : MonoBehaviour
         if (currentDoctor != null)
         {
             currentDoctor.OnDoctorKilled = () => { doctorKilled = true; };
+        }
+    }
+
+    private void SpawnHorde()
+    {
+        for (int i = 0; i < hordeEnemyType.hordeAmount; i++)
+        {
+            Transform spawnPoint = hordeSpawnPoints[Random.Range(0, hordeSpawnPoints.Length)];
+            Instantiate(hordeEnemyType.prefab, spawnPoint.position, Quaternion.identity);
+            enemiesAlive++;
         }
     }
 
@@ -206,6 +256,11 @@ public class Rounds : MonoBehaviour
     {
         enemiesAlive--;
         if (enemiesAlive < 0) enemiesAlive = 0;
+        // End horde round only when all horde zombies are dead
+        if (isHordeRound && enemiesAlive == 0)
+        {
+            EndRound();
+        }
     }
 
     private void ClearRemainingEnemies()
