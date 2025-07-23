@@ -21186,22 +21186,6 @@ PrefabInstance:
       propertyPath: healthbar
       value: 
       objectReference: {fileID: 1502310063}
-    - target: {fileID: 3639266373099897678, guid: c6dbb4de36c4646e6b9f6d137e121e86, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3639266373099897678, guid: c6dbb4de36c4646e6b9f6d137e121e86, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4844353724191603715, guid: c6dbb4de36c4646e6b9f6d137e121e86, type: 3}
-      propertyPath: m_Offset.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4844353724191603715, guid: c6dbb4de36c4646e6b9f6d137e121e86, type: 3}
-      propertyPath: m_Offset.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7334524592791118244, guid: c6dbb4de36c4646e6b9f6d137e121e86, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.55
