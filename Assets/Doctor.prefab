@@ -104,10 +104,12 @@ MonoBehaviour:
   moveDirection: {x: -1, y: 0}
   despawnDelay: 0.5
   numberOfHealthPickups: 1
-  minX: -10
-  maxX: 10
   runDuration: 4
   postDropDuration: 5
+  waypoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  waypointTolerance: 0.1
 --- !u!70 &8471551753597152216
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

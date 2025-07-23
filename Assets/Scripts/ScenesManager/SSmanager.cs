@@ -24,8 +24,8 @@ public class SSmanager : MonoBehaviour
        // //if (Restartbutton != null)
        //     Restartbutton.onClick.AddListener(LoadTitleScreen);
 
-       // if (EndButton != null)
-       //     EndButton.onClick.AddListener(LoadTitleScreen);
+        //if (EndButton != null)
+          //  EndButton.onClick.AddListener(LoadTitleScreen);
 
         if (pauseMenuPanel != null)
             pauseMenuPanel.SetActive(false);
@@ -49,6 +49,10 @@ public class SSmanager : MonoBehaviour
         Time.timeScale = isPaused ? 0f : 1f;
     }
 
+    public void Exit()
+    {
+        SceneManager.LoadScene("TitleScreen");
+    }
     //public void LoadZombieGameScene()
     //{
     //    Debug.Log("Loading Zombie Game Scene");

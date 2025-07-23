@@ -9,38 +9,49 @@ public class DoctorNpc : MonoBehaviour
     [SerializeField] private Vector2 moveDirection = Vector2.right; // Set direction in Inspector or at spawn
     [SerializeField] private float despawnDelay = 0.5f; // Delay before despawn after dropping pickup
     [SerializeField] private int numberOfHealthPickups = 1;
-    [SerializeField] private float minX = -10f; // Minimum X position for despawn
-    [SerializeField] private float maxX = 10f; // Maximum X position for despawn
+    //[SerializeField] private float minX = -10f; // Minimum X position for despawn
+    //[SerializeField] private float maxX = 10f; // Maximum X position for despawn
     [SerializeField] private float runDuration = 3f; // How long the doctor runs before dropping
     [SerializeField] private float postDropDuration = 2f; // How long doctor keeps moving after dropping
     private float postDropTimer = 0f;
-
-
+    private List<Transform> waypoints = new List<Transform>();
+    private int currentWaypointIndex = 0;
+    [SerializeField] private int totalWaypoints = 3; // Set this to the number of waypoints you have
+    [SerializeField] private float waypointTolerance = 0.1f;
 
     private float runTimer = 0f;
     private bool hasDropped = false;
 
     private bool canRespawn = true;
+
+
+    void Start()
+    {
+        waypoints.Clear();
+        for (int i = 1; i <= totalWaypoints; i++)
+        {
+            GameObject wp = GameObject.Find("Wayfinder " + i);
+            if (wp != null)
+                waypoints.Add(wp.transform);
+            else
+                Debug.LogWarning($"Waypoint 'Wayfinder {i}' not found in scene!");
+        }
+    }
     // Update is called once per frame
     void Update()
     {
-        transform.position += (Vector3)moveDirection.normalized * moveSpeed * Time.deltaTime;
-        runTimer += Time.deltaTime;
+        if (waypoints.Count == 0 || currentWaypointIndex >= waypoints.Count) return;
 
-        // Drop health after runDuration
-        if (!hasDropped && runTimer >= runDuration)
+        Transform targetWaypoint = waypoints[currentWaypointIndex];
+        Vector3 direction = (targetWaypoint.position - transform.position).normalized;
+        transform.position += direction * moveSpeed * Time.deltaTime;
+
+        if (Vector3.Distance(transform.position, targetWaypoint.position) <= waypointTolerance)
         {
-            DropHealth();
-        }
-
-        // After dropping, start post-drop timer
-        if (hasDropped)
-        {
-            postDropTimer += Time.deltaTime;
-
-            // Despawn after postDropDuration (ignore bounds until timer is up)
-            if (postDropTimer >= postDropDuration)
+            currentWaypointIndex++;
+            if (currentWaypointIndex >= waypoints.Count)
             {
+                DropHealth();
                 Destroy(gameObject, despawnDelay);
             }
         }
