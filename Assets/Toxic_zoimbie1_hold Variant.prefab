@@ -600,6 +600,14 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.1777785
       objectReference: {fileID: 0}
+    - target: {fileID: 6639275602397933761, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: m_Radius
+      value: 0.29287842
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639275602397933761, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.10967105
+      objectReference: {fileID: 0}
     - target: {fileID: 7345464648461225502, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
       propertyPath: m_Name
       value: Toxic_zoimbie1_hold Variant

@@ -168,6 +168,9 @@ MonoBehaviour:
   toxicProjectilePrefab: {fileID: 0}
   shootInterval: 2
   projectileSpeed: 8
+  GiveBirthOnDeath: 0
+  zombieSpawnerPrefab: {fileID: 0}
+  numberOfZombiesToSpawn: 4
   pickupDrops:
   - name: Ammo
     prefab: {fileID: 5655277485466248113, guid: 3dd84256578ea4f3aaea35fe63898c78, type: 3}
@@ -256,6 +259,6 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.0007096291, y: 0.13038354}
   serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.1305852

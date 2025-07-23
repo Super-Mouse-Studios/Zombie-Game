@@ -380,6 +380,14 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6534735247156698064, guid: e5219a9b5cab5dc46b8faef802bf5f1d, type: 3}
+      propertyPath: m_Radius
+      value: 0.13904788
+      objectReference: {fileID: 0}
+    - target: {fileID: 6534735247156698064, guid: e5219a9b5cab5dc46b8faef802bf5f1d, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.13830358
+      objectReference: {fileID: 0}
     - target: {fileID: 6996081488119961367, guid: e5219a9b5cab5dc46b8faef802bf5f1d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
