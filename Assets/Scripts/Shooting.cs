@@ -26,9 +26,12 @@ public class Shooting : MonoBehaviour
     // public float detectionRange = 10f; // Range within which the player can shoot
     public ShootingBehavours shootMode = ShootingBehavours.Basic;
     public ShootingBehavours currentlyHeld = ShootingBehavours.Basic; // Secondary Weapon; If this is swapped, ensure shooting is set back to Basic
+    private ShootingAnimation sa;
+    [SerializeField] SpriteRenderer sr;
+
     [Header("Pickups")]
     private float attackSizeLength = 0; // Timer for attack size pickup
-    [SerializeField][Range(1.5f, 3f)] float attackSizeMultiplier = 1.5f;
+    [SerializeField][Range(1.25f, 3f)] float attackSizeMultiplier = 1.5f;
     public float damagePowerUp = 0f;
     [SerializeField][Range(1f, 2f)] float damageMuliplier = 1.5f;
 
@@ -39,6 +42,7 @@ public class Shooting : MonoBehaviour
 
     private UnityEngine.Camera mainCam;
     private Vector3 mousePos;
+    private Player_Movement pm;
 
     // Enum for types of shoot modes
     public enum ShootingBehavours
@@ -55,7 +59,10 @@ public class Shooting : MonoBehaviour
     void Start()
     {
         mainCam = UnityEngine.Camera.main;
-        Current_ammo = 20;
+        Current_ammo = 30;
+        sa = GetComponentInChildren<ShootingAnimation>();
+        sr = GetComponentInChildren<SpriteRenderer>();
+        pm = GetComponentInParent<Player_Movement>();
     }
 
     void Update()
@@ -142,11 +149,43 @@ public class Shooting : MonoBehaviour
     {
         mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
 
-        Vector3 rotation = mousePos - transform.position;
+        Vector3 rotation = mousePos - transform.position; 
 
         float rotZ = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
 
         transform.rotation = Quaternion.Euler(0, 0, rotZ - 91f); // Undos the aiming Offset
+
+        // float angleFromHorizontal = Mathf.Abs(Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg);
+
+        // // Only flip if the player is aiming more horizontally (not aiming mostly up/down)
+        // if (angleFromHorizontal < 60f || angleFromHorizontal > 120f)
+        // {
+        if (mousePos.x < transform.position.x) // Mouse is to the left of player
+        {
+            
+            // Aiming left
+            if (!pm.lookingRight)
+            {
+                sr.flipY = false;
+            }
+            else
+            {
+                sr.flipY = true;
+            }
+        }
+        else // Mouse is right of player
+        {
+            // Aiming right
+            if (!pm.lookingRight)
+            {
+                sr.flipY = true;
+            }
+            else
+            {
+                sr.flipY = false;
+            }
+        }
+        // }
     }
 
     void SwapToSecondary()
@@ -227,6 +266,7 @@ public class Shooting : MonoBehaviour
     {
         if (timeUntilReloaded <= 0 && Current_ammo > 0)
         {
+            sa.PlayAnimation("shot ");
             SoundManager.Instance.PlaySound("Chaingun"); // Plays Chaingun SFX
 
             GameObject projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
@@ -242,7 +282,7 @@ public class Shooting : MonoBehaviour
     // Spread Shooting Behaviour
     void SpreadShootingBehaviour()
     {
-        if (timeUntilReloaded <= 0 && Current_ammo > 3)
+        if (timeUntilReloaded <= 0 && Current_ammo >= 3)
         {
             SoundManager.Instance.PlaySound("Shotgun"); // Plays Shotgun SFX
 

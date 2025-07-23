@@ -37,7 +37,10 @@ public class Player_Movement : MonoBehaviour
     private MovementState state = MovementState.Normal;
     private float gasedUp = 0f;
 
+    [Header("Animation")]
     public Animator animator;
+    [SerializeField] SpriteRenderer sr;
+    public bool lookingRight = false;
 
     public enum MovementState // Defines movements player can take
     {
@@ -94,7 +97,17 @@ public class Player_Movement : MonoBehaviour
                     // transform.up = direction;
 
                     Vector3 scale = transform.localScale;
-                    scale.x = inputvector.x > 0 ? -Mathf.Abs(scale.x) : Mathf.Abs(scale.x);
+                    if (inputvector.x > 0) // when moving right
+                    {
+                        scale.x = -Mathf.Abs(scale.x);
+                        lookingRight = true;
+                    }
+                    else
+                    {
+                        scale.x = Mathf.Abs(scale.x);
+                        lookingRight = false;
+                    }
+
                     transform.localScale = scale;
                     animator.Play("run cycle ");
                 }
