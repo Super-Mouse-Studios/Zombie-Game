@@ -18,14 +18,14 @@ public class SSmanager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (Startbutton != null)
-            Startbutton.onClick.AddListener(LoadZombieGameScene);
+       // if (Startbutton != null)
+       //     Startbutton.onClick.AddListener(LoadZombieGameScene);
 
-        if (Restartbutton != null)
-            Restartbutton.onClick.AddListener(LoadTitleScreen);
+       // //if (Restartbutton != null)
+       //     Restartbutton.onClick.AddListener(LoadTitleScreen);
 
-        if (EndButton != null)
-            EndButton.onClick.AddListener(LoadTitleScreen);
+       // if (EndButton != null)
+       //     EndButton.onClick.AddListener(LoadTitleScreen);
 
         if (pauseMenuPanel != null)
             pauseMenuPanel.SetActive(false);
@@ -49,24 +49,24 @@ public class SSmanager : MonoBehaviour
         Time.timeScale = isPaused ? 0f : 1f;
     }
 
-    public void LoadZombieGameScene()
-    {
-        Debug.Log("Loading Zombie Game Scene");
-        Time.timeScale = 1f; // Ensure time scale is reset
-        SceneManager.LoadScene("ZombieGameScene"); 
-    }
+    //public void LoadZombieGameScene()
+    //{
+    //    Debug.Log("Loading Zombie Game Scene");
+    //    Time.timeScale = 1f; // Ensure time scale is reset
+    //    SceneManager.LoadScene("ZombieGameScene"); 
+    //}
 
-    public static void LoadGameOverScene()
-    {
-        Debug.Log("Loading Game Over Scene");
-        Time.timeScale = 1f; // Ensure time scale is reset
-        SceneManager.LoadScene("GameOverScene"); 
-    }
-    public void LoadTitleScreen()
-    {
-        Debug.Log("Loading Title Screen");
-        Time.timeScale = 1f; // Ensure time scale is reset
-        SceneManager.LoadScene("TitleScreen"); 
-    }
+    //public static void LoadGameOverScene()
+    //{
+    //    Debug.Log("Loading Game Over Scene");
+    //    Time.timeScale = 1f; // Ensure time scale is reset
+    //    SceneManager.LoadScene("GameOverScene"); 
+    //}
+    //public void LoadTitleScreen()
+    //{
+    //    Debug.Log("Loading Title Screen");
+    //    Time.timeScale = 1f; // Ensure time scale is reset
+    //    SceneManager.LoadScene("TitleScreen"); 
+    //}
 
 }

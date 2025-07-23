@@ -20,6 +20,14 @@ public class PlayerAwareness : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (player == null)
+        {
+            AwareOfPlayer = false;
+            DirectionToPlayer = Vector2.zero;
+            return;
+        }
+
         Vector2 enemyToPlayerVector =player.position - transform.position;
         DirectionToPlayer = enemyToPlayerVector.normalized;
 

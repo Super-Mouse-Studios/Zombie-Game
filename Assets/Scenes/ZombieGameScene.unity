@@ -9519,7 +9519,6 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
-  - component: {fileID: 519420033}
   - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
@@ -9647,21 +9646,6 @@ Transform:
   - {fileID: 1722013875}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &519420033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c44b57683e637447aee0f66b082a30a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FollowSpeed: 2
-  yOffset: 1
-  target: {fileID: 699030744}
 --- !u!114 &519420034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14714,10 +14698,10 @@ MonoBehaviour:
     hordeAmount: 35
   - prefab: {fileID: 176577068805025873, guid: fc7453e2c6a7480459bc39c68914fabf, type: 3}
     weight: 2
-    hordeAmount: 35
+    hordeAmount: 40
   - prefab: {fileID: 2326409335731393387, guid: 9d989654335d14741966bac3f105b56b, type: 3}
     weight: 1
-    hordeAmount: 25
+    hordeAmount: 35
   spawnPoints:
   - {fileID: 1213811434}
   - {fileID: 2018515545}
@@ -17073,6 +17057,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1569012770 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7504278796148263361, guid: c6dbb4de36c4646e6b9f6d137e121e86, type: 3}
+  m_PrefabInstance: {fileID: 6274358578402709454}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1578474642
 GameObject:
   m_ObjectHideFlags: 0
@@ -18410,6 +18399,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1777183030}
   - component: {fileID: 1777183029}
+  - component: {fileID: 1777183031}
   m_Layer: 0
   m_Name: SSManager
   m_TagString: Untagged
@@ -18448,6 +18438,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1777183031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777183028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f714d2c51770c749ab8558d02f2d249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player: {fileID: 1569012770}
 --- !u!1 &1783641745
 GameObject:
   m_ObjectHideFlags: 0

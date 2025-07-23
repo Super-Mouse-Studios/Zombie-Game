@@ -68,7 +68,7 @@ public class Player_Movement : MonoBehaviour
                                                              // animator.Play("Hit"); // Plays hurt animation
         if (currentHealth <= 0)
         {
-            SSmanager.LoadGameOverScene(); // Load Game Over scene
+            
             Destroy(gameObject);
         }
     }

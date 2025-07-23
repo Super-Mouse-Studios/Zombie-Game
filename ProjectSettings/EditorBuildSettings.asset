@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/ZombieGameScene.unity
     guid: c6b81d44780f14b2c912c98fcfaad3c0
   - enabled: 1
-    path: Assets/Scenes/GameOverScene.unity
-    guid: 1790f6a45699fa5428909aea76768bef
+    path: Assets/Scenes/Endscreen.unity
+    guid: a840bdc880d40e04a96332dcff3d1766
   m_configObjects: {}
