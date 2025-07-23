@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.UIElements;
 using UnityEngine.SocialPlatforms.GameCenter;
+using Unity.VisualScripting;
 
 public class Shooting : MonoBehaviour
 {
@@ -51,7 +52,8 @@ public class Shooting : MonoBehaviour
         Spread,
         Rocket,
         AR,
-        Sniper
+        Sniper,
+        Revolver
     }
 
     private Transform targetEnemy;
@@ -63,6 +65,7 @@ public class Shooting : MonoBehaviour
         sa = GetComponentInChildren<ShootingAnimation>();
         sr = GetComponentInChildren<SpriteRenderer>();
         pm = GetComponentInParent<Player_Movement>();
+        sa.PlayAnimation("flicker");
     }
 
     void Update()
@@ -78,7 +81,10 @@ public class Shooting : MonoBehaviour
 
         // Changes current ShootMode 
         if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
             shootMode = ShootingBehavours.Basic;
+            sa.PlayAnimation("flicker");
+        }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
             SwapToSecondary();
 
@@ -107,6 +113,10 @@ public class Shooting : MonoBehaviour
                 if (isTriggerDown)
                     SniperShootingBehaviour();
                 break;
+            case ShootingBehavours.Revolver:
+                if (isTriggerDown)
+                    RevolverShootingBehaviour();
+                break;
         }
 
         timeUntilReloaded -= Time.deltaTime;
@@ -122,25 +132,35 @@ public class Shooting : MonoBehaviour
         {
             shootMode = ShootingBehavours.Spread;
             currentlyHeld = ShootingBehavours.Spread;
+            SwapToSecondary();
         }
         else if (Input.GetKeyDown(KeyCode.O))
         {
             shootMode = ShootingBehavours.Rocket;
             currentlyHeld = ShootingBehavours.Rocket;
+            SwapToSecondary();
         }
         else if (Input.GetKeyDown(KeyCode.I))
         {
             shootMode = ShootingBehavours.AR;
             currentlyHeld = ShootingBehavours.AR;
+            SwapToSecondary();
         }
         else if (Input.GetKeyDown(KeyCode.U))
         {
             shootMode = ShootingBehavours.Sniper;
             currentlyHeld = ShootingBehavours.Sniper;
+            SwapToSecondary();
+        }
+        else if (Input.GetKeyDown(KeyCode.RightCommand))
+        {
+            shootMode = ShootingBehavours.Revolver;
+            currentlyHeld = ShootingBehavours.Revolver;
+            SwapToSecondary();
         }
 
         if (attackSizeLength > 0)
-            attackSizeLength -= Time.deltaTime;
+                attackSizeLength -= Time.deltaTime;
         if (damagePowerUp > 0)
             damagePowerUp -= Time.deltaTime;
     }
@@ -149,7 +169,7 @@ public class Shooting : MonoBehaviour
     {
         mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
 
-        Vector3 rotation = mousePos - transform.position; 
+        Vector3 rotation = mousePos - transform.position;
 
         float rotZ = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
 
@@ -162,7 +182,7 @@ public class Shooting : MonoBehaviour
         // {
         if (mousePos.x < transform.position.x) // Mouse is to the left of player
         {
-            
+
             // Aiming left
             if (!pm.lookingRight)
             {
@@ -194,79 +214,37 @@ public class Shooting : MonoBehaviour
         {
             case ShootingBehavours.Spread:
                 shootMode = ShootingBehavours.Spread;
+                sa.PlayAnimation("flicker 0_3");
                 break;
             case ShootingBehavours.Rocket:
                 shootMode = ShootingBehavours.Rocket;
+                sa.PlayAnimation("flicker 0_5");
                 break;
             case ShootingBehavours.AR:
                 shootMode = ShootingBehavours.AR;
+                sa.PlayAnimation("flicker 0_4");
                 break;
             case ShootingBehavours.Sniper:
                 shootMode = ShootingBehavours.Sniper;
+                sa.PlayAnimation("Flicker");
+                break;
+            case ShootingBehavours.Revolver:
+                shootMode = ShootingBehavours.Revolver;
+                sa.PlayAnimation("flicker 0_2");
                 break;
             default:
                 shootMode = ShootingBehavours.Basic;
+                sa.PlayAnimation("flicker");
                 break;
         }
     }
-
-    // void AutoAimandShoot()
-    // {
-    //     FindNearestEnemy();
-
-    //     if (targetEnemy != null)
-    //     {
-    //         // Calculate direction in 2D
-    //         Vector2 direction = (targetEnemy.position - transform.position).normalized;
-    //         // Calulate angle and rotate only around Z axis
-    //         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-    //         transform.rotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
-
-    //         //Shoot if reloaded
-    //         switch (shooting)
-    //         {
-    //             case ShootingBehavours.Basic:
-    //                 BasicShootingBehaviour();
-    //                 break;
-    //             case ShootingBehavours.Spread:
-    //                 SpreadShootingBehaviour();
-    //                 break;
-    //             case ShootingBehavours.Rocket:
-    //                 RocketShootingBehaviour();
-    //                 break;
-    //             case ShootingBehavours.AR:
-    //                 ARShootingBehaviour();
-    //                 break;
-    //             case ShootingBehavours.Sniper:
-    //                 SniperShootingBehaviour();
-    //                 break;
-    //         }
-    //     }
-    // }
-
-    // void FindNearestEnemy()
-    // {
-    //     GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-    //     float closestDistance = detectionRange;
-    //     targetEnemy = null;
-
-    //     foreach (GameObject enemy in enemies)
-    //     {
-    //         float distance = Vector3.Distance(transform.position, enemy.transform.position);
-    //         if (distance < closestDistance)
-    //         {
-    //             closestDistance = distance;
-    //             targetEnemy = enemy.transform;
-    //         }
-    //     }
-    // }
 
     // Basic Shooting Behaviour
     void BasicShootingBehaviour()
     {
         if (timeUntilReloaded <= 0 && Current_ammo > 0)
         {
-            sa.PlayAnimation("shot ");
+            sa.PlayShootingAnimation("shot ");
             SoundManager.Instance.PlaySound("Chaingun"); // Plays Chaingun SFX
 
             GameObject projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
@@ -284,6 +262,7 @@ public class Shooting : MonoBehaviour
     {
         if (timeUntilReloaded <= 0 && Current_ammo >= 3)
         {
+            sa.PlayShootingAnimation("shoot 0_3");
             SoundManager.Instance.PlaySound("Shotgun"); // Plays Shotgun SFX
 
             // Center bullet
@@ -315,6 +294,7 @@ public class Shooting : MonoBehaviour
     {
         if (timeUntilReloaded <= 0 && Current_ammo > 0)
         {
+            sa.PlayShootingAnimation("shoot 0_5");
             SoundManager.Instance.PlaySound("Rocket");
 
             GameObject rocket = Instantiate(rocketPrefab, transform.position, transform.rotation);
@@ -333,6 +313,7 @@ public class Shooting : MonoBehaviour
     {
         if (timeUntilReloaded <= 0 && Current_ammo > 0)
         {
+            sa.PlayShootingAnimation("shoot 0_4");
             SoundManager.Instance.PlaySound("AR");
 
             Instantiate(projectilePrefab, transform.position, transform.rotation);
@@ -348,6 +329,7 @@ public class Shooting : MonoBehaviour
     {
         if (timeUntilReloaded <= 0 && Current_ammo > 0)
         {
+            sa.PlayShootingAnimation("Shoot");
             SoundManager.Instance.PlaySound("Charger");
 
             GameObject projectile = Instantiate(sniperShotPrefab, transform.position, transform.rotation);
@@ -410,9 +392,93 @@ public class Shooting : MonoBehaviour
         return damage;
     }
 
+    // Don't put this in the shop
+    void RevolverShootingBehaviour() 
+    {
+        if (timeUntilReloaded <= 0)
+        {
+            sa.PlayShootingAnimation("shoot 0_2");
+            SoundManager.Instance.PlaySound("Shotgun"); // Plays Shotgun SFX
+
+            // Center bullet
+            GameObject center = Instantiate(rocketPrefab, transform.position, transform.rotation);
+
+            // Left bullet (-12 degrees)
+            Quaternion leftRotation = transform.rotation * Quaternion.Euler(0, 0, -12f);
+            GameObject left = Instantiate(sniperShotPrefab, transform.position, leftRotation);
+
+            // Right bullet (+12 degrees)
+            Quaternion rightRotation = transform.rotation * Quaternion.Euler(0, 0, 12f);
+            GameObject right = Instantiate(sniperShotPrefab, transform.position, rightRotation);
+
+            if (attackSizeLength > 0)
+            {
+                center.transform.localScale *= attackSizeMultiplier;
+                left.transform.localScale *= attackSizeMultiplier;
+                right.transform.localScale *= attackSizeMultiplier;
+            }
+
+            float secondsPerShot = 1 / (fireRate * 4);
+            timeUntilReloaded += secondsPerShot;
+            Current_ammo++;
+        }
+    }
+
     public void IncreaseAmmo(int ammo) { Current_ammo += ammo; }
 
-    public void AttackSizeTimer(float time = 7) { attackSizeLength = time; } 
-    
+    public void AttackSizeTimer(float time = 7) { attackSizeLength = time; }
+
     public void DamageUp(float time = 7f) { damagePowerUp = time; }
 }
+
+    // Old Auto Aim Code
+    // void AutoAimandShoot()
+    // {
+    //     FindNearestEnemy();
+
+    //     if (targetEnemy != null)
+    //     {
+    //         // Calculate direction in 2D
+    //         Vector2 direction = (targetEnemy.position - transform.position).normalized;
+    //         // Calulate angle and rotate only around Z axis
+    //         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+    //         transform.rotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
+
+    //         //Shoot if reloaded
+    //         switch (shooting)
+    //         {
+    //             case ShootingBehavours.Basic:
+    //                 BasicShootingBehaviour();
+    //                 break;
+    //             case ShootingBehavours.Spread:
+    //                 SpreadShootingBehaviour();
+    //                 break;
+    //             case ShootingBehavours.Rocket:
+    //                 RocketShootingBehaviour();
+    //                 break;
+    //             case ShootingBehavours.AR:
+    //                 ARShootingBehaviour();
+    //                 break;
+    //             case ShootingBehavours.Sniper:
+    //                 SniperShootingBehaviour();
+    //                 break;
+    //         }
+    //     }
+    // }
+
+    // void FindNearestEnemy()
+    // {
+    //     GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+    //     float closestDistance = detectionRange;
+    //     targetEnemy = null;
+
+    //     foreach (GameObject enemy in enemies)
+    //     {
+    //         float distance = Vector3.Distance(transform.position, enemy.transform.position);
+    //         if (distance < closestDistance)
+    //         {
+    //             closestDistance = distance;
+    //             targetEnemy = enemy.transform;
+    //         }
+    //     }
+    // }
