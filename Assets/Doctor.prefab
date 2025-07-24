@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8786693530321765278}
   - component: {fileID: 8471551753597152216}
   - component: {fileID: -332108277842255805}
+  - component: {fileID: 3972402988573971561}
   m_Layer: 0
   m_Name: Doctor
   m_TagString: Untagged
@@ -99,16 +100,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b38c256acc63be44ebfbdff5b1a31bff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
+  moveSpeed: 5.5
   healthPickUpPrefab: {fileID: 4713437667317332956, guid: 5ca668299cb9e4f0aabbd4d9d1c48b74, type: 3}
   moveDirection: {x: -1, y: 0}
   despawnDelay: 0.5
   numberOfHealthPickups: 1
   runDuration: 4
-  postDropDuration: 5
-  waypoints:
-  - {fileID: 0}
-  - {fileID: 0}
+  postDropDuration: 20
+  totalWaypoints: 3
   waypointTolerance: 0.1
 --- !u!70 &8471551753597152216
 CapsuleCollider2D:
@@ -142,8 +141,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0050000027, y: 0.135}
-  m_Size: {x: 0.21, y: 0.27}
+  m_Offset: {x: -0.0050000018, y: 0.14272791}
+  m_Size: {x: 0.21, y: 0.28545582}
   m_Direction: 0
 --- !u!50 &-332108277842255805
 Rigidbody2D:
@@ -158,7 +157,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 2
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -171,4 +170,25 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
+--- !u!95 &3972402988573971561
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073954675078789871}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: -6440314366217367353, guid: 8d573df134070ec419a51c39b95ceb0e, type: 3}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

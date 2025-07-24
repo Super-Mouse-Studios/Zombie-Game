@@ -23,10 +23,12 @@ public class DoctorNpc : MonoBehaviour
     private bool hasDropped = false;
 
     private bool canRespawn = true;
+    private Animator an;
 
 
     void Start()
     {
+        an = GetComponent<Animator>();
         waypoints.Clear();
         for (int i = 1; i <= totalWaypoints; i++)
         {
@@ -36,6 +38,9 @@ public class DoctorNpc : MonoBehaviour
             else
                 Debug.LogWarning($"Waypoint 'Wayfinder {i}' not found in scene!");
         }
+
+        an.speed = 3f;
+        an.Play("Idle 2");
     }
     // Update is called once per frame
     void Update()
