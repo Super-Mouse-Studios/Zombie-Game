@@ -15,6 +15,8 @@ public class ShopManager : MonoBehaviour
 
     [Header("Settings")]
     public int playerCurrency = 100; // Starting currency for testing
+    public int ammoPrice = 20;
+    public int ammoAmount = 10;
     public float messageDuration = 2f; // Duration to show purchase messages
 
     private void Awake()
@@ -65,13 +67,50 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+    public void BuyAmmo(int amount, int cost)
+    {
+        if (playerCurrency >= cost)
+        {
+            playerCurrency -= cost;
+            UpdateCurrencyDisplay();
+
+            // Give ammo to player
+            Shooting shooting = FindObjectOfType<Shooting>();
+            if (shooting != null)
+            {
+                shooting.IncreaseAmmo(amount);
+                ShowPurchaseMessage($"Bought +{amount} Ammo for ${cost}!");
+            }
+            else
+            {
+                Debug.LogWarning("No Shooting script found on player.");
+            }
+        }
+        else
+        {
+            ShowPurchaseMessage("Not enough currency to buy ammo.");
+        }
+    }
+
+    public void OnBuyAmmoButtonClicked()
+    {
+        ShopManager.Instance.BuyAmmo(ammoAmount, ammoPrice);
+    }
+
     private void OnContinue()
     {
         CloseShop();
         Rounds.Instance?.ContinueToNextRound();
     }
 
-    private void UpdateCurrencyDisplay()
+    public void AddCurrency(int amount)
+    {
+        playerCurrency += amount;
+        UpdateCurrencyDisplay();
+        Debug.Log($"Currency added: {amount}, total: {playerCurrency}");
+    }
+
+    public void UpdateCurrencyDisplay()
     {
         if (currencyText != null)
         {

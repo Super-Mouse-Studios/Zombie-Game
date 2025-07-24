@@ -24,6 +24,7 @@ public class Rounds : MonoBehaviour
         public GameObject prefab;
         public int weight;
         public int hordeAmount;
+        public int currencyReward; // Currency value for this enemy type
     }
 
     public List<EnemyType> enemyTypes; // Assign in Inspector  
@@ -232,6 +233,16 @@ public class Rounds : MonoBehaviour
         if (health != null)
         {
             health.RoundsHealthMultiplier(currentRound);
+        }
+
+        EnemyType enemyType = enemyTypes.Find(et => et.prefab == enemyPrefab);
+        if (enemyType != null)
+        {
+            Zombie_Following zombieFollowing = enemy.GetComponent<Zombie_Following>();
+            if (zombieFollowing != null)
+            {
+                zombieFollowing.currencyReward = enemyType.currencyReward;
+            }
         }
 
         enemiesAlive++;

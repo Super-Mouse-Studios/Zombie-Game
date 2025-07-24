@@ -15,6 +15,7 @@ public class Zombie_Following : MonoBehaviour
 
     // Add this event for death notification
     public event Action OnDeath;
+    public int currencyReward = 0; // Currency value for this enemy type
 
     [SerializeField]
     private float enemyHealth, enemyMaxhealth = 5f;
@@ -353,6 +354,8 @@ public class Zombie_Following : MonoBehaviour
         GameManager.instance.ZombieDied();
         ExperienceManager.Instance.AddExperience(UnityEngine.Random.Range(4, 9));
         SoundManager.Instance.PlaySound("ZombieDeath");
+        ShopManager.Instance.playerCurrency += currencyReward;
+        ShopManager.Instance.UpdateCurrencyDisplay();
 
         SpawnPickup();
         Destroy(gameObject);
