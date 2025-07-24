@@ -15,10 +15,12 @@ public class Armyguy : MonoBehaviour
     private HashSet<int> droppedAtWaypoints = new HashSet<int>();
 
     private bool hasDropped = false;
+    private Animator an;
 
     // Start is called before the first frame update
     void Start()
     {
+        an = GetComponent<Animator>();
         waypoints.Clear();
         for (int i = 1; i <= totalWaypoints; i++)
         {
@@ -28,6 +30,9 @@ public class Armyguy : MonoBehaviour
             else
                 Debug.LogWarning($"Destination '{i}' not found in scene!");
         }
+
+        an.speed = 3f;
+        an.Play("idle 1");
     }
 
     void Update()

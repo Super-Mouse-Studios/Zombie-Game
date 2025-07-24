@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8786693530321765278}
   - component: {fileID: 8471551753597152216}
   - component: {fileID: -332108277842255805}
+  - component: {fileID: 6880230103899205428}
   m_Layer: 0
   m_Name: Doctor
   m_TagString: Untagged
@@ -168,3 +169,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!95 &6880230103899205428
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073954675078789871}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: -3447338417469444292, guid: 8d573df134070ec419a51c39b95ceb0e, type: 3}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

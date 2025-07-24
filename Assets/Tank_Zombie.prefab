@@ -84,6 +84,10 @@ PrefabInstance:
       propertyPath: pickupDrops.Array.data[4].prefab
       value: 
       objectReference: {fileID: 7260497833594850284, guid: 6dca4c4a3129547e6b5201c5a70f5d26, type: 3}
+    - target: {fileID: 2658419723853033786, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 8378479934615870746, guid: 51ed8a75b4cde4a43b59622834f67b78, type: 3}
     - target: {fileID: 2758370020799723418, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
       propertyPath: m_Sprite
       value: 

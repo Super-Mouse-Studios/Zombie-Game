@@ -74,10 +74,18 @@ public class Rounds : MonoBehaviour
     private void Start()
     {
         if (rainParticleSystem != null)
-            rainParticleSystem.Stop(); // Ensure rain is off at game start
-
-        if (shopUIPanel != null)
-            shopUIPanel.SetActive(false);
+        {
+            if (currentRound % 5 == 0)
+            {
+                rainParticleSystem.Play();
+                SoundManager.Instance.PlayLoopedSound("Rain");
+            }
+            else
+            {
+                rainParticleSystem.Stop();
+                SoundManager.Instance.StopLoopedSound();
+            }
+        }
 
         StartRound();
     }

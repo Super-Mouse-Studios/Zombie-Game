@@ -62,6 +62,7 @@ public class SoundManager : MonoBehaviour
         AddSound("ItemDrop", Resources.Load<AudioClip>("ItemDrop"), SoundType.SOUND_SFX);
         AddSound("DamageUp", Resources.Load<AudioClip>("DamageUp"), SoundType.SOUND_SFX);
         AddSound("AttackSize", Resources.Load<AudioClip>("AttackSize"), SoundType.SOUND_SFX);
+        AddSound("Rain", Resources.Load<AudioClip>("Rain"), SoundType.SOUND_SFX);
     }
 
     // Initialize the SoundManager. I just put this functionality here instead of in the static constructor.
@@ -217,5 +218,23 @@ public class SoundManager : MonoBehaviour
     {
         sfxSource.panStereo = pan; // Set the stereo panning of the sfx source.
         musicSource.panStereo = pan; // Set the stereo panning of the music source.
+    }
+
+    public void PlayLoopedSound(string soundKey)
+    {
+        if (sfxSource.isPlaying) return;
+        if (sfxDictionary.ContainsKey(soundKey))
+        {
+            sfxSource.clip = sfxDictionary[soundKey];
+            sfxSource.loop = true;
+            sfxSource.Play();
+        }
+    }
+
+    public void StopLoopedSound()
+    {
+        sfxSource.Stop();
+        sfxSource.clip = null;
+        sfxSource.loop = false;
     }
 }
