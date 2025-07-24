@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+using TMPro;
 
 public class ShopManager : MonoBehaviour
 {
@@ -9,7 +11,9 @@ public class ShopManager : MonoBehaviour
     public Button continueButton;
 
     public int playerCurrency = 100; // Default for testing
-    public Text currencyText;
+    public TMP_Text currencyText; 
+    public TMP_Text purchaseMessageText; // drag the TMP in Inspector
+    public float messageDuration = 2f;   // how long to show the message
 
     private void Awake()
     {
@@ -49,17 +53,11 @@ public class ShopManager : MonoBehaviour
             {
                 shooting.shootMode = weaponType;
                 shooting.currentlyHeld = weaponType;
+                ShowPurchaseMessage($"Purchased {weaponName} for {price}!");
                 Debug.Log($"Purchased {weaponName} for {price} currency.");
             }
-            else
-            {
-                Debug.LogWarning("Shooting component not found.");
-            }
         }
-        else
-        {
-            Debug.Log($"Not enough currency to buy {weaponName}! You have {playerCurrency}, need {price}.");
-        }
+
     }
 
     private void OnContinue()
@@ -75,4 +73,29 @@ public class ShopManager : MonoBehaviour
             currencyText.text = "Currency: " + playerCurrency;
         }
     }
+    
+    public void ShowPurchaseMessage(string message)
+    {
+        StopAllCoroutines(); // stops old fades if clicking fast
+        StartCoroutine(ShowMessageRoutine(message));
+    }
+
+    private IEnumerator ShowMessageRoutine(string message)
+    {
+        purchaseMessageText.text = message;
+
+        // Fade in
+        Color c = purchaseMessageText.color;
+        c.a = 1f;
+        purchaseMessageText.color = c;
+
+        yield return new WaitForSeconds(messageDuration);
+
+        // Fade out
+        c.a = 0f;
+        purchaseMessageText.color = c;
+
+        purchaseMessageText.text = "";
+    }
+
 }

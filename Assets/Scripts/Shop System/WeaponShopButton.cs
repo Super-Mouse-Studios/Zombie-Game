@@ -1,33 +1,60 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class WeaponShopButton : MonoBehaviour
 {
-    public Shooting.ShootingBehavours weaponType;  // The weapon this button represents
+    public TMP_Text nameText;
+    public TMP_Text priceText;
+
     private Button button;
-    public int price;                              // Price shows in Inspector now
-    public string weaponName;                      // Optional: weapon name to display
+    
+    [System.Serializable]
+    public class WeaponData
+    {
+        public string name;
+        public int price;
+        public Shooting.ShootingBehavours behaviour;
+    }
+
+
+    [Header("Weapon Data")]
+    public WeaponData[] allWeapons; // Assign list of weapons in Inspector
+
+    private WeaponData assignedWeapon;
 
     private void Awake()
     {
         button = GetComponent<Button>();
         button.onClick.AddListener(OnClick);
+
+        AssignRandomWeapon();
     }
 
-    public void BuyWeapon()
+    private void AssignRandomWeapon()
     {
-        ShopManager.Instance.BuyWeapon(weaponType, price, weaponName);
+        if (allWeapons.Length == 0)
+        {
+            Debug.LogError("No weapons assigned!");
+            return;
+        }
+
+        // Choose one randomly
+        assignedWeapon = allWeapons[Random.Range(0, allWeapons.Length)];
+
+        // Update UI
+        if (nameText != null)
+            nameText.text = assignedWeapon.name;
+
+        if (priceText != null)
+            priceText.text = "$" + assignedWeapon.price;
     }
 
     private void OnClick()
     {
-        if (ShopManager.Instance != null)
+        if (ShopManager.Instance != null && assignedWeapon != null)
         {
-            ShopManager.Instance.BuyWeapon(weaponType, price, weaponName);
-        }
-        else
-        {
-            Debug.LogWarning("ShopManager instance not found.");
+            ShopManager.Instance.BuyWeapon(assignedWeapon.behaviour, assignedWeapon.price, assignedWeapon.name);
         }
     }
 }
