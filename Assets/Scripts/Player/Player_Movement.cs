@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -41,6 +42,7 @@ public class Player_Movement : MonoBehaviour
     public Animator animator;
     [SerializeField] SpriteRenderer sr;
     public bool lookingRight = false;
+    private bool hitPlaying = false;
 
     public enum MovementState // Defines movements player can take
     {
@@ -63,17 +65,27 @@ public class Player_Movement : MonoBehaviour
     //player taking damage and dying
     public void PlayerTakeDamage(float PlayerDamageAmount)
     {
+        SoundManager.Instance.PlaySound("PlayerHurt");
         currentHealth -= PlayerDamageAmount; //10 -> 9 -> 8 -> 7 -> 6 -> 5 -> 4 -> 3 -> 2 -> 1 -> 0
         healthbar.updateHealthBar(maxHealth, currentHealth); //updating health bar
                                                              // animator.Play("Hit"); // Plays hurt animation
         if (currentHealth <= 0)
         {
-            
             Destroy(gameObject);
         }
+
+        StopAllCoroutines();
+        StartCoroutine(PlayDamageAnimation());
     }
 
-
+    public IEnumerator PlayDamageAnimation()
+    {
+        animator.Play("hit");
+        hitPlaying = true;
+        yield return new WaitForSeconds(.3f);
+        animator.Play("idle");
+        hitPlaying = false;
+    }
 
     void Update()
     {
@@ -109,11 +121,13 @@ public class Player_Movement : MonoBehaviour
                     }
 
                     transform.localScale = scale;
-                    animator.Play("run cycle ");
+                    if (!hitPlaying)
+                        animator.Play("run cycle ");
                 }
                 else
                 {
-                    animator.Play("idle");
+                    if (!hitPlaying)
+                        animator.Play("idle");
                 }
                 if (Input.GetKeyDown(KeyCode.LeftShift) && dodgeCooldownReload <= 0) // Switches to dodge state
                 {

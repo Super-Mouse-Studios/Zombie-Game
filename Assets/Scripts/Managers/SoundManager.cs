@@ -66,6 +66,7 @@ public class SoundManager : MonoBehaviour
         AddSound("Rain", Resources.Load<AudioClip>("Rain"), SoundType.SOUND_SFX);
         AddSound("UnlimitedFireRate", Resources.Load<AudioClip>("UnlimitedFireRate"), SoundType.SOUND_SFX);
         AddSound("Heal", Resources.Load<AudioClip>("Heal"), SoundType.SOUND_SFX);
+        AddSound("PlayerHurt", Resources.Load<AudioClip>("PlayerHurt"), SoundType.SOUND_SFX);
     }
 
     // Initialize the SoundManager. I just put this functionality here instead of in the static constructor.
