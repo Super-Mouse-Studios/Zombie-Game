@@ -1,60 +1,83 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
 public class WeaponShopButton : MonoBehaviour
 {
-    public TMP_Text nameText;
-    public TMP_Text priceText;
+    [Header("Weapon Data List")]
+    public List<WeaponData> availableWeaponsData; // Assign list of weapons in Inspector
+
+    [Header("UI Elements")]
+    public TextMeshProUGUI priceText;       // Assign TMP text for price
+    public TextMeshProUGUI weaponNameText;  // Assign TMP text for name
 
     private Button button;
-    
+    private WeaponData selectedWeaponData;
+
     [System.Serializable]
     public class WeaponData
     {
-        public string name;
+        public Shooting.ShootingBehavours weaponType;
         public int price;
-        public Shooting.ShootingBehavours behaviour;
+        public string weaponName;
     }
 
-
-    [Header("Weapon Data")]
-    public WeaponData[] allWeapons; // Assign list of weapons in Inspector
-
-    private WeaponData assignedWeapon;
+    private void OnEnable()
+    {
+        RandomizeWeapon();
+    }
 
     private void Awake()
     {
         button = GetComponent<Button>();
-        button.onClick.AddListener(OnClick);
-
-        AssignRandomWeapon();
+        if (button != null)
+            button.onClick.AddListener(OnClick);
+        else
+            Debug.LogWarning("Button component missing from WeaponShopButton GameObject.");
     }
 
-    private void AssignRandomWeapon()
+    public void RandomizeWeapon()
     {
-        if (allWeapons.Length == 0)
+        if (availableWeaponsData != null && availableWeaponsData.Count > 0)
         {
-            Debug.LogError("No weapons assigned!");
-            return;
+            int index = Random.Range(0, availableWeaponsData.Count);
+            selectedWeaponData = availableWeaponsData[index];
+
+            if (weaponNameText != null)
+                weaponNameText.text = selectedWeaponData.weaponName;
+            else
+                Debug.LogWarning("Weapon name text not assigned in inspector.");
+
+            if (priceText != null)
+                priceText.text = "$" + selectedWeaponData.price;
+            else
+                Debug.LogWarning("Price text not assigned in inspector.");
         }
+        else
+        {
+            Debug.LogWarning("No weapon data available to randomize.");
+        }
+    }
 
-        // Choose one randomly
-        assignedWeapon = allWeapons[Random.Range(0, allWeapons.Length)];
-
-        // Update UI
-        if (nameText != null)
-            nameText.text = assignedWeapon.name;
-
-        if (priceText != null)
-            priceText.text = "$" + assignedWeapon.price;
+    public void BuyWeapon()
+    {
+        if (selectedWeaponData != null && ShopManager.Instance != null)
+        {
+            ShopManager.Instance.BuyWeapon(
+                selectedWeaponData.weaponType,
+                selectedWeaponData.price,
+                selectedWeaponData.weaponName
+            );
+        }
+        else
+        {
+            Debug.LogWarning("ShopManager not found or weapon data is null.");
+        }
     }
 
     private void OnClick()
     {
-        if (ShopManager.Instance != null && assignedWeapon != null)
-        {
-            ShopManager.Instance.BuyWeapon(assignedWeapon.behaviour, assignedWeapon.price, assignedWeapon.name);
-        }
+        BuyWeapon();
     }
 }

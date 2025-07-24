@@ -13773,7 +13773,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 974138783}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1432539396}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -15299,7 +15299,7 @@ MonoBehaviour:
   - {fileID: 1679932956}
   - {fileID: 1518818714}
   roundText: {fileID: 1510436469}
-  roundDuration: 30
+  roundDuration: 10
   spawnRateDelay: 2
   baseSpawnCountPerRound: 5
   maxEnemiesPerRound: 50
@@ -15452,24 +15452,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84097321dcb4266438b6ac229e530e4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameText: {fileID: 1155827825}
+  availableWeaponsData:
+  - weaponType: 1
+    price: 50
+    weaponName: Shotgun
+  - weaponType: 2
+    price: 40
+    weaponName: Rocket Launcher
+  - weaponType: 4
+    price: 60
+    weaponName: Sniper
+  - weaponType: 3
+    price: 70
+    weaponName: AR
   priceText: {fileID: 1937706807}
-  allWeapons:
-  - name: AR
-    price: 50
-    behaviour: 3
-  - name: Spread
-    price: 50
-    behaviour: 1
-  - name: Basic
-    price: 50
-    behaviour: 0
-  - name: Rocket
-    price: 50
-    behaviour: 2
-  - name: Sniper
-    price: 50
-    behaviour: 4
+  weaponNameText: {fileID: 1155827825}
 --- !u!114 &1300781903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16249,9 +16246,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shopPanel: {fileID: 974138780}
   continueButton: {fileID: 1761477008}
-  playerCurrency: 100
   currencyText: {fileID: 1067949287}
   purchaseMessageText: {fileID: 158713182}
+  playerCurrency: 100
   messageDuration: 2
 --- !u!4 &1432539396
 Transform:
@@ -16261,11 +16258,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1432539394}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.003469, y: 6.9492455, z: 0.14168286}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -14.003479, y: 6.9492493, z: 0.14168286}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1056401698}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1440765218
@@ -20316,7 +20314,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1867445696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22753,7 +22751,6 @@ SceneRoots:
   - {fileID: 4103116969843025184}
   - {fileID: 7829848491974901425}
   - {fileID: 1432539396}
-  - {fileID: 1056401698}
   - {fileID: 1750904123}
   - {fileID: 1698480078}
   - {fileID: 5721519691056699521}

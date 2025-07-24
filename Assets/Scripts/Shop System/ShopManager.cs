@@ -7,13 +7,15 @@ public class ShopManager : MonoBehaviour
 {
     public static ShopManager Instance;
 
+    [Header("UI Elements")]
     public GameObject shopPanel;
     public Button continueButton;
+    public TMP_Text currencyText;
+    public TMP_Text purchaseMessageText;
 
-    public int playerCurrency = 100; // Default for testing
-    public TMP_Text currencyText; 
-    public TMP_Text purchaseMessageText; // drag the TMP in Inspector
-    public float messageDuration = 2f;   // how long to show the message
+    [Header("Settings")]
+    public int playerCurrency = 100; // Starting currency for testing
+    public float messageDuration = 2f; // Duration to show purchase messages
 
     private void Awake()
     {
@@ -53,11 +55,14 @@ public class ShopManager : MonoBehaviour
             {
                 shooting.shootMode = weaponType;
                 shooting.currentlyHeld = weaponType;
-                ShowPurchaseMessage($"Purchased {weaponName} for {price}!");
+                ShowPurchaseMessage($"Purchased {weaponName} for ${price}!");
                 Debug.Log($"Purchased {weaponName} for {price} currency.");
             }
         }
-
+        else
+        {
+            ShowPurchaseMessage("Not enough currency!");
+        }
     }
 
     private void OnContinue()
@@ -73,29 +78,32 @@ public class ShopManager : MonoBehaviour
             currencyText.text = "Currency: " + playerCurrency;
         }
     }
-    
+
     public void ShowPurchaseMessage(string message)
     {
-        StopAllCoroutines(); // stops old fades if clicking fast
+        StopAllCoroutines(); // Stop previous messages
         StartCoroutine(ShowMessageRoutine(message));
     }
 
     private IEnumerator ShowMessageRoutine(string message)
     {
+        if (purchaseMessageText == null)
+        {
+            Debug.LogWarning("Purchase message text is not assigned!");
+            yield break;
+        }
+
         purchaseMessageText.text = message;
 
-        // Fade in
-        Color c = purchaseMessageText.color;
-        c.a = 1f;
-        purchaseMessageText.color = c;
+        Color color = purchaseMessageText.color;
+        color.a = 1f;
+        purchaseMessageText.color = color;
 
         yield return new WaitForSeconds(messageDuration);
 
-        // Fade out
-        c.a = 0f;
-        purchaseMessageText.color = c;
+        color.a = 0f;
+        purchaseMessageText.color = color;
 
         purchaseMessageText.text = "";
     }
-
 }
