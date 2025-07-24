@@ -11,15 +11,15 @@ public class DoctorNpc : MonoBehaviour
     [SerializeField] private int numberOfHealthPickups = 1;
     //[SerializeField] private float minX = -10f; // Minimum X position for despawn
     //[SerializeField] private float maxX = 10f; // Maximum X position for despawn
-    [SerializeField] private float runDuration = 3f; // How long the doctor runs before dropping
-    [SerializeField] private float postDropDuration = 2f; // How long doctor keeps moving after dropping
-    private float postDropTimer = 0f;
+    //[SerializeField] private float runDuration = 3f; // How long the doctor runs before dropping
+    //[SerializeField] private float postDropDuration = 2f; // How long doctor keeps moving after dropping
+    //private float postDropTimer = 0f;
     private List<Transform> waypoints = new List<Transform>();
     private int currentWaypointIndex = 0;
     [SerializeField] private int totalWaypoints = 3; // Set this to the number of waypoints you have
     [SerializeField] private float waypointTolerance = 0.1f;
 
-    private float runTimer = 0f;
+    //private float runTimer = 0f;
     private bool hasDropped = false;
 
     private bool canRespawn = true;
@@ -44,14 +44,24 @@ public class DoctorNpc : MonoBehaviour
 
         Transform targetWaypoint = waypoints[currentWaypointIndex];
         Vector3 direction = (targetWaypoint.position - transform.position).normalized;
+
+       
+
         transform.position += direction * moveSpeed * Time.deltaTime;
 
         if (Vector3.Distance(transform.position, targetWaypoint.position) <= waypointTolerance)
         {
             currentWaypointIndex++;
-            if (currentWaypointIndex >= waypoints.Count)
+
+           
+            if (currentWaypointIndex == 3)
             {
                 DropHealth();
+            }
+
+            // Destroy doctor at the last waypoint
+            if (currentWaypointIndex >= waypoints.Count)
+            {
                 Destroy(gameObject, despawnDelay);
             }
         }
@@ -60,7 +70,7 @@ public class DoctorNpc : MonoBehaviour
     {
         if (hasDropped) return; // Prevent multiple drops
         hasDropped = true;
-        postDropTimer = 0f; // Start post-drop timer
+       // postDropTimer = 0f; // Start post-drop timer
 
         if (healthPickUpPrefab != null)
         {

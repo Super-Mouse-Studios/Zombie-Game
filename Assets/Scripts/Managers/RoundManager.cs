@@ -10,6 +10,10 @@ public class Rounds : MonoBehaviour
     [SerializeField] private GameObject doctorPrefab;
     [SerializeField] private Transform doctorSpawnPoint; // Assign in Inspector
     private int nextDoctorRound = 3;
+
+    [SerializeField] private GameObject ArmyGuyPrefab;
+    [SerializeField] private Transform ArmyGuySpawnPoint; // Assign in Inspector
+    private int nextArmyGuyRound = 2;
     private bool doctorKilled = false;
     private DoctorNpc currentDoctor;
     [SerializeField] private ParticleSystem rainParticleSystem;
@@ -121,7 +125,11 @@ public class Rounds : MonoBehaviour
             else
                 rainParticleSystem.Stop();
         }
-
+        if (ArmyGuyPrefab != null && ArmyGuySpawnPoint != null && currentRound >= nextArmyGuyRound)
+        {
+            SpawnArmyGuy();
+            nextArmyGuyRound += 2; // Next spawn in 2 rounds
+        }
         if (!doctorKilled && currentRound >= nextDoctorRound)
         {
             SpawnDoctor();
@@ -165,6 +173,10 @@ public class Rounds : MonoBehaviour
         {
             currentDoctor.OnDoctorKilled = () => { doctorKilled = true; };
         }
+    }
+    private void SpawnArmyGuy()
+    {
+        Instantiate(ArmyGuyPrefab, ArmyGuySpawnPoint.position, Quaternion.identity);
     }
 
     private void SpawnHorde()
