@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthPickUp : MonoBehaviour
+public class UnlimitedAmmoPickUp : MonoBehaviour
 {
     Animator an;
 
@@ -10,7 +10,7 @@ public class HealthPickUp : MonoBehaviour
     void Start()
     {
         an = GetComponent<Animator>();
-        an.Play("medkit");
+        an.Play("ammo-Sniper");
         Destroy(gameObject, 10f);
     }
 
@@ -18,13 +18,13 @@ public class HealthPickUp : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Player_Movement move = collision.GetComponent<Player_Movement>(); 
-            if (move != null)
+            Shooting shooting = collision.GetComponent<Shooting>();
+            if (shooting != null)
             {
-                SoundManager.Instance.PlaySound("Heal");
+                SoundManager.Instance.PlaySound("UnlimitedFireRate");
 
-                move.Healing();
-                Debug.Log("Healing");
+                shooting.UnlimitedAmmo();
+                Debug.Log("Unlimited Ammo");
                 Destroy(gameObject);
             }
         }

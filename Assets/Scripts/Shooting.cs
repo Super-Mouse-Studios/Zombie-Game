@@ -35,6 +35,7 @@ public class Shooting : MonoBehaviour
     [SerializeField][Range(1.25f, 3f)] float attackSizeMultiplier = 1.5f;
     public float damagePowerUp = 0f;
     [SerializeField][Range(1f, 2f)] float damageMuliplier = 1.5f;
+    [SerializeField] float unlimitedAmmoTimer = 0f;
 
     [Header("Ammo")]
     public int Max_ammo = 500; //max amount of ammos
@@ -160,9 +161,11 @@ public class Shooting : MonoBehaviour
         }
 
         if (attackSizeLength > 0)
-                attackSizeLength -= Time.deltaTime;
+            attackSizeLength -= Time.deltaTime;
         if (damagePowerUp > 0)
             damagePowerUp -= Time.deltaTime;
+        if (unlimitedAmmoTimer > 0)
+            unlimitedAmmoTimer -= Time.deltaTime;
     }
 
     void AimTowardsMouse()
@@ -253,7 +256,7 @@ public class Shooting : MonoBehaviour
 
             float secondsPerShot = 1 / fireRate;
             timeUntilReloaded += secondsPerShot;
-            Current_ammo--;
+            Current_ammo -= (unlimitedAmmoTimer <= 0) ? 1 : 0;
         }
     }
 
@@ -285,7 +288,7 @@ public class Shooting : MonoBehaviour
 
             float secondsPerShot = 1 / fireRate;
             timeUntilReloaded += secondsPerShot;
-            Current_ammo = Current_ammo - 3;
+            Current_ammo -= (unlimitedAmmoTimer <= 0) ? 3 : 0;
         }
     }
 
@@ -304,7 +307,7 @@ public class Shooting : MonoBehaviour
 
             float secondsPerShot = 1 / (fireRate / 1.2f);
             timeUntilReloaded += secondsPerShot;
-            Current_ammo--;
+            Current_ammo -= (unlimitedAmmoTimer <= 0) ? 1 : 0;
         }
     }
 
@@ -320,7 +323,7 @@ public class Shooting : MonoBehaviour
 
             float secondsPerShot = 1 / (fireRate * 4);
             timeUntilReloaded += secondsPerShot;
-            Current_ammo--;
+            Current_ammo -= (unlimitedAmmoTimer <= 0) ? 1 : 0;
         }
     }
 
@@ -339,7 +342,7 @@ public class Shooting : MonoBehaviour
 
             float secondsPerShot = 1 / (fireRate / 2);
             timeUntilReloaded += secondsPerShot;
-            Current_ammo--;
+            Current_ammo -= (unlimitedAmmoTimer <= 0) ? 1 : 0;
         }
     }
 
@@ -393,7 +396,7 @@ public class Shooting : MonoBehaviour
     }
 
     // Don't put this in the shop
-    void RevolverShootingBehaviour() 
+    void RevolverShootingBehaviour()
     {
         if (timeUntilReloaded <= 0)
         {
@@ -429,6 +432,8 @@ public class Shooting : MonoBehaviour
     public void AttackSizeTimer(float time = 7) { attackSizeLength = time; }
 
     public void DamageUp(float time = 7f) { damagePowerUp = time; }
+    
+    public void UnlimitedAmmo(float time = 5f) { unlimitedAmmoTimer = time; }
 }
 
     // Old Auto Aim Code

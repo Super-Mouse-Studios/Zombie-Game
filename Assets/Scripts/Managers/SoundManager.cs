@@ -28,6 +28,7 @@ public class SoundManager : MonoBehaviour
     // Create AudioSource for music.
     // AudioSource to play music in unity
     private AudioSource musicSource; // Create AudioSource for music.
+    private AudioSource loopedSFXSource; // Separate AudioSource for looped SFX
 
     // Check if the SoundManager instance already exists.
     private void Awake()
@@ -63,16 +64,21 @@ public class SoundManager : MonoBehaviour
         AddSound("DamageUp", Resources.Load<AudioClip>("DamageUp"), SoundType.SOUND_SFX);
         AddSound("AttackSize", Resources.Load<AudioClip>("AttackSize"), SoundType.SOUND_SFX);
         AddSound("Rain", Resources.Load<AudioClip>("Rain"), SoundType.SOUND_SFX);
+        AddSound("UnlimitedFireRate", Resources.Load<AudioClip>("UnlimitedFireRate"), SoundType.SOUND_SFX);
+        AddSound("Heal", Resources.Load<AudioClip>("Heal"), SoundType.SOUND_SFX);
     }
 
     // Initialize the SoundManager. I just put this functionality here instead of in the static constructor.
     // Creates a new GameObject to hold the AudioSource components.
     private void Initialize()
     {
-        sfxSource = gameObject.AddComponent<AudioSource>(); // Adds audiosource to the GameObject.
+        sfxSource = gameObject.AddComponent<AudioSource>();
         sfxSource.volume = 1.0f;
 
-        // Fill in for lab.
+        loopedSFXSource = gameObject.AddComponent<AudioSource>();
+        loopedSFXSource.volume = 1.0f;
+        loopedSFXSource.loop = true;
+
         musicSource = gameObject.AddComponent<AudioSource>();
         musicSource.volume = 1.0f;
         musicSource.loop = true;
@@ -204,8 +210,16 @@ public class SoundManager : MonoBehaviour
     // Volume control for sfx and music
     public void SetSFXVolume(float volume)
     {
-        sfxVolume = volume; // Set the volume of the sfx source.
-        sfxSource.volume = (volume * masterVolume); // Set the volume of the sfx source.
+        sfxVolume = volume;
+        sfxSource.volume = volume * masterVolume;
+        loopedSFXSource.volume = volume * masterVolume;
+    }
+
+    public void StereoPanning(float pan)
+    {
+        sfxSource.panStereo = pan;
+        loopedSFXSource.panStereo = pan;
+        musicSource.panStereo = pan;
     }
 
     public void SetMusicVolume(float volume)
@@ -214,27 +228,21 @@ public class SoundManager : MonoBehaviour
         musicSource.volume = (volume * masterVolume); // Set the volume of the music source.
     }
 
-    public void StereoPanning(float pan)
-    {
-        sfxSource.panStereo = pan; // Set the stereo panning of the sfx source.
-        musicSource.panStereo = pan; // Set the stereo panning of the music source.
-    }
-
     public void PlayLoopedSound(string soundKey)
     {
-        if (sfxSource.isPlaying) return;
+        if (loopedSFXSource.isPlaying) return;
         if (sfxDictionary.ContainsKey(soundKey))
         {
-            sfxSource.clip = sfxDictionary[soundKey];
-            sfxSource.loop = true;
-            sfxSource.Play();
+            loopedSFXSource.clip = sfxDictionary[soundKey];
+            loopedSFXSource.loop = true;
+            loopedSFXSource.Play();
         }
     }
 
     public void StopLoopedSound()
     {
-        sfxSource.Stop();
-        sfxSource.clip = null;
-        sfxSource.loop = false;
+        loopedSFXSource.Stop();
+        loopedSFXSource.clip = null;
+        loopedSFXSource.loop = false;
     }
 }
