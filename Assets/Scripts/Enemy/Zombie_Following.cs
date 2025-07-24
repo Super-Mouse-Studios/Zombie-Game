@@ -70,6 +70,8 @@ public class Zombie_Following : MonoBehaviour
     [SerializeField]
     private int numberOfZombiesToSpawn = 4; // Number of zombies to spawn on death
 
+    EnemyAnimations ea;
+
 
 
     private Rigidbody2D rigidbody2d;
@@ -97,6 +99,7 @@ public class Zombie_Following : MonoBehaviour
     private void Start()
     {
         enemyHealth = enemyMaxhealth;
+        ea = GetComponentInChildren<EnemyAnimations>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

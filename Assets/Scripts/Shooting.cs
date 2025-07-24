@@ -34,7 +34,8 @@ public class Shooting : MonoBehaviour
     private float attackSizeLength = 0; // Timer for attack size pickup
     [SerializeField][Range(1.25f, 3f)] float attackSizeMultiplier = 1.5f;
     public float damagePowerUp = 0f;
-    [SerializeField][Range(1f, 2f)] float damageMuliplier = 1.5f;
+    [SerializeField][Range(1f, 2f)] float damageMuliplier = 1.5f; 
+    [SerializeField] float unlimitedAmmoTimer = 0f;
 
     [Header("Ammo")]
     public int Max_ammo = 500; //max amount of ammos
@@ -160,9 +161,9 @@ public class Shooting : MonoBehaviour
         }
 
         if (attackSizeLength > 0)
-                attackSizeLength -= Time.deltaTime;
-        if (damagePowerUp > 0)
-            damagePowerUp -= Time.deltaTime;
+            attackSizeLength -= Time.deltaTime;
+        if (unlimitedAmmoTimer > 0)
+            unlimitedAmmoTimer -= Time.deltaTime;
     }
 
     void AimTowardsMouse()
@@ -253,7 +254,7 @@ public class Shooting : MonoBehaviour
 
             float secondsPerShot = 1 / fireRate;
             timeUntilReloaded += secondsPerShot;
-            Current_ammo--;
+            Current_ammo -= (unlimitedAmmoTimer <= 0) ? 1 : 0;
         }
     }
 
@@ -285,7 +286,7 @@ public class Shooting : MonoBehaviour
 
             float secondsPerShot = 1 / fireRate;
             timeUntilReloaded += secondsPerShot;
-            Current_ammo = Current_ammo - 3;
+            Current_ammo -= (unlimitedAmmoTimer <= 0) ? 1 : 0;
         }
     }
 
@@ -304,7 +305,7 @@ public class Shooting : MonoBehaviour
 
             float secondsPerShot = 1 / (fireRate / 1.2f);
             timeUntilReloaded += secondsPerShot;
-            Current_ammo--;
+            Current_ammo -= (unlimitedAmmoTimer <= 0) ? 1 : 0;
         }
     }
 
@@ -320,7 +321,7 @@ public class Shooting : MonoBehaviour
 
             float secondsPerShot = 1 / (fireRate * 4);
             timeUntilReloaded += secondsPerShot;
-            Current_ammo--;
+            Current_ammo -= (unlimitedAmmoTimer <= 0) ? 1 : 0;
         }
     }
 
@@ -339,7 +340,7 @@ public class Shooting : MonoBehaviour
 
             float secondsPerShot = 1 / (fireRate / 2);
             timeUntilReloaded += secondsPerShot;
-            Current_ammo--;
+            Current_ammo -= (unlimitedAmmoTimer <= 0) ? 1 : 0;
         }
     }
 
@@ -373,7 +374,7 @@ public class Shooting : MonoBehaviour
                 meleeObj.transform.localScale *= attackSizeMultiplier;
 
             float secondsPerAttack = 1 / meleeRate;
-            meleeCooldown = secondsPerAttack;
+            meleeCooldown = secondsPerAttack; 
         }
     }
 
@@ -393,7 +394,7 @@ public class Shooting : MonoBehaviour
     }
 
     // Don't put this in the shop
-    void RevolverShootingBehaviour() 
+    void RevolverShootingBehaviour()
     {
         if (timeUntilReloaded <= 0)
         {
@@ -401,15 +402,15 @@ public class Shooting : MonoBehaviour
             SoundManager.Instance.PlaySound("Shotgun"); // Plays Shotgun SFX
 
             // Center bullet
-            GameObject center = Instantiate(rocketPrefab, transform.position, transform.rotation);
+            GameObject center = Instantiate(sniperShotPrefab, transform.position, transform.rotation);
 
             // Left bullet (-12 degrees)
             Quaternion leftRotation = transform.rotation * Quaternion.Euler(0, 0, -12f);
-            GameObject left = Instantiate(sniperShotPrefab, transform.position, leftRotation);
+            GameObject left = Instantiate(rocketPrefab, transform.position, leftRotation);
 
             // Right bullet (+12 degrees)
             Quaternion rightRotation = transform.rotation * Quaternion.Euler(0, 0, 12f);
-            GameObject right = Instantiate(sniperShotPrefab, transform.position, rightRotation);
+            GameObject right = Instantiate(rocketPrefab, transform.position, rightRotation);
 
             if (attackSizeLength > 0)
             {
@@ -427,8 +428,8 @@ public class Shooting : MonoBehaviour
     public void IncreaseAmmo(int ammo) { Current_ammo += ammo; }
 
     public void AttackSizeTimer(float time = 7) { attackSizeLength = time; }
-
     public void DamageUp(float time = 7f) { damagePowerUp = time; }
+    public void UnlimitedAmmo(float time = 5f) { unlimitedAmmoTimer = time; }
 }
 
     // Old Auto Aim Code

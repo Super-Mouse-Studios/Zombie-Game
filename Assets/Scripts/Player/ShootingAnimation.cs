@@ -12,12 +12,6 @@ public class ShootingAnimation : MonoBehaviour
         an = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void PlayAnimation(string name) { an.Play(name); }
 
     private IEnumerator PlayShootAnimtion(string name)

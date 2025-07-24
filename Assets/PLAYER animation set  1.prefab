@@ -62,6 +62,7 @@ MonoBehaviour:
   attackSizeMultiplier: 1.5
   damagePowerUp: 0
   damageMuliplier: 1.5
+  unlimitedAmmoTimer: 0
   Max_ammo: 500
   Ammo_Display: {fileID: 0}
 --- !u!58 &608165413349789827
@@ -96,9 +97,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.21}
+  m_Offset: {x: 0, y: -0.1}
   serializedVersion: 2
-  m_Radius: 0.6
+  m_Radius: 0.8
 --- !u!1 &7504278796148263361
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,6 +319,10 @@ PrefabInstance:
     - target: {fileID: 3626916397498700004, guid: 3f197a6600a72624db7a32f2d1037126, type: 3}
       propertyPath: m_FlipY
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3626916397498700004, guid: 3f197a6600a72624db7a32f2d1037126, type: 3}
+      propertyPath: m_SortingOrder
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 3626916397498700004, guid: 3f197a6600a72624db7a32f2d1037126, type: 3}
       propertyPath: m_SpriteSortPoint
