@@ -1,12 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-using UnityEngine.UIElements;
-using UnityEngine.SocialPlatforms.GameCenter;
-using Unity.VisualScripting;
+
 
 public class Shooting : MonoBehaviour
 {
