@@ -10,11 +10,6 @@ public class timer : MonoBehaviour
     public bool timeIsRunning = true;
     public TMP_Text timerText;
     
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
