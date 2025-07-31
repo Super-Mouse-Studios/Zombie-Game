@@ -48,6 +48,8 @@ public class Player_Movement : MonoBehaviour
 
     void Start()
     {
+        ExperienceManager.Instance.ResetLevels();
+        ExperienceManager.Instance.ShowText();
         //health status at the start of the game
         currentHealth = maxHealth;
         healthbar.updateHealthBar(maxHealth, currentHealth); //updating health bar
@@ -67,6 +69,7 @@ public class Player_Movement : MonoBehaviour
                                                              // animator.Play("Hit"); // Plays hurt animation
         if (currentHealth <= 0)
         {
+            ExperienceManager.Instance.HideText();
             Destroy(gameObject);
         }
 
@@ -134,6 +137,7 @@ public class Player_Movement : MonoBehaviour
                         prefabRotation = transform.rotation * Quaternion.AngleAxis(180, Vector3.forward);
 
                     GameObject justSpawned = Instantiate(dodgeEffect, transform.position, prefabRotation); // Spawns in particle effect under player's original position
+                    justSpawned.transform.localScale *= 1.3f;
 
                     Destroy(justSpawned, .5f);
                     // Plays SFX

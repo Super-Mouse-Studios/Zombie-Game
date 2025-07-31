@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour
         EnemyHealth enemyHealth = collision.GetComponent<EnemyHealth>();
         if (enemyHealth != null)
         {
-            float damage = GameObject.FindGameObjectWithTag("Player").GetComponent<Shooting>().CalculateDamage(baseDamage);
+            float damage = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Shooting>().CalculateDamage(baseDamage);
             enemyHealth.TakeDamage(damage);
             Destroy(gameObject); // Destroy bullet after hitting an enemy
         }

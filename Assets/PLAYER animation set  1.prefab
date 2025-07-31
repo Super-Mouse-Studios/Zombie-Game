@@ -62,6 +62,7 @@ MonoBehaviour:
   attackSizeMultiplier: 1.5
   damagePowerUp: 0
   damageMuliplier: 1.5
+  unlimitedAmmoTimer: 0
   Max_ammo: 500
   Ammo_Display: {fileID: 0}
 --- !u!58 &608165413349789827
@@ -251,8 +252,8 @@ MonoBehaviour:
   maxHealth: 30
   currentHealth: 0
   healthbar: {fileID: 0}
-  dodgeEffect: {fileID: 4378585168276610880, guid: 574a29a2b70014f0ea563fc816bd47aa, type: 3}
-  dodgeSpeed: 100
+  dodgeEffect: {fileID: 3538420135553700131, guid: 574a29a2b70014f0ea563fc816bd47aa, type: 3}
+  dodgeSpeed: 75
   dodgeCooldown: 1
   dodgeCooldownReload: 0
   minX: -28.96

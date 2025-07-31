@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DrinkableGasoline : MonoBehaviour
+public class CritPickUp : MonoBehaviour
 {
     Animator an;
 
@@ -10,7 +10,7 @@ public class DrinkableGasoline : MonoBehaviour
     void Start()
     {
         an = GetComponent<Animator>();
-        an.Play("gas");
+        an.Play("tools");
         Destroy(gameObject, 10f);
     }
 
@@ -18,13 +18,13 @@ public class DrinkableGasoline : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Player_Movement move = collision.GetComponent<Player_Movement>(); 
-            if (move != null)
+            Shooting shooting = collision.GetComponent<Shooting>(); 
+            if (shooting != null)
             {
-                SoundManager.Instance.PlaySound("Drink");
+                SoundManager.Instance.PlaySound("DoubleCrit");
 
-                move.Gasoline();
-                Debug.Log("Drinkable Gasoline");
+                shooting.DoubleCritRate();
+                Debug.Log("Doubling Crit Rate");
                 Destroy(gameObject);
             }
         }

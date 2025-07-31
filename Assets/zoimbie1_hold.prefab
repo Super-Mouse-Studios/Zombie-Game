@@ -181,6 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bade918c8e4c574cbe8bb872a399d90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currencyReward: 0
   enemyHealth: 5
   enemyMaxhealth: 10
   speed: 2
@@ -222,6 +223,12 @@ MonoBehaviour:
   - name: Damage Up
     prefab: {fileID: 6622427149209093952, guid: 01ebd8890e89d4bffa6c6c44262bbaf5, type: 3}
     chance: 0.1
+  - name: Unlimited Ammo
+    prefab: {fileID: 2110625153399841301, guid: f074329daf5ec4fc5860b3c12d275ed2, type: 3}
+    chance: 0.065
+  - name: Double Crit Rate
+    prefab: {fileID: 2110625153399841301, guid: f074329daf5ec4fc5860b3c12d275ed2, type: 3}
+    chance: 0.125
 --- !u!114 &4687193763361967004
 MonoBehaviour:
   m_ObjectHideFlags: 0

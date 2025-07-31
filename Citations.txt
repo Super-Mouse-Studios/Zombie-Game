@@ -42,6 +42,14 @@ Name: Gun Reload Sound Effects | Website: https://opengameart.org/content/gun-re
 
 Name: Minecraft Potion Drinking - Sound Effect (HD) | Website: https://www.youtube.com/watch?v=XxoOkmvMjmo | Author: Microsoft | Date Accessed: July 20th, 2025
 
+------------------------------------------------------------------------------------------------
+
+Name: Cloud Limit Break | Website: https://www.sounds-resource.com/nintendo_switch/supersmashbrosultimate/sound/16097/ | Author: Nintendo | Date Accessed: July 30th, 2025
+
+------------------------------------------------------------------------------------------------
+
+Name: Hero Crit Sound | Website: https://www.sounds-resource.com/nintendo_switch/supersmashbrosultimate/sound/23117/ | Author: Nintendo | Date Accessed: July 30th, 2025
+
 ================================================================================================
 Code Sources:
 

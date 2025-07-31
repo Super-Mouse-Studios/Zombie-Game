@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 5655277485466248113, guid: 3dd84256578ea4f3aaea35fe63898c78, type: 3}
     - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
       propertyPath: pickupDrops.Array.size
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
       propertyPath: pickupDrops.Array.data[0].name
@@ -47,6 +47,10 @@ PrefabInstance:
     - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
       propertyPath: pickupDrops.Array.data[3].name
       value: Attack Size
+      objectReference: {fileID: 0}
+    - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: pickupDrops.Array.data[6].name
+      value: Double Crit Rate
       objectReference: {fileID: 0}
     - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
       propertyPath: pickupDrops.Array.data[0].chance
@@ -84,6 +88,14 @@ PrefabInstance:
       propertyPath: pickupDrops.Array.data[4].prefab
       value: 
       objectReference: {fileID: 7260497833594850284, guid: 6dca4c4a3129547e6b5201c5a70f5d26, type: 3}
+    - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: pickupDrops.Array.data[6].chance
+      value: 0.125
+      objectReference: {fileID: 0}
+    - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: pickupDrops.Array.data[6].prefab
+      value: 
+      objectReference: {fileID: 8871936943739902624, guid: d29121673b0b64c9584f3c2acc0603bc, type: 3}
     - target: {fileID: 2658419723853033786, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
       propertyPath: m_Controller
       value: 

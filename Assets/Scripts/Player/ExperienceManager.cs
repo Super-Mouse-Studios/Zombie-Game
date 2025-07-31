@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.PlayerLoop;
 
 public class ExperienceManager : MonoBehaviour
 {
@@ -76,6 +77,7 @@ public class ExperienceManager : MonoBehaviour
             }
 
             // Add level up SFX or VFX below 
+            SoundManager.Instance.PlaySound("LevelUp");
         }
     }
 
@@ -143,4 +145,31 @@ public class ExperienceManager : MonoBehaviour
     }
 
     public int GetCurrentLevel() { return currentLevel; }
+    public void ResetLevels()
+    {
+        currentLevel = 0;
+        totalExperience = 0;
+        previousLevelExperience = 0;
+        nextLevelsExperience = (int)experienceCurve.Evaluate(1); // initialize next level EXP threshold
+
+        UpdateInterface();  // refresh UI display
+    }
+
+    public void HideText()
+    {
+        if (levelText != null)
+            levelText.gameObject.SetActive(false);
+
+        if (experienceText != null)
+            experienceText.gameObject.SetActive(false);
+    }
+
+    public void ShowText()
+    {
+        if (levelText != null)
+            levelText.gameObject.SetActive(true);
+
+        if (experienceText != null)
+            experienceText.gameObject.SetActive(true);
+    }
 }

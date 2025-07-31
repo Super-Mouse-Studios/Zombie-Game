@@ -23,6 +23,8 @@ public class Shooting : MonoBehaviour
     public ShootingBehavours currentlyHeld = ShootingBehavours.Basic; // Secondary Weapon; If this is swapped, ensure shooting is set back to Basic
     private ShootingAnimation sa;
     [SerializeField] SpriteRenderer sr;
+    [SerializeField][Range(0f, 1f)] float critRate = .15f;
+    [SerializeField] float critDamage = 2f;
 
     [Header("Pickups")]
     private float attackSizeLength = 0; // Timer for attack size pickup
@@ -30,6 +32,7 @@ public class Shooting : MonoBehaviour
     public float damagePowerUp = 0f;
     [SerializeField][Range(1f, 2f)] float damageMuliplier = 1.5f;
     [SerializeField] float unlimitedAmmoTimer = 0f;
+    [SerializeField] float doubleCritTimer = 0f;
 
     [Header("Ammo")]
     public int Max_ammo = 500; //max amount of ammos
@@ -160,6 +163,8 @@ public class Shooting : MonoBehaviour
             damagePowerUp -= Time.deltaTime;
         if (unlimitedAmmoTimer > 0)
             unlimitedAmmoTimer -= Time.deltaTime;
+        if (doubleCritTimer > 0)
+            doubleCritTimer -= Time.deltaTime;
     }
 
     void AimTowardsMouse()
@@ -374,7 +379,7 @@ public class Shooting : MonoBehaviour
         }
     }
 
-    public float CalculateDamage(float baseDamage)
+    public float CalculateDamage(float baseDamage, float additionalCritRate = 0)
     {
         float level = ExperienceManager.Instance.GetCurrentLevel();
         float damage = baseDamage;
@@ -385,7 +390,14 @@ public class Shooting : MonoBehaviour
         if (damagePowerUp > 0)
             damage *= damageMuliplier;
 
-        Debug.Log($"{damage} damage done: {baseDamage} from base, {level} from levels" + (damagePowerUp > 0 ? $", boosted by x{damageMuliplier}" : ""));
+        if (Random.value < (doubleCritTimer > 0 ? (critRate + additionalCritRate) * 2f : critRate + additionalCritRate))
+        {
+            damage *= critDamage;
+            SoundManager.Instance.PlaySound("Crit");
+            Debug.Log($"CRITICAL HIT! {damage} damage done: base {baseDamage}, level {level}, crit x{critDamage}" + (damagePowerUp > 0 ? $", boosted by x{damageMuliplier}" : ""));
+        }
+        else
+            Debug.Log($"{damage} damage done: {baseDamage} from base, {level} from levels" + (damagePowerUp > 0 ? $", boosted by x{damageMuliplier}" : ""));
         return damage;
     }
 
@@ -426,8 +438,10 @@ public class Shooting : MonoBehaviour
     public void AttackSizeTimer(float time = 7) { attackSizeLength = time; }
 
     public void DamageUp(float time = 7f) { damagePowerUp = time; }
-    
+
     public void UnlimitedAmmo(float time = 5f) { unlimitedAmmoTimer = time; }
+    
+    public void DoubleCritRate(float time = 7f) { doubleCritTimer = time; }
 }
 
     // Old Auto Aim Code

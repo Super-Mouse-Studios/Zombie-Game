@@ -67,6 +67,10 @@ public class SoundManager : MonoBehaviour
         AddSound("UnlimitedFireRate", Resources.Load<AudioClip>("UnlimitedFireRate"), SoundType.SOUND_SFX);
         AddSound("Heal", Resources.Load<AudioClip>("Heal"), SoundType.SOUND_SFX);
         AddSound("PlayerHurt", Resources.Load<AudioClip>("PlayerHurt"), SoundType.SOUND_SFX);
+        AddSound("EnemyHurt", Resources.Load<AudioClip>("EnemyHurt"), SoundType.SOUND_SFX);
+        AddSound("LevelUp", Resources.Load<AudioClip>("LevelUp"), SoundType.SOUND_SFX);
+        AddSound("Crit", Resources.Load<AudioClip>("Crit"), SoundType.SOUND_SFX);
+        AddSound("DoubleCrit", Resources.Load<AudioClip>("DoubleCrit"), SoundType.SOUND_SFX);
     }
 
     // Initialize the SoundManager. I just put this functionality here instead of in the static constructor.
