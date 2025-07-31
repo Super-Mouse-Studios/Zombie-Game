@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using TMPro;
+using System.Collections;
 
 public class ShopManager : MonoBehaviour
 {
@@ -15,8 +15,6 @@ public class ShopManager : MonoBehaviour
 
     [Header("Settings")]
     public int playerCurrency = 100; // Starting currency for testing
-    public int ammoPrice = 20;
-    public int ammoAmount = 10;
     public float messageDuration = 2f; // Duration to show purchase messages
 
     private void Awake()
@@ -28,7 +26,8 @@ public class ShopManager : MonoBehaviour
     private void Start()
     {
         shopPanel.SetActive(false);
-        continueButton.onClick.AddListener(OnContinue);
+        if (continueButton != null)
+            continueButton.onClick.AddListener(OnContinue);
         UpdateCurrencyDisplay();
     }
 
@@ -74,12 +73,12 @@ public class ShopManager : MonoBehaviour
             playerCurrency -= cost;
             UpdateCurrencyDisplay();
 
-            // Give ammo to player
             Shooting shooting = FindObjectOfType<Shooting>();
             if (shooting != null)
             {
                 shooting.IncreaseAmmo(amount);
                 ShowPurchaseMessage($"Bought +{amount} Ammo for ${cost}!");
+                Debug.Log($"Bought +{amount} Ammo for {cost} currency.");
             }
             else
             {
@@ -90,11 +89,6 @@ public class ShopManager : MonoBehaviour
         {
             ShowPurchaseMessage("Not enough currency to buy ammo.");
         }
-    }
-
-    public void OnBuyAmmoButtonClicked()
-    {
-        ShopManager.Instance.BuyAmmo(ammoAmount, ammoPrice);
     }
 
     private void OnContinue()
@@ -120,18 +114,18 @@ public class ShopManager : MonoBehaviour
 
     public void ShowPurchaseMessage(string message)
     {
-        StopAllCoroutines(); // Stop previous messages
+        if (purchaseMessageText == null)
+        {
+            Debug.LogWarning("Purchase message text is not assigned!");
+            return;
+        }
+
+        StopAllCoroutines();
         StartCoroutine(ShowMessageRoutine(message));
     }
 
     private IEnumerator ShowMessageRoutine(string message)
     {
-        if (purchaseMessageText == null)
-        {
-            Debug.LogWarning("Purchase message text is not assigned!");
-            yield break;
-        }
-
         purchaseMessageText.text = message;
 
         Color color = purchaseMessageText.color;
