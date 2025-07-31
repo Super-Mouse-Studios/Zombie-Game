@@ -7731,6 +7731,60 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &358663808
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 358663810}
+  - component: {fileID: 358663809}
+  m_Layer: 0
+  m_Name: PlayerUpgradeStats (NEEDED)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &358663809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358663808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8877945408acd99439c7d86ad85d9c5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHPUpgrade: 0
+  movementSpeedUpgrade: 0
+  dodgeSpeedUpgrade: 0
+  dodgeCooldownReduction: 0
+  fireRateIncrease: 0
+  critRateIncrease: 0
+  critDamageIncrease: 0
+  meleeDamageIncrease: 0
+  bulletDamageIncrease: 0
+  maxAmmoUpgrade: 0
+--- !u!4 &358663810
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358663808}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &369141165
 GameObject:
   m_ObjectHideFlags: 3
@@ -22982,3 +23036,4 @@ SceneRoots:
   - {fileID: 1121375060}
   - {fileID: 1750904123}
   - {fileID: 6274358578402709454}
+  - {fileID: 358663810}

@@ -1,7 +1,6 @@
 using UnityEngine;
 using TMPro;
 
-
 public class Shooting : MonoBehaviour
 {
     [Header("Projectile Prefabs")]
@@ -15,19 +14,23 @@ public class Shooting : MonoBehaviour
     [Header("Shooting")]
     public bool isTriggerDown;
     public float timeUntilReloaded, meleeCooldown = 0;
-    public float fireRate = 1; // shots per secend 
-    public float meleeRate = 1; // Attacks per second
-    // public int shootMode = 1;
-    // public float detectionRange = 10f; // Range within which the player can shoot
+
+    // Base stats (will be modified by upgrades)
+    public float baseFireRate = 1f; // shots per second
+    public float baseMeleeRate = 1f; // attacks per second
+
     public ShootingBehavours shootMode = ShootingBehavours.Basic;
-    public ShootingBehavours currentlyHeld = ShootingBehavours.Basic; // Secondary Weapon; If this is swapped, ensure shooting is set back to Basic
+    public ShootingBehavours currentlyHeld = ShootingBehavours.Basic;
+
     private ShootingAnimation sa;
     [SerializeField] SpriteRenderer sr;
-    [SerializeField][Range(0f, 1f)] float critRate = .15f;
-    [SerializeField] float critDamage = 2f;
+
+    // Base crit stats (modified by upgrades)
+    [SerializeField][Range(0f, 1f)] float baseCritRate = 0.15f;
+    [SerializeField] float baseCritDamage = 2f;
 
     [Header("Pickups")]
-    private float attackSizeLength = 0; // Timer for attack size pickup
+    private float attackSizeLength = 0;
     [SerializeField][Range(1.25f, 3f)] float attackSizeMultiplier = 1.5f;
     public float damagePowerUp = 0f;
     [SerializeField][Range(1f, 2f)] float damageMuliplier = 1.5f;
@@ -35,15 +38,14 @@ public class Shooting : MonoBehaviour
     [SerializeField] float doubleCritTimer = 0f;
 
     [Header("Ammo")]
-    public int Max_ammo = 500; //max amount of ammos
-    private int Current_ammo; //current amount of ammos
-    public TMP_Text Ammo_Display; //ammo ui display
+    public int baseMaxAmmo = 500; // base max ammo before upgrades
+    private int currentAmmo;
+    public TMP_Text Ammo_Display;
 
     private UnityEngine.Camera mainCam;
     private Vector3 mousePos;
     private Player_Movement pm;
 
-    // Enum for types of shoot modes
     public enum ShootingBehavours
     {
         Basic,
@@ -59,7 +61,10 @@ public class Shooting : MonoBehaviour
     void Start()
     {
         mainCam = UnityEngine.Camera.main;
-        Current_ammo = 30;
+
+        // Set max ammo including upgrades
+        currentAmmo = Mathf.Min(30, baseMaxAmmo + PlayerStatUpgrades.Instance?.maxAmmoUpgrade ?? 0);
+
         sa = GetComponentInChildren<ShootingAnimation>();
         sr = GetComponentInChildren<SpriteRenderer>();
         pm = GetComponentInParent<Player_Movement>();
@@ -68,16 +73,50 @@ public class Shooting : MonoBehaviour
 
     void Update()
     {
-        //amo display
-        Ammo_Display.text = "Ammo left: " + Current_ammo.ToString();
+        // DEBUG: Press keys to increase upgrades on the fly (for testing only)
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            PlayerStatUpgrades.Instance.maxAmmoUpgrade += 10;
+            Debug.Log($"Max Ammo Upgrade increased: {PlayerStatUpgrades.Instance.maxAmmoUpgrade}");
+        }
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            PlayerStatUpgrades.Instance.fireRateIncrease += 0.2f;
+            Debug.Log($"Fire Rate Upgrade increased: {PlayerStatUpgrades.Instance.fireRateIncrease}");
+        }
+
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            PlayerStatUpgrades.Instance.critRateIncrease += 0.05f;
+            Debug.Log($"Crit Rate Upgrade increased: {PlayerStatUpgrades.Instance.critRateIncrease}");
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            PlayerStatUpgrades.Instance.critDamageIncrease += 0.5f;
+            Debug.Log($"Crit Damage Upgrade increased: {PlayerStatUpgrades.Instance.critDamageIncrease}");
+        }
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            PlayerStatUpgrades.Instance.bulletDamageIncrease += 2f;
+            Debug.Log("Bullet damage increased by 2! Current bonus: " + PlayerStatUpgrades.Instance.bulletDamageIncrease);
+        }
+
+        // Update max ammo dynamically with upgrades
+        int upgradedMaxAmmo = baseMaxAmmo + (PlayerStatUpgrades.Instance?.maxAmmoUpgrade ?? 0);
+
+        // Clamp current ammo to max ammo (in case upgrades changed)
+        currentAmmo = Mathf.Clamp(currentAmmo, 0, upgradedMaxAmmo);
+
+        Ammo_Display.text = "Ammo left: " + currentAmmo.ToString();
 
         isTriggerDown = Input.GetMouseButton(0) || Input.GetButton("Jump");
 
-        // Melee attack 
         if (Input.GetKeyDown(KeyCode.F) || Input.GetMouseButton(1))
             MeleeAttackBehaviour();
 
-        // Changes current ShootMode 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             shootMode = ShootingBehavours.Basic;
@@ -88,44 +127,47 @@ public class Shooting : MonoBehaviour
 
         AimTowardsMouse();
 
-        // Determines what mode to shoot
+        // Calculate upgraded fire rate and melee rate based on upgrades
+        float upgradedFireRate = baseFireRate + (PlayerStatUpgrades.Instance?.fireRateIncrease ?? 0f);
+        float upgradedMeleeRate = baseMeleeRate + (PlayerStatUpgrades.Instance?.meleeDamageIncrease ?? 0f); // Assuming meleeDamageIncrease can also affect melee attack speed, adjust if needed
+
         switch (shootMode)
         {
             case ShootingBehavours.Basic:
                 if (isTriggerDown)
-                    BasicShootingBehaviour();
+                    BasicShootingBehaviour(upgradedFireRate);
                 break;
             case ShootingBehavours.Spread:
                 if (isTriggerDown)
-                    SpreadShootingBehaviour();
+                    SpreadShootingBehaviour(upgradedFireRate);
                 break;
             case ShootingBehavours.Rocket:
                 if (isTriggerDown)
-                    RocketShootingBehaviour();
+                    RocketShootingBehaviour(upgradedFireRate);
                 break;
             case ShootingBehavours.AR:
                 if (isTriggerDown)
-                    ARShootingBehaviour();
+                    ARShootingBehaviour(upgradedFireRate);
                 break;
             case ShootingBehavours.Sniper:
                 if (isTriggerDown)
-                    SniperShootingBehaviour();
+                    SniperShootingBehaviour(upgradedFireRate);
                 break;
             case ShootingBehavours.Revolver:
                 if (isTriggerDown)
-                    RevolverShootingBehaviour();
+                    RevolverShootingBehaviour(upgradedFireRate);
                 break;
         }
 
         timeUntilReloaded -= Time.deltaTime;
-        if (timeUntilReloaded <= 0)
+        if (timeUntilReloaded < 0)
             timeUntilReloaded = 0;
 
         meleeCooldown -= Time.deltaTime;
-        if (meleeCooldown <= 0)
+        if (meleeCooldown < 0)
             meleeCooldown = 0;
 
-        // Delete later, just for shoot testing
+        // Debug weapon swaps (can keep or remove later)
         if (Input.GetKeyDown(KeyCode.Y))
         {
             shootMode = ShootingBehavours.Spread;
@@ -175,39 +217,18 @@ public class Shooting : MonoBehaviour
 
         float rotZ = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
 
-        transform.rotation = Quaternion.Euler(0, 0, rotZ - 91f); // Undos the aiming Offset
+        transform.rotation = Quaternion.Euler(0, 0, rotZ - 91f);
 
-        // float angleFromHorizontal = Mathf.Abs(Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg);
-
-        // // Only flip if the player is aiming more horizontally (not aiming mostly up/down)
-        // if (angleFromHorizontal < 60f || angleFromHorizontal > 120f)
-        // {
-        if (mousePos.x < transform.position.x) // Mouse is to the left of player
+        if (mousePos.x < transform.position.x)
         {
-
-            // Aiming left
-            if (!pm.lookingRight)
-            {
-                sr.flipY = false;
-            }
-            else
-            {
-                sr.flipY = true;
-            }
+            if (!pm.lookingRight) sr.flipY = false;
+            else sr.flipY = true;
         }
-        else // Mouse is right of player
+        else
         {
-            // Aiming right
-            if (!pm.lookingRight)
-            {
-                sr.flipY = true;
-            }
-            else
-            {
-                sr.flipY = false;
-            }
+            if (!pm.lookingRight) sr.flipY = true;
+            else sr.flipY = false;
         }
-        // }
     }
 
     void SwapToSecondary()
@@ -241,40 +262,35 @@ public class Shooting : MonoBehaviour
         }
     }
 
-    // Basic Shooting Behaviour
-    void BasicShootingBehaviour()
+    // Updated shooting behaviours to accept fireRate param from upgrades
+
+    void BasicShootingBehaviour(float upgradedFireRate)
     {
-        if (timeUntilReloaded <= 0 && Current_ammo > 0)
+        if (timeUntilReloaded <= 0 && currentAmmo > 0)
         {
             sa.PlayShootingAnimation("shot ");
-            SoundManager.Instance.PlaySound("Chaingun"); // Plays Chaingun SFX
+            SoundManager.Instance.PlaySound("Chaingun");
 
             GameObject projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
             if (attackSizeLength > 0)
                 projectile.transform.localScale *= attackSizeMultiplier;
 
-            float secondsPerShot = 1 / fireRate;
+            float secondsPerShot = 1 / upgradedFireRate;
             timeUntilReloaded += secondsPerShot;
-            Current_ammo -= (unlimitedAmmoTimer <= 0) ? 1 : 0;
+            currentAmmo -= (unlimitedAmmoTimer <= 0) ? 1 : 0;
         }
     }
 
-    // Spread Shooting Behaviour
-    void SpreadShootingBehaviour()
+    void SpreadShootingBehaviour(float upgradedFireRate)
     {
-        if (timeUntilReloaded <= 0 && Current_ammo >= 3)
+        if (timeUntilReloaded <= 0 && currentAmmo >= 3)
         {
             sa.PlayShootingAnimation("shoot 0_3");
-            SoundManager.Instance.PlaySound("Shotgun"); // Plays Shotgun SFX
+            SoundManager.Instance.PlaySound("Shotgun");
 
-            // Center bullet
             GameObject center = Instantiate(shotgunShotPrefab, transform.position, transform.rotation);
-
-            // Left bullet (-12 degrees)
             Quaternion leftRotation = transform.rotation * Quaternion.Euler(0, 0, -12f);
             GameObject left = Instantiate(shotgunShotPrefab, transform.position, leftRotation);
-
-            // Right bullet (+12 degrees)
             Quaternion rightRotation = transform.rotation * Quaternion.Euler(0, 0, 12f);
             GameObject right = Instantiate(shotgunShotPrefab, transform.position, rightRotation);
 
@@ -285,51 +301,47 @@ public class Shooting : MonoBehaviour
                 right.transform.localScale *= attackSizeMultiplier;
             }
 
-            float secondsPerShot = 1 / fireRate;
+            float secondsPerShot = 1 / upgradedFireRate;
             timeUntilReloaded += secondsPerShot;
-            Current_ammo -= (unlimitedAmmoTimer <= 0) ? 3 : 0;
+            currentAmmo -= (unlimitedAmmoTimer <= 0) ? 3 : 0;
         }
     }
 
-    // Shoots a rocket where projectile will deal damage on impact and cause an explosion which will deal addtional damage to player and zombie, has 1.2x cooldown
-    void RocketShootingBehaviour()
+    void RocketShootingBehaviour(float upgradedFireRate)
     {
-        if (timeUntilReloaded <= 0 && Current_ammo > 0)
+        if (timeUntilReloaded <= 0 && currentAmmo > 0)
         {
             sa.PlayShootingAnimation("shoot 0_5");
             SoundManager.Instance.PlaySound("Rocket");
 
             GameObject rocket = Instantiate(rocketPrefab, transform.position, transform.rotation);
-
             if (attackSizeLength > 0)
                 rocket.transform.localScale *= attackSizeMultiplier;
 
-            float secondsPerShot = 1 / (fireRate / 1.2f);
+            float secondsPerShot = 1 / (upgradedFireRate / 1.2f);
             timeUntilReloaded += secondsPerShot;
-            Current_ammo -= (unlimitedAmmoTimer <= 0) ? 1 : 0;
+            currentAmmo -= (unlimitedAmmoTimer <= 0) ? 1 : 0;
         }
     }
 
-    // Shoots 4x as fast as basic gun
-    void ARShootingBehaviour()
+    void ARShootingBehaviour(float upgradedFireRate)
     {
-        if (timeUntilReloaded <= 0 && Current_ammo > 0)
+        if (timeUntilReloaded <= 0 && currentAmmo > 0)
         {
             sa.PlayShootingAnimation("shoot 0_4");
             SoundManager.Instance.PlaySound("AR");
 
             Instantiate(projectilePrefab, transform.position, transform.rotation);
 
-            float secondsPerShot = 1 / (fireRate * 4);
+            float secondsPerShot = 1 / (upgradedFireRate * 4);
             timeUntilReloaded += secondsPerShot;
-            Current_ammo -= (unlimitedAmmoTimer <= 0) ? 1 : 0;
+            currentAmmo -= (unlimitedAmmoTimer <= 0) ? 1 : 0;
         }
     }
 
-    // Sniper shot; has 2x cooldown
-    void SniperShootingBehaviour()
+    void SniperShootingBehaviour(float upgradedFireRate)
     {
-        if (timeUntilReloaded <= 0 && Current_ammo > 0)
+        if (timeUntilReloaded <= 0 && currentAmmo > 0)
         {
             sa.PlayShootingAnimation("Shoot");
             SoundManager.Instance.PlaySound("Charger");
@@ -339,33 +351,35 @@ public class Shooting : MonoBehaviour
             if (attackSizeLength > 0)
                 projectile.transform.localScale *= attackSizeMultiplier;
 
-            float secondsPerShot = 1 / (fireRate / 2);
+            float secondsPerShot = 1 / (upgradedFireRate / 2);
             timeUntilReloaded += secondsPerShot;
-            Current_ammo -= (unlimitedAmmoTimer <= 0) ? 1 : 0;
+            currentAmmo -= (unlimitedAmmoTimer <= 0) ? 1 : 0;
         }
     }
 
-
-    // Melee attack
+    // Melee attack updated to respect melee cooldown upgrades and calculate damage
     void MeleeAttackBehaviour()
     {
+        float upgradedCritRate = baseCritRate + (PlayerStatUpgrades.Instance?.critRateIncrease ?? 0f);
+        float upgradedCritDamage = baseCritDamage + (PlayerStatUpgrades.Instance?.critDamageIncrease ?? 0f);
+        float meleeCooldownDuration = 1 / (baseMeleeRate + (PlayerStatUpgrades.Instance?.meleeDamageIncrease ?? 0f)); // Using meleeDamageIncrease to increase attack speed, you can separate this if needed
+
         if (meleeCooldown <= 0)
         {
-            SoundManager.Instance.PlaySound("Knife"); // Plays knife SFX
+            SoundManager.Instance.PlaySound("Knife");
 
-            timeUntilReloaded += 0.25f; // So you don't fire while doing a melee attack
+            timeUntilReloaded += 0.25f;
 
-            float meleeOffset = .9f; // Melee Offset from player
+            float meleeOffset = .9f;
             Vector3 spawnPosition = transform.position + transform.up * meleeOffset;
 
-            float meleeAngle = -33f; // So animation is more horizontal to player
+            float meleeAngle = -33f;
             Quaternion meleeRotation = transform.rotation * Quaternion.Euler(0, 0, meleeAngle);
 
             GameObject meleeObj = Instantiate(meleePrefab, spawnPosition, meleeRotation, this.transform);
 
-            // Compensate for parent's scale so meleeObj appears at (1,1,1) in world space
             Vector3 parentScale = transform.lossyScale;
-            meleeObj.transform.localScale = new Vector3( // Scales Melee attack to be 2.9x sized
+            meleeObj.transform.localScale = new Vector3(
                 2.9f / parentScale.x,
                 2.9f / parentScale.y,
                 2.9f / parentScale.z
@@ -374,8 +388,7 @@ public class Shooting : MonoBehaviour
             if (attackSizeLength > 0)
                 meleeObj.transform.localScale *= attackSizeMultiplier;
 
-            float secondsPerAttack = 1 / meleeRate;
-            meleeCooldown = secondsPerAttack;
+            meleeCooldown = meleeCooldownDuration;
         }
     }
 
@@ -384,39 +397,42 @@ public class Shooting : MonoBehaviour
         float level = ExperienceManager.Instance.GetCurrentLevel();
         float damage = baseDamage;
 
-        // Damage increased by each level
+        // Add melee or bullet damage bonus
+        if (baseDamage == 10f) // Melee attack default base damage
+            damage += PlayerStatUpgrades.Instance?.meleeDamageIncrease ?? 0f;
+        else
+            damage += PlayerStatUpgrades.Instance?.bulletDamageIncrease ?? 0f;
+
         damage += level;
 
         if (damagePowerUp > 0)
             damage *= damageMuliplier;
 
-        if (Random.value < (doubleCritTimer > 0 ? (critRate + additionalCritRate) * 2f : critRate + additionalCritRate))
+        // Use upgraded crit values
+        float upgradedCritRate = baseCritRate + (PlayerStatUpgrades.Instance?.critRateIncrease ?? 0f);
+        float upgradedCritDamage = baseCritDamage + (PlayerStatUpgrades.Instance?.critDamageIncrease ?? 0f);
+
+        if (Random.value < (doubleCritTimer > 0 ? (upgradedCritRate + additionalCritRate) * 2f : upgradedCritRate + additionalCritRate))
         {
-            damage *= critDamage;
+            damage *= upgradedCritDamage;
             SoundManager.Instance.PlaySound("Crit");
-            Debug.Log($"CRITICAL HIT! {damage} damage done: base {baseDamage}, level {level}, crit x{critDamage}" + (damagePowerUp > 0 ? $", boosted by x{damageMuliplier}" : ""));
+            Debug.Log($"CRITICAL HIT! {damage} damage done: base {baseDamage}, level {level}, crit x{upgradedCritDamage}" + (damagePowerUp > 0 ? $", boosted by x{damageMuliplier}" : ""));
         }
         else
             Debug.Log($"{damage} damage done: {baseDamage} from base, {level} from levels" + (damagePowerUp > 0 ? $", boosted by x{damageMuliplier}" : ""));
         return damage;
     }
 
-    // Don't put this in the shop
-    void RevolverShootingBehaviour()
+    void RevolverShootingBehaviour(float upgradedFireRate)
     {
         if (timeUntilReloaded <= 0)
         {
             sa.PlayShootingAnimation("shoot 0_2");
-            SoundManager.Instance.PlaySound("Shotgun"); // Plays Shotgun SFX
+            SoundManager.Instance.PlaySound("Shotgun");
 
-            // Center bullet
             GameObject center = Instantiate(rocketPrefab, transform.position, transform.rotation);
-
-            // Left bullet (-12 degrees)
             Quaternion leftRotation = transform.rotation * Quaternion.Euler(0, 0, -12f);
             GameObject left = Instantiate(sniperShotPrefab, transform.position, leftRotation);
-
-            // Right bullet (+12 degrees)
             Quaternion rightRotation = transform.rotation * Quaternion.Euler(0, 0, 12f);
             GameObject right = Instantiate(sniperShotPrefab, transform.position, rightRotation);
 
@@ -427,71 +443,71 @@ public class Shooting : MonoBehaviour
                 right.transform.localScale *= attackSizeMultiplier;
             }
 
-            float secondsPerShot = 1 / (fireRate * 4);
+            float secondsPerShot = 1 / (upgradedFireRate * 4);
             timeUntilReloaded += secondsPerShot;
-            Current_ammo++;
+            currentAmmo++;
         }
     }
 
-    public void IncreaseAmmo(int ammo) { Current_ammo += ammo; }
+    public void IncreaseAmmo(int ammo) { currentAmmo += ammo; }
 
     public void AttackSizeTimer(float time = 7) { attackSizeLength = time; }
 
     public void DamageUp(float time = 7f) { damagePowerUp = time; }
 
     public void UnlimitedAmmo(float time = 5f) { unlimitedAmmoTimer = time; }
-    
+
     public void DoubleCritRate(float time = 7f) { doubleCritTimer = time; }
 }
 
-    // Old Auto Aim Code
-    // void AutoAimandShoot()
-    // {
-    //     FindNearestEnemy();
+// Old Auto Aim Code
+// void AutoAimandShoot()
+// {
+//     FindNearestEnemy();
 
-    //     if (targetEnemy != null)
-    //     {
-    //         // Calculate direction in 2D
-    //         Vector2 direction = (targetEnemy.position - transform.position).normalized;
-    //         // Calulate angle and rotate only around Z axis
-    //         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-    //         transform.rotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
+//     if (targetEnemy != null)
+//     {
+//         // Calculate direction in 2D
+//         Vector2 direction = (targetEnemy.position - transform.position).normalized;
+//         // Calulate angle and rotate only around Z axis
+//         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+//         transform.rotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
 
-    //         //Shoot if reloaded
-    //         switch (shooting)
-    //         {
-    //             case ShootingBehavours.Basic:
-    //                 BasicShootingBehaviour();
-    //                 break;
-    //             case ShootingBehavours.Spread:
-    //                 SpreadShootingBehaviour();
-    //                 break;
-    //             case ShootingBehavours.Rocket:
-    //                 RocketShootingBehaviour();
-    //                 break;
-    //             case ShootingBehavours.AR:
-    //                 ARShootingBehaviour();
-    //                 break;
-    //             case ShootingBehavours.Sniper:
-    //                 SniperShootingBehaviour();
-    //                 break;
-    //         }
-    //     }
-    // }
+//         //Shoot if reloaded
+//         switch (shooting)
+//         {
+//             case ShootingBehavours.Basic:
+//                 BasicShootingBehaviour();
+//                 break;
+//             case ShootingBehavours.Spread:
+//                 SpreadShootingBehaviour();
+//                 break;
+//             case ShootingBehavours.Rocket:
+//                 RocketShootingBehaviour();
+//                 break;
+//             case ShootingBehavours.AR:
+//                 ARShootingBehaviour();
+//                 break;
+//             case ShootingBehavours.Sniper:
+//                 SniperShootingBehaviour();
+//                 break;
+//         }
+//     }
+// }
 
-    // void FindNearestEnemy()
-    // {
-    //     GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-    //     float closestDistance = detectionRange;
-    //     targetEnemy = null;
+// void FindNearestEnemy()
+// {
+//     GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+//     float closestDistance = detectionRange;
+//     targetEnemy = null;
 
-    //     foreach (GameObject enemy in enemies)
-    //     {
-    //         float distance = Vector3.Distance(transform.position, enemy.transform.position);
-    //         if (distance < closestDistance)
-    //         {
-    //             closestDistance = distance;
-    //             targetEnemy = enemy.transform;
-    //         }
-    //     }
-    // }
+//     foreach (GameObject enemy in enemies)
+//     {
+//         float distance = Vector3.Distance(transform.position, enemy.transform.position);
+//         if (distance < closestDistance)
+//         {
+//             closestDistance = distance;
+//             targetEnemy = enemy.transform;
+//         }
+//     }
+// }

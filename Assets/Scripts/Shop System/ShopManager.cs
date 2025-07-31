@@ -91,6 +91,73 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+    public void BuyUpgrade(UpgradeShopButton.UpgradeData upgrade)
+    {
+        if (playerCurrency >= upgrade.price)
+        {
+            playerCurrency -= upgrade.price;
+            UpdateCurrencyDisplay();
+
+            var upgrades = PlayerStatUpgrades.Instance;
+
+            switch (upgrade.upgradeType)
+            {
+                case UpgradeShopButton.UpgradeType.MaxHP:
+                    upgrades.maxHPUpgrade += upgrade.upgradeAmount;
+                    Debug.Log($"Max HP increased by {upgrade.upgradeAmount}. New total: {upgrades.maxHPUpgrade}");
+                    break;
+                case UpgradeShopButton.UpgradeType.MovementSpeed:
+                    upgrades.movementSpeedUpgrade += upgrade.upgradeAmount;
+                    Debug.Log($"Movement Speed increased by {upgrade.upgradeAmount}. New total: {upgrades.movementSpeedUpgrade}");
+                    break;
+                case UpgradeShopButton.UpgradeType.DodgeSpeed:
+                    upgrades.dodgeSpeedUpgrade += upgrade.upgradeAmount;
+                    Debug.Log($"Dodge Speed increased by {upgrade.upgradeAmount}. New total: {upgrades.dodgeSpeedUpgrade}");
+                    break;
+                case UpgradeShopButton.UpgradeType.DodgeCooldownReduction:
+                    upgrades.dodgeCooldownReduction += upgrade.upgradeAmount;
+                    Debug.Log($"Dodge Cooldown Reduction increased by {upgrade.upgradeAmount}. New total: {upgrades.dodgeCooldownReduction}");
+                    break;
+                case UpgradeShopButton.UpgradeType.FireRate:
+                    upgrades.fireRateIncrease += upgrade.upgradeAmount;
+                    Debug.Log($"Fire Rate increased by {upgrade.upgradeAmount}. New total: {upgrades.fireRateIncrease}");
+                    break;
+                case UpgradeShopButton.UpgradeType.CritRate:
+                    upgrades.critRateIncrease += upgrade.upgradeAmount;
+                    Debug.Log($"Crit Rate increased by {upgrade.upgradeAmount}. New total: {upgrades.critRateIncrease}");
+                    break;
+                case UpgradeShopButton.UpgradeType.CritDamage:
+                    upgrades.critDamageIncrease += upgrade.upgradeAmount;
+                    Debug.Log($"Crit Damage increased by {upgrade.upgradeAmount}. New total: {upgrades.critDamageIncrease}");
+                    break;
+                case UpgradeShopButton.UpgradeType.MeleeDamage:
+                    upgrades.meleeDamageIncrease += upgrade.upgradeAmount;
+                    Debug.Log($"Melee Damage increased by {upgrade.upgradeAmount}. New total: {upgrades.meleeDamageIncrease}");
+                    break;
+                case UpgradeShopButton.UpgradeType.BulletDamage:
+                    upgrades.bulletDamageIncrease += upgrade.upgradeAmount;
+                    Debug.Log($"Bullet Damage increased by {upgrade.upgradeAmount}. New total: {upgrades.bulletDamageIncrease}");
+                    break;
+                case UpgradeShopButton.UpgradeType.MaxAmmo:
+                    int intAmount = Mathf.RoundToInt(upgrade.upgradeAmount);
+                    upgrades.maxAmmoUpgrade += intAmount;
+                    Debug.Log($"Max Ammo increased by {intAmount}. New total: {upgrades.maxAmmoUpgrade}");
+                    break;
+                default:
+                    Debug.LogWarning("Unhandled upgrade type: " + upgrade.upgradeType);
+                    break;
+            }
+
+            ShowPurchaseMessage($"Purchased {upgrade.upgradeName} for ${upgrade.price}!");
+            Debug.Log($"Purchased upgrade {upgrade.upgradeName} for {upgrade.price} currency.");
+        }
+        else
+        {
+            ShowPurchaseMessage("Not enough currency for upgrade!");
+            Debug.Log("Not enough currency to buy upgrade.");
+        }
+    }
+
     private void OnContinue()
     {
         CloseShop();

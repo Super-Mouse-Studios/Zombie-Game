@@ -46,27 +46,47 @@ public class Player_Movement : MonoBehaviour
         Dodging
     }
 
+    void ApplyUpgrades()
+    {
+        // Apply max HP upgrade
+        maxHealth += PlayerStatUpgrades.Instance.maxHPUpgrade;
+
+        // Apply other upgrades similarly...
+
+      
+    }
+
+
     void Start()
     {
         ExperienceManager.Instance.ResetLevels();
         ExperienceManager.Instance.ShowText();
         //health status at the start of the game
         currentHealth = maxHealth;
-        healthbar.updateHealthBar(maxHealth, currentHealth); //updating health bar
+        healthbar.updateHealthBar(maxHealth + PlayerStatUpgrades.Instance.maxHPUpgrade, currentHealth); //initial update with upgrades
 
         // Saves original dodge speed/cooldown so it lines up if it's changed in inspector
         originalDodgeSpeed = dodgeSpeed;
 
         hurtbox = GetComponent<CapsuleCollider2D>();
+
+        ApplyUpgrades();
+
+        // Just for debug, print the max health after upgrades applied
+        Debug.Log($"[DEBUG] Max Health after upgrades: {maxHealth}");
     }
 
     //player taking damage and dying
     public void PlayerTakeDamage(float PlayerDamageAmount)
     {
         SoundManager.Instance.PlaySound("PlayerHurt");
-        currentHealth -= PlayerDamageAmount; //10 -> 9 -> 8 -> 7 -> 6 -> 5 -> 4 -> 3 -> 2 -> 1 -> 0
-        healthbar.updateHealthBar(maxHealth, currentHealth); //updating health bar
-                                                             // animator.Play("Hit"); // Plays hurt animation
+        currentHealth -= PlayerDamageAmount;
+        // Clamp health so it doesn't go above max + upgrade
+        float effectiveMaxHealth = maxHealth + PlayerStatUpgrades.Instance.maxHPUpgrade;
+        currentHealth = Mathf.Min(currentHealth, effectiveMaxHealth);
+
+        healthbar.updateHealthBar(effectiveMaxHealth, currentHealth);
+
         if (currentHealth <= 0)
         {
             ExperienceManager.Instance.HideText();
@@ -93,19 +113,22 @@ public class Player_Movement : MonoBehaviour
         float inputY = Input.GetAxisRaw("Vertical");
         inputvector = new Vector3(inputX, inputY, 0);
 
+        // Calculate effective stats by adding base + upgrades
+        float effectiveSpeed = speed + PlayerStatUpgrades.Instance.movementSpeedUpgrade;
+        float effectiveDodgeSpeed = dodgeSpeed + PlayerStatUpgrades.Instance.dodgeSpeedUpgrade;
+        float effectiveDodgeCooldown = Mathf.Max(0f, dodgeCooldown - PlayerStatUpgrades.Instance.dodgeCooldownReduction);
+        float effectiveMaxHealth = maxHealth + PlayerStatUpgrades.Instance.maxHPUpgrade;
+
         // Handles movement based on which state player is in
         switch (state)
         {
             case MovementState.Normal: // Normal walking state
                 if (!(inputvector.x == 0 && inputvector.y == 0))
                 {
-
                     float dt = Time.deltaTime;
                     Vector3 direction = inputvector.normalized;
-                    transform.position += inputvector / inputvector.magnitude * speed * dt;
-                    transform.position += direction * speed * dt;
-                    // Vector3 rotatedDirection = new Vector3(-direction.x, direction.y, 0);
-                    // transform.up = direction;
+                    transform.position += inputvector / inputvector.magnitude * effectiveSpeed * dt;
+                    transform.position += direction * effectiveSpeed * dt;
 
                     Vector3 scale = transform.localScale;
                     if (inputvector.x > 0) // when moving right
@@ -146,15 +169,15 @@ public class Player_Movement : MonoBehaviour
                 break;
 
             case MovementState.Dodging: // Dodge state
-                DodgeRoll();
+                DodgeRoll(effectiveDodgeSpeed);
                 break;
         }
 
-        // Reset dodge cooldown over time
+        // Reset dodge cooldown over time using effective cooldown
         if (gasedUp > 0)
         {
             gasedUp -= Time.deltaTime;
-            if (dodgeCooldown > 0)
+            if (effectiveDodgeCooldown > 0)
                 dodgeCooldownReload = 0;
         }
         else if (dodgeCooldownReload > 0)
@@ -171,19 +194,19 @@ public class Player_Movement : MonoBehaviour
         transform.position = clampedPosition;
     }
 
-    // Player Level Up Health increase
+    // Player Level Up Health increase (optional, depends on how you want to handle leveling)
     public void LevelUp()
     {
         ++maxHealth;
         ++currentHealth;
         Debug.Log($"MaxHP: {maxHealth}, Current HP: {currentHealth}");
 
-        healthbar.updateHealthBar(maxHealth, currentHealth);
+        float effectiveMaxHealth = maxHealth + PlayerStatUpgrades.Instance.maxHPUpgrade;
+        healthbar.updateHealthBar(effectiveMaxHealth, currentHealth);
     }
 
-
-    // Dodge roll method
-    private void DodgeRoll()
+    // Dodge roll method now takes effective dodge speed
+    private void DodgeRoll(float effectiveDodgeSpeed)
     {
         Debug.Log("Now Dodging");
 
@@ -197,17 +220,16 @@ public class Player_Movement : MonoBehaviour
                 dodgeDirection = -transform.up;
         }
 
-        transform.position += dodgeDirection * dodgeSpeed * Time.deltaTime;
+        transform.position += dodgeDirection * effectiveDodgeSpeed * Time.deltaTime;
 
-        dodgeSpeed -= dodgeSpeed * 10f * Time.deltaTime; // Decelerates speed
+        // Decelerates speed
+        effectiveDodgeSpeed -= effectiveDodgeSpeed * 10f * Time.deltaTime;
 
         // Switches back to normal state after speed decelerates enough and resets dodge speed to original
-        if (dodgeSpeed <= 5f)
+        if (effectiveDodgeSpeed <= 5f)
         {
             state = MovementState.Normal;
-            dodgeSpeed = originalDodgeSpeed;
-            dodgeDirection = new Vector3(-1111, -2222, -3333); // Sets dodge direction to an impossible vector
-            dodgeCooldownReload = dodgeCooldown;
+            dodgeCooldownReload = Mathf.Max(0f, dodgeCooldown - PlayerStatUpgrades.Instance.dodgeCooldownReduction);
 
             hurtbox.enabled = true; // Re-enables hurtbox at the end of dodges
         }
@@ -217,6 +239,8 @@ public class Player_Movement : MonoBehaviour
     public void Healing(int heal = 1)
     {
         currentHealth += heal;
-        healthbar.updateHealthBar(maxHealth, currentHealth);
+        float effectiveMaxHealth = maxHealth + PlayerStatUpgrades.Instance.maxHPUpgrade;
+        currentHealth = Mathf.Min(currentHealth, effectiveMaxHealth);
+        healthbar.updateHealthBar(effectiveMaxHealth, currentHealth);
     }
 }
