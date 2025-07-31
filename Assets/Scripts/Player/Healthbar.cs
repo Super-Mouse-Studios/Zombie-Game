@@ -4,10 +4,6 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.UI;
 
-//****************************************
-//**this script is for player health bar**
-//****************************************
-
 public class Healthbar : MonoBehaviour
 {
     [SerializeField] private Image healthBarImage;
