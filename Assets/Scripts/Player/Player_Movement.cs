@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using TMPro;
+using Unity.Mathematics;
 
 //**************************************
 //**this script is for player movement**
@@ -39,6 +41,7 @@ public class Player_Movement : MonoBehaviour
     [SerializeField] SpriteRenderer sr;
     public bool lookingRight = false;
     private bool hitPlaying = false;
+    [SerializeField] GameObject textPrefab;
 
     public enum MovementState // Defines movements player can take
     {
@@ -235,12 +238,24 @@ public class Player_Movement : MonoBehaviour
         }
     }
 
-    public void Gasoline(float time = 7f) { gasedUp = time; } // How long you're gased up for
+    public void Gasoline(float time = 7f)
+    {
+        gasedUp = time; // How long you're gased up for
+        
+        GameObject pickupText = Instantiate(textPrefab, transform.position, quaternion.identity);
+        TextMeshPro text = pickupText.transform.GetChild(0).GetComponent<TextMeshPro>();
+        text.SetText("No Dodge Cooldown");
+    }
     public void Healing(int heal = 1)
     {
         currentHealth += heal;
         float effectiveMaxHealth = maxHealth + PlayerStatUpgrades.Instance.maxHPUpgrade;
         currentHealth = Mathf.Min(currentHealth, effectiveMaxHealth);
         healthbar.updateHealthBar(effectiveMaxHealth, currentHealth);
+
+        GameObject pickupText = Instantiate(textPrefab, transform.position, quaternion.identity);
+        TextMeshPro text = pickupText.transform.GetChild(0).GetComponent<TextMeshPro>();
+        text.SetText($"+{heal} HP");
+        text.color = Color.green;
     }
 }

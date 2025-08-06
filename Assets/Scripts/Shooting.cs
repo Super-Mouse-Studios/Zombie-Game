@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using Unity.Mathematics;
 
 public class Shooting : MonoBehaviour
 {
@@ -31,11 +32,12 @@ public class Shooting : MonoBehaviour
 
     [Header("Pickups")]
     private float attackSizeLength = 0;
-    [SerializeField][Range(1.25f, 3f)] float attackSizeMultiplier = 1.5f;
+    [SerializeField][Range(1.25f, 3f)] float attackSizeMultiplier = 1.5f; // for powerup
     public float damagePowerUp = 0f;
     [SerializeField][Range(1f, 2f)] float damageMuliplier = 1.5f;
     [SerializeField] float unlimitedAmmoTimer = 0f;
     [SerializeField] float doubleCritTimer = 0f;
+    [SerializeField] GameObject textPrefab;
 
     [Header("Ammo")]
     public int baseMaxAmmo = 500; // base max ammo before upgrades
@@ -412,11 +414,18 @@ public class Shooting : MonoBehaviour
         float upgradedCritRate = baseCritRate + (PlayerStatUpgrades.Instance?.critRateIncrease ?? 0f);
         float upgradedCritDamage = baseCritDamage + (PlayerStatUpgrades.Instance?.critDamageIncrease ?? 0f);
 
-        if (Random.value < (doubleCritTimer > 0 ? (upgradedCritRate + additionalCritRate) * 2f : upgradedCritRate + additionalCritRate))
+        if (UnityEngine.Random.value < (doubleCritTimer > 0 ? (upgradedCritRate + additionalCritRate) * 2f : upgradedCritRate + additionalCritRate))
         {
             damage *= upgradedCritDamage;
             SoundManager.Instance.PlaySound("Crit");
             Debug.Log($"CRITICAL HIT! {damage} damage done: base {baseDamage}, level {level}, crit x{upgradedCritDamage}" + (damagePowerUp > 0 ? $", boosted by x{damageMuliplier}" : ""));
+
+            GameObject pickupText = Instantiate(textPrefab, transform.position, quaternion.identity);
+            pickupText.transform.localScale *= 1.75f;
+            TextMeshPro text = pickupText.transform.GetChild(0).GetComponent<TextMeshPro>();
+            text.SetText("CRIT!");
+            text.fontStyle = FontStyles.Bold | FontStyles.Italic;
+            text.color = Color.red;
         }
         else
             Debug.Log($"{damage} damage done: {baseDamage} from base, {level} from levels" + (damagePowerUp > 0 ? $", boosted by x{damageMuliplier}" : ""));
@@ -449,15 +458,57 @@ public class Shooting : MonoBehaviour
         }
     }
 
-    public void IncreaseAmmo(int ammo) { currentAmmo += ammo; }
+    public void IncreaseAmmo(int ammo)
+    {
+        currentAmmo += ammo;
 
-    public void AttackSizeTimer(float time = 7) { attackSizeLength = time; }
+        GameObject pickupText = Instantiate(textPrefab, transform.position, quaternion.identity);
+        TextMeshPro text = pickupText.transform.GetChild(0).GetComponent<TextMeshPro>();
+        text.SetText($"+{ammo} Ammo");
+    }
 
-    public void DamageUp(float time = 7f) { damagePowerUp = time; }
+    public void AttackSizeTimer(float time = 7)
+    {
+        attackSizeLength = time;
 
-    public void UnlimitedAmmo(float time = 5f) { unlimitedAmmoTimer = time; }
+        GameObject pickupText = Instantiate(textPrefab, transform.position, quaternion.identity);
+        TextMeshPro text = pickupText.transform.GetChild(0).GetComponent<TextMeshPro>();
+        text.SetText($"{attackSizeMultiplier}x Damage for {time}s");
+    }
 
-    public void DoubleCritRate(float time = 7f) { doubleCritTimer = time; }
+    public void DamageUp(float time = 7f)
+    {
+        damagePowerUp = time;
+
+        GameObject pickupText = Instantiate(textPrefab, transform.position, quaternion.identity);
+        TextMeshPro text = pickupText.transform.GetChild(0).GetComponent<TextMeshPro>();
+        text.SetText($"{damageMuliplier}x Damage for {time}s");
+    }
+
+    public void UnlimitedAmmo(float time = 5f)
+    {
+        unlimitedAmmoTimer = time;
+
+        GameObject pickupText = Instantiate(textPrefab, transform.position, quaternion.identity);
+        TextMeshPro text = pickupText.transform.GetChild(0).GetComponent<TextMeshPro>();
+        text.SetText($"Unlimited Ammo for {time}s");
+    }
+
+    public void DoubleCritRate(float time = 7f)
+    {
+        doubleCritTimer = time;
+
+        GameObject pickupText = Instantiate(textPrefab, transform.position, quaternion.identity);
+        TextMeshPro text = pickupText.transform.GetChild(0).GetComponent<TextMeshPro>();
+        text.SetText($"2x Crit Rate for {time}s");
+    }
+
+    public void SpawnFireRateText(float time)
+    {
+        GameObject pickupText = Instantiate(textPrefab, transform.position, quaternion.identity);
+        TextMeshPro text = pickupText.transform.GetChild(0).GetComponent<TextMeshPro>();
+        text.SetText($"Increased Fire Rate for {time}s");
+    }
 }
 
 // Old Auto Aim Code
