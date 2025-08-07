@@ -53,14 +53,20 @@ MonoBehaviour:
   isTriggerDown: 0
   timeUntilReloaded: 0
   meleeCooldown: 0
-  fireRate: 8
-  meleeRate: 1.7
+  baseFireRate: 1
+  baseMeleeRate: 1
   shootMode: 0
   currentlyHeld: 0
+  sr: {fileID: 0}
+  baseCritRate: 0.15
+  baseCritDamage: 2
   attackSizeMultiplier: 1.5
   damagePowerUp: 0
   damageMuliplier: 1.5
-  Max_ammo: 500
+  unlimitedAmmoTimer: 0
+  doubleCritTimer: 0
+  textPrefab: {fileID: 0}
+  baseMaxAmmo: 500
   Ammo_Display: {fileID: 0}
 --- !u!58 &7726315152152795582
 CircleCollider2D:
@@ -322,6 +328,9 @@ MonoBehaviour:
   speed: 3.5
   inputvector: {x: 0, y: 0, z: 0}
   animator: {fileID: 8921449203198515804}
+  sr: {fileID: 0}
+  lookingRight: 0
+  textPrefab: {fileID: 0}
 --- !u!70 &2338313249221145918
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

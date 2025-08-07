@@ -20543,7 +20543,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2239799f1359176488511cd0eb6af517, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  availableUpgrades: []
+  availableUpgrades:
+  - upgradeName: HP Up
+    price: 15
+    upgradeType: 0
+    upgradeAmount: 5
+  - upgradeName: Gun DMG Up
+    price: 25
+    upgradeType: 8
+    upgradeAmount: 2
+  - upgradeName: Crit Rate Up
+    price: 25
+    upgradeType: 5
+    upgradeAmount: 2
   upgradeNameText: {fileID: 817566123}
   priceText: {fileID: 1317687232}
 --- !u!114 &1780024647

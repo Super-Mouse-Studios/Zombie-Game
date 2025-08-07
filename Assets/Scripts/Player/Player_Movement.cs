@@ -20,7 +20,9 @@ public class Player_Movement : MonoBehaviour
     [SerializeField] float dodgeSpeed = 100f; // Dodge Speed of player; Affects length
     [SerializeField] float dodgeCooldown = 1f; // Cooldown starts after entire dash is played, Adjust accordingly
     [SerializeField] float dodgeCooldownReload = 0;
-    private float originalDodgeSpeed;
+    private float dodgeDuration = 0.2f; // Adjust this for dodge length
+    private float dodgeTimer = 0f;
+    private float originalDodgeSpeed =0f;
     private Vector3 dodgeDirection = new Vector3(-1111, -2222, -3333);
 
     [Header("Map Boundaries")]
@@ -125,16 +127,16 @@ public class Player_Movement : MonoBehaviour
         // Handles movement based on which state player is in
         switch (state)
         {
-            case MovementState.Normal: // Normal walking state
+            case MovementState.Normal:
+                // Movement logic
                 if (!(inputvector.x == 0 && inputvector.y == 0))
                 {
                     float dt = Time.deltaTime;
                     Vector3 direction = inputvector.normalized;
-                    transform.position += inputvector / inputvector.magnitude * effectiveSpeed * dt;
                     transform.position += direction * effectiveSpeed * dt;
 
                     Vector3 scale = transform.localScale;
-                    if (inputvector.x > 0) // when moving right
+                    if (inputvector.x > 0)
                     {
                         scale.x = -Mathf.Abs(scale.x);
                         lookingRight = true;
@@ -146,6 +148,7 @@ public class Player_Movement : MonoBehaviour
                     }
 
                     transform.localScale = scale;
+
                     if (!hitPlaying)
                         animator.Play("run cycle ");
                 }
@@ -154,24 +157,36 @@ public class Player_Movement : MonoBehaviour
                     if (!hitPlaying)
                         animator.Play("idle");
                 }
-                if (Input.GetKeyDown(KeyCode.LeftShift) && dodgeCooldownReload <= 0) // Switches to dodge state
+
+                // Cooldown countdown
+                dodgeCooldownReload -= Time.deltaTime;
+
+                if (Input.GetKeyDown(KeyCode.LeftShift) && dodgeCooldownReload <= 0f)
                 {
                     state = MovementState.Dodging;
-                    Quaternion prefabRotation = transform.rotation;
+                    dodgeTimer = dodgeDuration;
+                    dodgeCooldownReload = dodgeCooldown;
 
-                    if (inputvector == Vector3.zero && dodgeDirection == new Vector3(-1111, -2222, -3333)) // Fixes orientation if player is not moving
+                    dodgeDirection = inputvector != Vector3.zero
+                        ? inputvector.normalized
+                        : -transform.up;
+
+                    hurtbox.enabled = false;
+
+                    Quaternion prefabRotation = transform.rotation;
+                    if (inputvector == Vector3.zero)
                         prefabRotation = transform.rotation * Quaternion.AngleAxis(180, Vector3.forward);
 
-                    GameObject justSpawned = Instantiate(dodgeEffect, transform.position, prefabRotation); // Spawns in particle effect under player's original position
+                    GameObject justSpawned = Instantiate(dodgeEffect, transform.position, prefabRotation);
                     justSpawned.transform.localScale *= 1.3f;
+                    Destroy(justSpawned, 0.5f);
 
-                    Destroy(justSpawned, .5f);
-                    // Plays SFX
                     SoundManager.Instance.PlaySound("Dash");
                 }
+
                 break;
 
-            case MovementState.Dodging: // Dodge state
+            case MovementState.Dodging:
                 DodgeRoll(effectiveDodgeSpeed);
                 break;
         }
@@ -211,30 +226,16 @@ public class Player_Movement : MonoBehaviour
     // Dodge roll method now takes effective dodge speed
     private void DodgeRoll(float effectiveDodgeSpeed)
     {
-        Debug.Log("Now Dodging");
-
-        hurtbox.enabled = false; // Disables hurtbox
-
-        if (inputvector != Vector3.zero && dodgeDirection == new Vector3(-1111, -2222, -3333)) // Dodge in the direction player is walking
-            dodgeDirection = inputvector.normalized;
-        else // Dodge away from player
+        if (dodgeTimer > 0f)
         {
-            if (dodgeDirection == new Vector3(-1111, -2222, -3333)) // Prevents changing directions in the middle of a roll
-                dodgeDirection = -transform.up;
+            transform.position += dodgeDirection * effectiveDodgeSpeed * Time.deltaTime;
+            dodgeTimer -= Time.deltaTime;
         }
-
-        transform.position += dodgeDirection * effectiveDodgeSpeed * Time.deltaTime;
-
-        // Decelerates speed
-        effectiveDodgeSpeed -= effectiveDodgeSpeed * 10f * Time.deltaTime;
-
-        // Switches back to normal state after speed decelerates enough and resets dodge speed to original
-        if (effectiveDodgeSpeed <= 5f)
+        else
         {
             state = MovementState.Normal;
-            dodgeCooldownReload = Mathf.Max(0f, dodgeCooldown - PlayerStatUpgrades.Instance.dodgeCooldownReduction);
-
-            hurtbox.enabled = true; // Re-enables hurtbox at the end of dodges
+            dodgeDirection = new Vector3(-1111, -2222, -3333); // Reset sentinel
+            hurtbox.enabled = true;
         }
     }
 
