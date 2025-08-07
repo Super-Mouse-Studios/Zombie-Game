@@ -394,7 +394,7 @@ public class Shooting : MonoBehaviour
         }
     }
 
-    public float CalculateDamage(float baseDamage, float additionalCritRate = 0)
+    public float CalculateDamage(float baseDamage, Vector3 textPosition, float additionalCritRate = 0)
     {
         float level = ExperienceManager.Instance.GetCurrentLevel();
         float damage = baseDamage;
@@ -420,15 +420,28 @@ public class Shooting : MonoBehaviour
             SoundManager.Instance.PlaySound("Crit");
             Debug.Log($"CRITICAL HIT! {damage} damage done: base {baseDamage}, level {level}, crit x{upgradedCritDamage}" + (damagePowerUp > 0 ? $", boosted by x{damageMuliplier}" : ""));
 
-            GameObject pickupText = Instantiate(textPrefab, transform.position, quaternion.identity);
-            pickupText.transform.localScale *= 1.75f;
-            TextMeshPro text = pickupText.transform.GetChild(0).GetComponent<TextMeshPro>();
-            text.SetText("CRIT!");
-            text.fontStyle = FontStyles.Bold | FontStyles.Italic;
-            text.color = Color.red;
+            GameObject critText = Instantiate(textPrefab, transform.position, quaternion.identity);
+            critText.transform.localScale *= 1.75f;
+            TextMeshPro text1 = critText.transform.GetChild(0).GetComponent<TextMeshPro>();
+            text1.SetText("CRIT!");
+            text1.fontStyle = FontStyles.Bold | FontStyles.Italic;
+            text1.color = Color.red;
+
+            GameObject damageText = Instantiate(textPrefab, textPosition, quaternion.identity);
+            damageText.transform.localScale *= 1.25f;
+            TextMeshPro text2 = damageText.transform.GetChild(0).GetComponent<TextMeshPro>();
+            text2.SetText($"-{damage}");
+            text2.fontStyle = FontStyles.Bold | FontStyles.Italic;
+            text2.color = Color.red;
         }
         else
+        {
             Debug.Log($"{damage} damage done: {baseDamage} from base, {level} from levels" + (damagePowerUp > 0 ? $", boosted by x{damageMuliplier}" : ""));
+            GameObject damageText = Instantiate(textPrefab, textPosition, quaternion.identity);
+            TextMeshPro text = damageText.transform.GetChild(0).GetComponent<TextMeshPro>();
+            text.SetText($"-{damage}");
+            text.color = Color.yellow;
+        }
         return damage;
     }
 

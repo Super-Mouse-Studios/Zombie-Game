@@ -36,7 +36,7 @@ public class SniperAttack : MonoBehaviour
         if (enemyHealth != null)
         {
             // Calculate damage based on level
-            float damage = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Shooting>().CalculateDamage(baseDamage);
+            float damage = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Shooting>().CalculateDamage(baseDamage, collision.transform.position);
             enemyHealth.TakeDamage(damage);
         }
     }

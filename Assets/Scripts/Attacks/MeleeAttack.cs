@@ -19,7 +19,7 @@ public class MeleeAttack : MonoBehaviour
         //checking if collision have enemy component on it
         if (collision.gameObject.TryGetComponent<Zombie_Following>(out Zombie_Following zombieComponent))
         {
-            float damage = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Shooting>().CalculateDamage(baseDamage);
+            float damage = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Shooting>().CalculateDamage(baseDamage, collision.transform.position);
             //zombie taking damage
             zombieComponent.EnemyTakeDamage(damage);
             Debug.Log($"{collision.name} took {damage} damage ({ExperienceManager.Instance.GetCurrentLevel()} from levels)");

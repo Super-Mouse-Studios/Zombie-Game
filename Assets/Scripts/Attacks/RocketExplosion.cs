@@ -19,7 +19,7 @@ public class RocketExplosion : MonoBehaviour
         if (collision.gameObject.TryGetComponent<Zombie_Following>(out Zombie_Following zombieComponent))
         {
             //zombie taking damage
-            float damage = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Shooting>().CalculateDamage(baseDamage);
+            float damage = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Shooting>().CalculateDamage(baseDamage, collision.transform.position);
             zombieComponent.EnemyTakeDamage(damage);
         }
         else if (collision.gameObject.TryGetComponent<Player_Movement>(out Player_Movement playerComponent)) // Checks if collision has player script
