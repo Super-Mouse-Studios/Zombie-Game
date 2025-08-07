@@ -11,7 +11,6 @@ public class MeleeAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        shooting = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Shooting>();
         Destroy(gameObject, .370556f); // Destroyes GameObject after animation plays
     }
 
@@ -20,7 +19,7 @@ public class MeleeAttack : MonoBehaviour
         //checking if collision have enemy component on it
         if (collision.gameObject.TryGetComponent<Zombie_Following>(out Zombie_Following zombieComponent))
         {
-            float damage = shooting.CalculateDamage(baseDamage);
+            float damage = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Shooting>().CalculateDamage(baseDamage);
             //zombie taking damage
             zombieComponent.EnemyTakeDamage(damage);
             Debug.Log($"{collision.name} took {damage} damage ({ExperienceManager.Instance.GetCurrentLevel()} from levels)");

@@ -10,11 +10,6 @@ public class SniperAttack : MonoBehaviour
     public float baseDamage = 5f;
     Shooting shooting;
 
-    void Start()
-    {
-        shooting = GameObject.FindGameObjectWithTag("Player").GetComponent<Shooting>();
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -41,7 +36,7 @@ public class SniperAttack : MonoBehaviour
         if (enemyHealth != null)
         {
             // Calculate damage based on level
-            float damage = shooting.CalculateDamage(baseDamage);
+            float damage = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Shooting>().CalculateDamage(baseDamage);
             enemyHealth.TakeDamage(damage);
         }
     }

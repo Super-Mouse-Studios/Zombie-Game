@@ -112,7 +112,7 @@ public class Shooting : MonoBehaviour
         // Clamp current ammo to max ammo (in case upgrades changed)
         currentAmmo = Mathf.Clamp(currentAmmo, 0, upgradedMaxAmmo);
 
-        Ammo_Display.text = "Ammo left: " + currentAmmo.ToString();
+        Ammo_Display.text = $"Ammo left: {(unlimitedAmmoTimer > 0 ? "∞" : currentAmmo.ToString())}";
 
         isTriggerDown = Input.GetMouseButton(0) || Input.GetButton("Jump");
 
