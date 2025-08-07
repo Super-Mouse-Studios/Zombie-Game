@@ -58,3 +58,7 @@ Name: How to Make Simple Character Dodge Roll (Unity Tutorial for Beginners) | W
 ------------------------------------------------------------------------------------------------
 
 Name: EXPERIENCE and LEVELING System | Unity Tutorial | Website: https://www.youtube.com/watch?v=GDcgsJKl7WY | Author: Pogle | Date Accessed: June 3rd, 2025
+
+------------------------------------------------------------------------------------------------
+
+Name: How to Make Damage Text and Number Popups in Unity | Tutorial | Website: https://www.youtube.com/watch?v=LjNsDVYXfrk | Author: Wintermute Digital | Date Accessed: August 6th, 2025

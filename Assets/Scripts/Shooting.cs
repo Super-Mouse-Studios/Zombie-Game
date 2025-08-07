@@ -498,7 +498,7 @@ public class Shooting : MonoBehaviour
         text.SetText($"{damageMuliplier}x Damage for {time}s");
     }
 
-    public void UnlimitedAmmo(float time = 5f)
+    public void UnlimitedAmmo(float time = 3.5f)
     {
         unlimitedAmmoTimer = time;
 
