@@ -59,15 +59,15 @@ MonoBehaviour:
   shootMode: 0
   currentlyHeld: 0
   sr: {fileID: 0}
-  baseCritRate: 0.15
+  baseCritRate: 0
   baseCritDamage: 2
   attackSizeMultiplier: 1.5
   damagePowerUp: 0
   damageMuliplier: 1.5
   unlimitedAmmoTimer: 0
-  doubleCritTimer: 0
+  additionalCritTimer: 0
   textPrefab: {fileID: 2095916591012344853, guid: a965a8c297ae0489f9c7d03630cca04f, type: 3}
-  baseMaxAmmo: 500
+  baseMaxAmmo: 50
   Ammo_Display: {fileID: 0}
 --- !u!58 &608165413349789827
 CircleCollider2D:

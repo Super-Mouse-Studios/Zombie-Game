@@ -1,11 +1,8 @@
-using System.Buffers.Text;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RocketExplosion : MonoBehaviour
 {
-    float baseDamage = 15; // Base damage of explosion
+    [SerializeField] float baseDamage = 15; // Base damage of explosion
     // Start is called before the first frame update
     void Start()
     {

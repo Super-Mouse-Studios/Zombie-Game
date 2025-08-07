@@ -316,6 +316,8 @@ public class Zombie_Following : MonoBehaviour
         {
             Die();
         }
+        else
+            SoundManager.Instance.PlaySound("EnemyHurt");
     }
 
 

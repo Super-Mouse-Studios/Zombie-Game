@@ -168,4 +168,4 @@ MonoBehaviour:
   speed: 8
   range: 25
   distanceTravelled: 0
-  damage: 5
+  baseDamage: 3

@@ -36,11 +36,11 @@ public class Shooting : MonoBehaviour
     public float damagePowerUp = 0f;
     [SerializeField][Range(1f, 2f)] float damageMuliplier = 1.5f;
     [SerializeField] float unlimitedAmmoTimer = 0f;
-    [SerializeField] float doubleCritTimer = 0f;
+    [SerializeField] float additionalCritTimer = 0f;
     [SerializeField] GameObject textPrefab;
 
     [Header("Ammo")]
-    public int baseMaxAmmo = 500; // base max ammo before upgrades
+    public int baseMaxAmmo = 50; // base max ammo before upgrades
     private int currentAmmo;
     public TMP_Text Ammo_Display;
 
@@ -112,7 +112,7 @@ public class Shooting : MonoBehaviour
         // Clamp current ammo to max ammo (in case upgrades changed)
         currentAmmo = Mathf.Clamp(currentAmmo, 0, upgradedMaxAmmo);
 
-        Ammo_Display.text = $"Ammo left: {(unlimitedAmmoTimer > 0 ? "∞" : currentAmmo.ToString())}";
+        Ammo_Display.text = $"Ammo left: {(unlimitedAmmoTimer > 0 ? "∞" : currentAmmo.ToString())}/{upgradedMaxAmmo}";
 
         isTriggerDown = Input.GetMouseButton(0) || Input.GetButton("Jump");
 
@@ -207,8 +207,8 @@ public class Shooting : MonoBehaviour
             damagePowerUp -= Time.deltaTime;
         if (unlimitedAmmoTimer > 0)
             unlimitedAmmoTimer -= Time.deltaTime;
-        if (doubleCritTimer > 0)
-            doubleCritTimer -= Time.deltaTime;
+        if (additionalCritTimer > 0)
+            additionalCritTimer -= Time.deltaTime;
     }
 
     void AimTowardsMouse()
@@ -291,9 +291,9 @@ public class Shooting : MonoBehaviour
             SoundManager.Instance.PlaySound("Shotgun");
 
             GameObject center = Instantiate(shotgunShotPrefab, transform.position, transform.rotation);
-            Quaternion leftRotation = transform.rotation * Quaternion.Euler(0, 0, -12f);
+            Quaternion leftRotation = transform.rotation * Quaternion.Euler(0, 0, -10f);
             GameObject left = Instantiate(shotgunShotPrefab, transform.position, leftRotation);
-            Quaternion rightRotation = transform.rotation * Quaternion.Euler(0, 0, 12f);
+            Quaternion rightRotation = transform.rotation * Quaternion.Euler(0, 0, 10f);
             GameObject right = Instantiate(shotgunShotPrefab, transform.position, rightRotation);
 
             if (attackSizeLength > 0)
@@ -305,7 +305,7 @@ public class Shooting : MonoBehaviour
 
             float secondsPerShot = 1 / upgradedFireRate;
             timeUntilReloaded += secondsPerShot;
-            currentAmmo -= (unlimitedAmmoTimer <= 0) ? 3 : 0;
+            currentAmmo -= (unlimitedAmmoTimer <= 0) ? 1 : 0;
         }
     }
 
@@ -414,7 +414,7 @@ public class Shooting : MonoBehaviour
         float upgradedCritRate = baseCritRate + (PlayerStatUpgrades.Instance?.critRateIncrease ?? 0f);
         float upgradedCritDamage = baseCritDamage + (PlayerStatUpgrades.Instance?.critDamageIncrease ?? 0f);
 
-        if (UnityEngine.Random.value < (doubleCritTimer > 0 ? (upgradedCritRate + additionalCritRate) * 2f : upgradedCritRate + additionalCritRate))
+        if (UnityEngine.Random.value < (additionalCritTimer > 0 ? upgradedCritRate + additionalCritRate + .3f : upgradedCritRate + additionalCritRate))
         {
             damage *= upgradedCritDamage;
             SoundManager.Instance.PlaySound("Crit");
@@ -509,7 +509,7 @@ public class Shooting : MonoBehaviour
 
     public void DoubleCritRate(float time = 7f)
     {
-        doubleCritTimer = time;
+        additionalCritTimer = time;
 
         GameObject pickupText = Instantiate(textPrefab, transform.position, quaternion.identity);
         TextMeshPro text = pickupText.transform.GetChild(0).GetComponent<TextMeshPro>();
