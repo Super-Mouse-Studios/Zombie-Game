@@ -180,7 +180,14 @@ public class Rounds : MonoBehaviour
         for (int i = 0; i < hordeEnemyType.hordeAmount; i++)
         {
             Transform spawnPoint = hordeSpawnPoints[Random.Range(0, hordeSpawnPoints.Length)];
-            Instantiate(hordeEnemyType.prefab, spawnPoint.position, Quaternion.identity);
+            //Instantiate(hordeEnemyType.prefab, spawnPoint.position, Quaternion.identity);
+            GameObject enemy = Instantiate(hordeEnemyType.prefab, spawnPoint.position, Quaternion.identity);
+            Zombie_Following zombieFollwing = enemy.GetComponent<Zombie_Following>();
+
+            if (zombieFollwing != null)
+            {
+                zombieFollwing.currencyReward = hordeEnemyType.currencyReward;
+            }
             enemiesAlive++;
         }
     }
