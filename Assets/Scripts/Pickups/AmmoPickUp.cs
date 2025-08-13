@@ -24,9 +24,9 @@ public class AmmoPickUp : MonoBehaviour
                 SoundManager.Instance.PlaySound("Reload");
 
                 int ammo = Random.Range(4, 7); // Randomly Generate ammo gain from pickup
-                if (Random.Range(1, 15) == 1) // 7.5% chance to get 7x amount
-                    ammo *= 7;
-                else if (Random.Range(1, 5) == 1) // 20% for 2x
+                if (Random.Range(1, 20) == 1) // 5% chance to get 5x amount
+                    ammo *= 5;
+                else if (Random.Range(1, 8) == 1) // 12.5% for 2x
                     ammo *= 2;
                 shooting.IncreaseAmmo(ammo);
                 Debug.Log($"Gained {ammo} ammo from pickup");

@@ -52,6 +52,9 @@ public class SSmanager : MonoBehaviour
     public void Exit()
     {
         SceneManager.LoadScene("TitleScreen");
+
+        ExperienceManager.Instance.HideText();
+        ExperienceManager.Instance.ResetLevels();
     }
     //public void LoadZombieGameScene()
     //{

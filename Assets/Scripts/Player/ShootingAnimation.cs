@@ -7,7 +7,7 @@ public class ShootingAnimation : MonoBehaviour
     public Animator an;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         an = GetComponent<Animator>();
     }
