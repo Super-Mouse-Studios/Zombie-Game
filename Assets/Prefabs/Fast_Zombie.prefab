@@ -40,6 +40,14 @@ PrefabInstance:
       propertyPath: _obstacleLayerMask.m_Bits
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 4250790093494511594, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
+      propertyPath: pickupDrops.Array.data[3].chance
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 4250790093494511594, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
+      propertyPath: pickupDrops.Array.data[6].chance
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 5267454677000238293, guid: b0fa48c31bd172140b381861bbfb20d1, type: 3}
       propertyPath: m_Name
       value: Fast_Zombie

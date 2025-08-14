@@ -558,7 +558,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
       propertyPath: pickupDrops.Array.data[0].chance
-      value: 0.25
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
       propertyPath: pickupDrops.Array.data[0].prefab
@@ -566,7 +566,7 @@ PrefabInstance:
       objectReference: {fileID: 5655277485466248113, guid: 3dd84256578ea4f3aaea35fe63898c78, type: 3}
     - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
       propertyPath: pickupDrops.Array.data[1].chance
-      value: 0.1
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
       propertyPath: pickupDrops.Array.data[1].prefab
@@ -574,7 +574,7 @@ PrefabInstance:
       objectReference: {fileID: 8462060019218726055, guid: 7402eb3e1159947c29824372df0c5b3e, type: 3}
     - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
       propertyPath: pickupDrops.Array.data[2].chance
-      value: 0.1
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
       propertyPath: pickupDrops.Array.data[2].prefab
@@ -592,6 +592,10 @@ PrefabInstance:
       propertyPath: pickupDrops.Array.data[4].prefab
       value: 
       objectReference: {fileID: 7260497833594850284, guid: 6dca4c4a3129547e6b5201c5a70f5d26, type: 3}
+    - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
+      propertyPath: pickupDrops.Array.data[6].chance
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: -7632404956568068831, guid: a78c05130d7e64f458ae41f52fb0035c, type: 3}
       propertyPath: pickupDrops.Array.data[6].prefab
       value: 

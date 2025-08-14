@@ -213,22 +213,22 @@ MonoBehaviour:
     chance: 0.2
   - name: Attack Size
     prefab: {fileID: 8462060019218726055, guid: 7402eb3e1159947c29824372df0c5b3e, type: 3}
-    chance: 0.1
+    chance: 0.05
   - name: Fire Rate
     prefab: {fileID: 427570331140637953, guid: 71f92dba0584555458ddf8a23001d650, type: 3}
-    chance: 0.1
+    chance: 0.03
   - name: Drinkable Gasoline
     prefab: {fileID: 6622427149209093952, guid: 01ebd8890e89d4bffa6c6c44262bbaf5, type: 3}
-    chance: 0.075
+    chance: 0.05
   - name: Damage Up
-    prefab: {fileID: 6622427149209093952, guid: 01ebd8890e89d4bffa6c6c44262bbaf5, type: 3}
-    chance: 0.1
+    prefab: {fileID: 7260497833594850284, guid: 6dca4c4a3129547e6b5201c5a70f5d26, type: 3}
+    chance: 0.052
   - name: Unlimited Ammo
     prefab: {fileID: 2110625153399841301, guid: f074329daf5ec4fc5860b3c12d275ed2, type: 3}
-    chance: 0.065
+    chance: 0.02
   - name: Double Crit Rate
-    prefab: {fileID: 2110625153399841301, guid: f074329daf5ec4fc5860b3c12d275ed2, type: 3}
-    chance: 0.125
+    prefab: {fileID: 8871936943739902624, guid: d29121673b0b64c9584f3c2acc0603bc, type: 3}
+    chance: 0.1
 --- !u!114 &4687193763361967004
 MonoBehaviour:
   m_ObjectHideFlags: 0

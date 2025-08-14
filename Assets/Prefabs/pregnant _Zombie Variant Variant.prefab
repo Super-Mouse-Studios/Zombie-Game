@@ -364,6 +364,10 @@ PrefabInstance:
       propertyPath: zombieSpawnerPrefab
       value: 
       objectReference: {fileID: 1544167483195203319, guid: b44adaaf3808a0d488c7f4b2a0e64c4c, type: 3}
+    - target: {fileID: 1190985287211365936, guid: e5219a9b5cab5dc46b8faef802bf5f1d, type: 3}
+      propertyPath: pickupDrops.Array.data[3].chance
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 2365735628982574219, guid: e5219a9b5cab5dc46b8faef802bf5f1d, type: 3}
       propertyPath: m_Sprite
       value: 
