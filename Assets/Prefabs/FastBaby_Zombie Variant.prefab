@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491041934985417170, guid: 18a91a03433fd0d4881d893e721a11c3, type: 3}
       propertyPath: enemyMaxhealth
-      value: 25
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4747504155682992373, guid: 18a91a03433fd0d4881d893e721a11c3, type: 3}
       propertyPath: m_LocalScale.x
@@ -75,6 +75,10 @@ PrefabInstance:
     - target: {fileID: 4870283645184672493, guid: 18a91a03433fd0d4881d893e721a11c3, type: 3}
       propertyPath: m_Name
       value: FastBaby_Zombie Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451959716148004719, guid: 18a91a03433fd0d4881d893e721a11c3, type: 3}
+      propertyPath: baseMaxHealth
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

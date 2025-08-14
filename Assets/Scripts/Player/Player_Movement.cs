@@ -94,6 +94,7 @@ public class Player_Movement : MonoBehaviour
 
         if (currentHealth <= 0)
         {
+            PlayerStatUpgrades.Instance.ResetUpgrades();
             ExperienceManager.Instance.HideText();
             Destroy(gameObject);
         }

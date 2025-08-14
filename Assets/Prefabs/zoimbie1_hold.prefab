@@ -182,8 +182,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currencyReward: 0
-  enemyHealth: 5
-  enemyMaxhealth: 10
+  enemyHealth: 10
+  enemyMaxhealth: 15
   speed: 2
   roatationSpeed: 100
   _screenBorder: 0
@@ -241,7 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2f1e1bf73ebcbb42bdaa5f6d1af1c38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseMaxHealth: 10
+  baseMaxHealth: 15
 --- !u!50 &7627903405912360205
 Rigidbody2D:
   serializedVersion: 4

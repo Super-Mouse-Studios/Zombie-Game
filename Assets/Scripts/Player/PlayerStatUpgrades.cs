@@ -28,4 +28,22 @@ public class PlayerStatUpgrades : MonoBehaviour
             Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
     }
+
+    public void ResetUpgrades()
+    {
+        // Movement and Dodge upgrades
+        maxHPUpgrade = 0f;
+        movementSpeedUpgrade = 0f;
+        dodgeSpeedUpgrade = 0f;
+        dodgeCooldownReduction = 0f;
+
+        // Shooting upgrades
+        fireRateIncrease = 0f;
+        critRateIncrease = 0f;
+        critDamageIncrease = 0f;
+        meleeDamageIncrease = 0f;
+        bulletDamageIncrease = 0f;
+        maxAmmoUpgrade = 0;
+    }
+
 }

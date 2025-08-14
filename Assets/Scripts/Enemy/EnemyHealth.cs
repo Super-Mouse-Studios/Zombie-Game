@@ -15,7 +15,7 @@ public class EnemyHealth : MonoBehaviour
 
     public void RoundsHealthMultiplier(int round)
     {
-        float multiplier = 1f + (round - 1) * 0.2f; // Increase health by 20% each round  
+        float multiplier = 1f + (round - 1) * 0.35f; // Increase health by 35% each round  
         currentHealth = baseMaxHealth * multiplier;
 
         Debug.Log($"{name} initialized with {currentHealth} HP for round {round}");
